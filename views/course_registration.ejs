@@ -1,0 +1,158 @@
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    </head>
+
+    <body>
+        <h1>Register:</h1>
+        <br>
+
+        <div class="col d-flex justify-content-center">
+            <form id="regForm" action="" class="p-3 mb-5 bg-light text-dark">
+                <!-- One "tab" for each step in the form: -->
+                <div class="tab">
+                    <h3>Step 1 of 3</h3>
+                    <h4>Enter student details:</h4>
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput" class="form-label">Name in Full</label>
+                        <input type="text" class="form-control shadow mb-3 bg-body rounded" id="formGroupExampleInput"
+                            placeholder="Full Name">
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-sm">
+                            <label for="registrationNo" class="form-label">Registration No</label>
+                            <input type="text" class="form-control shadow mb-3 bg-body rounded" id="registrationNo"
+                                placeholder="Ex: 18xxxx">
+                        </div>
+                        <div class="col-md">
+                            <label for="Contact" class="form-label">Contact No</label>
+                            <input type="text" class="form-control shadow mb-3 bg-body rounded" id="Contact"
+                                placeholder="077xxxxxx">
+                        </div>
+                    </div>
+                    <div class="input-group-sm mb-3">
+                        <label for="inputGroupFile01" class="form-label">Image of student</label>
+                        <input type="file" class="form-control shadow mb-3 bg-body rounded" id="inputGroupFile01"
+                            style="width: min-content;">
+                    </div>
+
+                    <div>
+                        <h4>Course Details:</h4>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-sm">
+                            <label for="levelSelect" class="form-label">Level of Study</label>
+                            <select class="form-select shadow mb-3 bg-body rounded" aria-label="Default select example"
+                                id="levelSelect">
+                                <option selected>choose level</option>
+                                <option value="1">Level I</option>
+                                <option value="2">Level II</option>
+                                <option value="3">Level III</option>
+                                <option value="4">Level IV</option>
+                            </select>
+                        </div>
+                        <div class="col-md">
+                            <label for="acyear" class="form-label">Academic year</label>
+                            <input type="text" class="form-control shadow mb-3 bg-body rounded" id="acyear"
+                                placeholder="2017/2018">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="tab">
+                    <h3>Step 2 of 3</h3>
+                    <h4>Semester I modules:</h4>
+                    <br>
+                    <div>
+                        <h5>Department of Computing & Information systems</h5>
+                        <div>
+                            <label class="form-label">Mandatory modules</label>
+                            <ul class="list-group shadow mb-3 bg-body rounded">
+                                <li class="list-group-item">CMIS 3124 - Computer Architecture & Compiler Design</li>
+                                <li class="list-group-item">CMIS 3114 - Data Communication & computer Networks</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <label class="form-label">Optional modules</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-text">
+                                    <input class="form-check-input mt-0" type="checkbox" value=""
+                                        aria-label="Checkbox for following text input">
+                                </div>
+                                <!-- <label class="form-label" aria-label="Text input with checkbox">CMIS 3122</label> -->
+                                <span class="input-group-text" id="inputGroup-sizing-default">CMIS 3122 - Rapid
+                                    Application Development</span>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-text">
+                                    <input class="form-check-input mt-0" type="checkbox" value=""
+                                        aria-label="Checkbox for following text input">
+                                </div>
+                                <!-- <label class="form-label" aria-label="Text input with checkbox">CMIS 3122</label> -->
+                                <span class="input-group-text" id="inputGroup-sizing-default">CMIS 3122 - Rapid
+                                    Application Development</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h5>Department of Mathematical Studies</h5>
+                        <div>
+                            <label class="form-label">Mandatory modules</label>
+                            <ul class="list-group shadow mb-3 bg-body rounded">
+                                <li class="list-group-item">An item</li>
+                                <li class="list-group-item">A second item</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <label class="form-label">Optional modules</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-text">
+                                    <input class="form-check-input mt-0" type="checkbox" value=""
+                                        aria-label="Checkbox for following text input">
+                                </div>
+                                <!-- <label class="form-label" aria-label="Text input with checkbox">CMIS 3122</label> -->
+                                <span class="input-group-text" id="inputGroup-sizing-default">CMIS 3122 - Rapid
+                                    Application Development</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button class="btn btn-outline-secondary me-md-2" type="button" style="display: inline;"
+                        id="previous">Previous</button>
+                    <button class="btn btn-primary" type="button" style="display: inline;" id="next">Next</button>
+                    <button class="btn btn-success" type="button" style="display: inline;" id="submit">submit</button>
+                </div>
+
+
+            </form>
+            <!-- </div> -->
+        </div>
+
+
+        <!-- <footer> -->
+        <footer class="fixed-bottom text-white" style="background-color: black;">
+            <div class="footer-copyright text-center py-3">© 2020 Copyright:
+            </div>
+        </footer>
+
+        <script src="/javaScript/formHandler.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+            integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+            integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+            crossorigin="anonymous"></script>
+    </body>
+
+</html>
