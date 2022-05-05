@@ -6,11 +6,11 @@ const router = express.Router();
 
 // GET ROUTES---------------------------------------------------
 router.get('/', (req, res) => {
-    res.render('homepage');
+    res.render('layouts/homepage');
 });
 
 router.get('/register', (req, res) => {
-    res.render('course_registration');
+    res.render('layouts/course_registration');
 });
 
 
