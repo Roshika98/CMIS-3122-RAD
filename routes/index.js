@@ -1,5 +1,5 @@
 const express = require('express');
-
+const db = require('./database/dbHandler');
 const router = express.Router();
 
 
