@@ -1,17 +1,12 @@
-const sql = require('mysql');
-var connection = sql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    database: 'fas'
-});
+const sql = require('mysql2/promise');
 
 
-connection.connect(e => {
-    if (e) console.log(e);
-    else {
-        console.log("connection acquired");
-    }
-});
+// connection.connect(e => {
+//     if (e) console.log(e);
+//     else {
+//         console.log("connection acquired");
+//     }
+// });
 
 
 var querySql = "CREATE TABLE modules( course_code VARCHAR(10) NOT NULL PRIMARY KEY, name VARCHAR(255),credit INT NOT NULL,description VARCHAR(255) )";
@@ -40,12 +35,21 @@ var dataentry = 'INSERT INTO modules (course_code,name,credit) VALUES ?';
 
 var dataentry2 = 'SELECT * FROM modules';
 
-connection.query(dataentry2, (e, result) => {
-    if (e) console.log(e);
-    if (result) console.log(result);
-})
+async function selectAll() {
+    try {
+        const connection = await sql.createConnection({
+            host: 'localhost',
+            user: 'root',
+            database: 'fas'
+        });
+        const data = await connection.query(dataentry2);
+        console.log(data[0]);
+        const ender = await connection.end();
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+selectAll();
 
 
-connection.end(e => {
-    if (e) console.log(e);
-})

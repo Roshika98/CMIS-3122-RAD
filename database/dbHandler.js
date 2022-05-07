@@ -3,14 +3,16 @@ const connection = require('./dbConnector');
 class DbHandler {
 
     // connection = require('./dbConnector');
-
-    static startConnection() {
-        connection.admin.connect(e => {
-            if (e) console.log(e);
-            else console.log('connection aquired');
-        });
-    };
-
+    static async getmodules() {
+        var q = 'SELECT * FROM modules';
+        var data = null;
+        try {
+            data = await connection.general.promise().query(q);
+        } catch (error) {
+            console.log(error);
+        }
+        return data[0];
+    }
 
 }
 

@@ -1,18 +1,18 @@
-const sql = require('mysql');
+const sql = require('mysql2');
 
-var generalConnection = sql.createConnection({
+const generalConnection = sql.createConnection({
     host: 'localhost',
     user: 'root',
     database: 'fas'
 });
 
-var adminConnection = sql.createConnection({
+const adminConnection = sql.createConnection({
     host: 'localhost',
     user: 'root',
     database: 'fas'
 })
 
-var connectionPool = {
+const connectionPool = {
     general: generalConnection,
     admin: adminConnection
 }
