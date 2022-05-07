@@ -8,7 +8,7 @@ var generalConnection = sql.createConnection({
 
 var adminConnection = sql.createConnection({
     host: 'localhost',
-    user: '',
+    user: 'root',
     database: 'fas'
 })
 

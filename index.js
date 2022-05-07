@@ -7,6 +7,7 @@ const https = require('https');
 
 
 
+
 //! SSL certificate setup for local environment --------------------------------------------
 
 var privateKey = fs.readFileSync(path.join(__dirname, 'certificates/server.key'));
@@ -28,7 +29,6 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(router);
-
 
 
 server.listen(port, () => {
