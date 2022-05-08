@@ -15,9 +15,11 @@ router.get('/courses/register', (req, res) => {
 
 router.get('/courses/modules', async (req, res) => {
     var data = await db.getmodules();
-    console.log(data);
-    console.log(data[0].course_code);
-    res.render('layouts/modules');
+
+    var { items } = data;
+    console.log(items);
+
+    res.render('layouts/modules', { data });
 });
 
 // db.startConnection();
