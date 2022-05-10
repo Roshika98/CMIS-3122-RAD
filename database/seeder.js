@@ -1,55 +1,64 @@
 const sql = require('mysql2/promise');
+const container = require('./data/dataHolder');
+
+var createDept = 'CREATE TABLE departments(deptID INT NOT NULL PRIMARY KEY,deptName VARCHAR(50) NOT NULL)';
+var createModules = 'CREATE TABLE modules(course_code VARCHAR(10) NOT NULL PRIMARY KEY, name VARCHAR(50) NOT NULL,credit INT NOT NULL,level INT NOT NULL,semester INT NOT NULL,deptID NOT NULL,desc VARCHAR(255),CONSTRAINT fk_dept FOREIGN KEY deptID REFERENCES departments(deptID) ON DELETE CASCADE ON UPDATE CASCADE)';
+var createGeneral = 'CREATE TABLE general(course_code VARCHAR(10) NOT NULL,availability BOOLEAN NOT NULL,mandatory BOOLEAN NOT NULL,CONSTRAINT fk_gencourseCode FOREIGN KEY course_code REFERENCES modules(course_code) ON DELETE CASCADE ON UPDATE CASCADE)';
+var createJM = 'CREATE TABLE jointMajor(course_code VARCHAR(10) NOT NULL,m1_availability BOOLEAN NOT NULL,m1_mandatory BOOLEAN NOT NULL,m2_availabilty BOOLEAN NOT NULL,m2_mandatory BOOLEAN NOT NULL,CONSTRAINT fk_jmcourseCode FOREIGN KEY course_code REFERENCES modules(course_code) ON DELETE CASCADE ON UPDATE CASCADE)';
+var createSpecial = 'CREATE TABLE special(course_code VARCHAR(10) NOT NULL,availabilty BOOLEAN NOT NULL,CONSTRAINT fk_spcourseCode FOREIGN KEY course_code REFERENCES modules(course_code) ON DELETE CASCADE ON UPDATE CASCADE)';
+
+var insertDept = 'INSERT INTO departments(deptID,deptName) VALUES (?,?)';
+var insertModules = 'INSERT INTO modules(course_code,name,credit,level,semester,deptID,desc) VALUES (?,?,?,?)';
 
 
-// connection.connect(e => {
-//     if (e) console.log(e);
-//     else {
-//         console.log("connection acquired");
-//     }
-// });
 
 
-var querySql = "CREATE TABLE modules( course_code VARCHAR(10) NOT NULL PRIMARY KEY, name VARCHAR(255),credit INT NOT NULL,description VARCHAR(255) )";
-
-// connection.query(querySql, (e, result, fields) => {
-//     if (e) console.log(e);
-//     if (result) console.log(result);
-// });
-
-
-var data = [
-    ['CMIS3114', 'Data Communication & computer Networks', 4],
-    ['CMIS3112', 'Rapid Apllication Development', 2],
-    ['CMIS3134', 'Computer Architecture & Compiler Design', 4],
-    ['MMOD3113', 'Mathematical Methods', 3],
-    ['STAT3124', 'Time Series Analysis', 4],
-    ['CMIS2214', 'Data Structures & Algorithms', 4]
-];
-
-var dataentry = 'INSERT INTO modules (course_code,name,credit) VALUES ?';
-
-// connection.query(dataentry, [data], (e, result) => {
-//     if (e) console.log(e);
-//     if (result) console.log(result);
-// });
-
-var dataentry2 = 'SELECT * FROM modules';
-
-async function selectAll() {
+async function createTables() {
     try {
         const connection = await sql.createConnection({
             host: 'localhost',
             user: 'root',
             database: 'fas'
         });
-        const data = await connection.query(dataentry2);
-        console.log(data[0]);
-        const ender = await connection.end();
+        var q1 = await connection.query(createDept);
+        var q2 = await connection.query(createModules);
+        var q3 = await connection.query(createGeneral);
+        var q4 = await connection.query(createJM);
+        var q5 = await connection.query(createSpecial);
+        const ending = await connection.end();
+        console.log('Tables created......');
     } catch (error) {
         console.log(error);
     }
 }
 
-selectAll();
+
+async function addData() {
+    try {
+        const connection = await sql.createConnection({
+            host: 'localhost',
+            user: 'root',
+            database: 'fas'
+        });
+        cmis.forEach(element => {
+            execution(insertCMIS, connection, element);
+        });
+        connection.end();
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+async function execution(q, connection, values) {
+    var result = await connection.execute(q, values);
+    return result;
+}
+
+// addData();
+
+// createTables();
+
+
 
 
