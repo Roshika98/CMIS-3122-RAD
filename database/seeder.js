@@ -2,7 +2,7 @@ const sql = require('mysql2/promise');
 const container = require('./data/dataHolder');
 
 var createDept = 'CREATE TABLE departments(deptID INT NOT NULL PRIMARY KEY,deptName VARCHAR(50) NOT NULL)';
-var createModules = 'CREATE TABLE modules(course_code VARCHAR(10) NOT NULL PRIMARY KEY, name VARCHAR(50) NOT NULL,credit INT NOT NULL,level INT NOT NULL,semester INT NOT NULL,deptID INT NOT NULL,description TEXT,CONSTRAINT fk_dept FOREIGN KEY (deptID) REFERENCES departments(deptID) ON DELETE CASCADE ON UPDATE CASCADE)';
+var createModules = 'CREATE TABLE modules(course_code VARCHAR(10) NOT NULL PRIMARY KEY, name VARCHAR(100) NOT NULL,credit INT NOT NULL,level INT NOT NULL,semester INT NOT NULL,deptID INT NOT NULL,description TEXT,CONSTRAINT fk_dept FOREIGN KEY (deptID) REFERENCES departments(deptID) ON DELETE CASCADE ON UPDATE CASCADE)';
 var createGeneral = 'CREATE TABLE general(course_code VARCHAR(10) NOT NULL,availability BOOLEAN NOT NULL,mandatory BOOLEAN NOT NULL,CONSTRAINT fk_gencourseCode FOREIGN KEY (course_code) REFERENCES modules(course_code) ON DELETE CASCADE ON UPDATE CASCADE)';
 var createJM = 'CREATE TABLE jointMajor(course_code VARCHAR(10) NOT NULL,m1_availability BOOLEAN NOT NULL,m1_mandatory BOOLEAN NOT NULL,m2_availability BOOLEAN NOT NULL,m2_mandatory BOOLEAN NOT NULL,CONSTRAINT fk_jmcourseCode FOREIGN KEY (course_code) REFERENCES modules(course_code) ON DELETE CASCADE ON UPDATE CASCADE)';
 var createSpecial = 'CREATE TABLE special(course_code VARCHAR(10) NOT NULL,availability BOOLEAN NOT NULL,mandatory BOOLEAN NOT NULL,CONSTRAINT fk_spcourseCode FOREIGN KEY (course_code) REFERENCES modules(course_code) ON DELETE CASCADE ON UPDATE CASCADE)';
@@ -48,12 +48,12 @@ async function addData() {
         console.log('Department data added...............');
         container.modulesData.forEach(element => {
             execution(insertModules, connection, [element[0], element[1], element[2], element[3], element[4], element[5], desc]);
-            if (element[3] == 3) {
+            /*if (element[3] == 3) {
                 execution(insertGeneral, connection, [element[0], element[12], element[13]]);
             } if (element[3] > 2) {
                 execution(insertJM, connection, [element[0], element[8], element[9], element[10], element[11]]);
                 execution(insertSpecial, connection, [element[0], element[6], element[7]]);
-            }
+            }*/
         });
         connection.end();
     } catch (error) {
