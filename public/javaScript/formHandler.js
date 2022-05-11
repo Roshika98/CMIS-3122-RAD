@@ -5,6 +5,9 @@ var currTab = 0;
 var prevBtn = document.getElementById('previous');
 var nextBtn = document.getElementById('next');
 var submitBtn = document.getElementById('submit');
+var generalComb = document.getElementById('');
+var jointComb = document.getElementById('');
+var specialComb = document.getElementById('');
 const content = document.getElementsByClassName('tab');
 
 
