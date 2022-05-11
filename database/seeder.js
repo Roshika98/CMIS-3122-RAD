@@ -48,12 +48,12 @@ async function addData() {
         console.log('Department data added...............');
         container.modulesData.forEach(element => {
             execution(insertModules, connection, [element[0], element[1], element[2], element[3], element[4], element[5], desc]);
-            /*if (element[3] == 3) {
+            if (element[3] == 3) {
                 execution(insertGeneral, connection, [element[0], element[12], element[13]]);
             } if (element[3] > 2) {
                 execution(insertJM, connection, [element[0], element[8], element[9], element[10], element[11]]);
                 execution(insertSpecial, connection, [element[0], element[6], element[7]]);
-            }*/
+            }
         });
         connection.end();
     } catch (error) {
