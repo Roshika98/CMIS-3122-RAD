@@ -65,8 +65,8 @@
                                 placeholder="2017/2018">
                         </div>
                     </div>
-                    <div class="row g-2">
-                        <div class="col-sm" id="combSet1">
+                    <div class="row g-2" id="combSet1">
+                        <div class="col-sm">
                             <label for="combSelect" class="form-label">Select combination</label>
                             <select class="form-select shadow mb-3 bg-body rounded" aria-label="Default select example"
                                 id="combSelect">
@@ -77,64 +77,66 @@
                             </select>
                         </div>
                     </div>
-                    <div class="row g-2">
-                        <div class="col-sm" id="combSet2">
-                            <label for="degreeType" class="form-label">Select Degree Type</label>
-                            <select class="form-select shadow mb-3 bg-body rounded" aria-label="Default select example"
-                                id="degreeType">
-                                <option selected>choose Degree Type</option>
-                                <option value="1">General</option>
-                                <option value="2">Joint Major</option>
-                                <option value="3">Special</option>
-                            </select>
+                    <div id="combSet2">
+                        <div class="row g-2">
+                            <div class="col-sm">
+                                <label for="degreeType" class="form-label">Select Degree Type</label>
+                                <select class="form-select shadow mb-3 bg-body rounded"
+                                    aria-label="Default select example" id="degreeType">
+                                    <option selected>choose Degree Type</option>
+                                    <option value="1">General</option>
+                                    <option value="2">Joint Major</option>
+                                    <option value="3">Special</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row g-2">
-                        <div class="col-sm" id="General">
-                            <label for="generalComb" class="form-label">Select General Combination</label>
-                            <select class="form-select shadow mb-3 bg-body rounded" aria-label="Default select example"
-                                id="generalComb">
-                                <option selected>choose Combination</option>
-                                <option value="1">Comb 1A: MATH + CMIS + ELTN </option>
-                                <option value="2">Comb 1B: STAT + CMIS + ELTN</option>
-                                <option value="3">Comb 1C: MATH + STAT + CMIS</option>
-                                <option value="4">Comb 2A: MATH + ELTN + IMGT</option>
-                                <option value="5">Comb 2B: STAT + ELTN + IMGT</option>
-                                <option value="3">Comb 2C: MATH + STAT + ELTN</option>
-                                <option value="3">Comb 3A: MATH + IMGT + CMIS</option>
-                                <option value="3">Comb 3B: STAT + IMGT + CMIS</option>
-                                <option value="3">Comb 3C: MATH + STAT + IMGT</option>
-                            </select>
-                        </div>
-                        <div class="col-sm" id="JM">
-                            <label for="jmComb" class="form-label">Select JM combination</label>
-                            <select class="form-select shadow mb-3 bg-body rounded" aria-label="Default select example"
-                                id="jmComb">
-                                <option selected>choose combination</option>
-                                <option value="1">Comb 1A: CMIS + ELTN </option>
-                                <option value="2">Comb 1B: CMIS + MMST</option>
-                                <option value="3">Comb 1C: CMIS + IMGT</option>
-                                <option value="4">Comb 2A: ELTN + CMIS</option>
-                                <option value="5">Comb 2B: ELTN + MMST</option>
-                                <option value="3">Comb 2C: ELTN + IMGT</option>
-                                <option value="3">Comb 3A: IMGT + ELTN</option>
-                                <option value="3">Comb 3B: IMGT + MMST</option>
-                                <option value="3">Comb 3C: IMGT + CMIS</option>
-                                <option value="3">Comb 4A: MMST + CMIS</option>
-                                <option value="3">Comb 4B: MMST + ELTN</option>
-                                <option value="3">Comb 4C: MMST + IMGT</option>
-                            </select>
-                        </div>
-                        <div class="col-sm" id="special">
-                            <label for="spComb" class="form-label">Select Special combination</label>
-                            <select class="form-select shadow mb-3 bg-body rounded" aria-label="Default select example"
-                                id="spComb">
-                                <option selected>choose combination</option>
-                                <option value="1">Special degree in Applied Electronics</option>
-                                <option value="2">Special degree in Industrial Management</option>
-                                <option value="3">Special degree in Mathematics with Statistics</option>
-                                <option value="3">Special degree in Mathematics with Statistics</option>
-                            </select>
+                        <div class="row g-2">
+                            <div class="col-sm" id="General">
+                                <label for="generalComb" class="form-label">Select General Combination</label>
+                                <select class="form-select shadow mb-3 bg-body rounded"
+                                    aria-label="Default select example" id="generalComb">
+                                    <option selected>choose Combination</option>
+                                    <option value="1">Comb 1A: MATH + CMIS + ELTN </option>
+                                    <option value="2">Comb 1B: STAT + CMIS + ELTN</option>
+                                    <option value="3">Comb 1C: MATH + STAT + CMIS</option>
+                                    <option value="4">Comb 2A: MATH + ELTN + IMGT</option>
+                                    <option value="5">Comb 2B: STAT + ELTN + IMGT</option>
+                                    <option value="6">Comb 2C: MATH + STAT + ELTN</option>
+                                    <option value="7">Comb 3A: MATH + IMGT + CMIS</option>
+                                    <option value="8">Comb 3B: STAT + IMGT + CMIS</option>
+                                    <option value="9">Comb 3C: MATH + STAT + IMGT</option>
+                                </select>
+                            </div>
+                            <div class="col-sm" id="JM">
+                                <label for="jmComb" class="form-label">Select JM combination</label>
+                                <select class="form-select shadow mb-3 bg-body rounded"
+                                    aria-label="Default select example" id="jmComb">
+                                    <option selected>choose combination</option>
+                                    <option value="1">Comb 1A: CMIS + ELTN </option>
+                                    <option value="2">Comb 1B: CMIS + MMST</option>
+                                    <option value="3">Comb 1C: CMIS + IMGT</option>
+                                    <option value="4">Comb 2A: ELTN + CMIS</option>
+                                    <option value="5">Comb 2B: ELTN + MMST</option>
+                                    <option value="6">Comb 2C: ELTN + IMGT</option>
+                                    <option value="7">Comb 3A: IMGT + ELTN</option>
+                                    <option value="8">Comb 3B: IMGT + MMST</option>
+                                    <option value="9">Comb 3C: IMGT + CMIS</option>
+                                    <option value="10">Comb 4A: MMST + CMIS</option>
+                                    <option value="11">Comb 4B: MMST + ELTN</option>
+                                    <option value="12">Comb 4C: MMST + IMGT</option>
+                                </select>
+                            </div>
+                            <div class="col-sm" id="special">
+                                <label for="spComb" class="form-label">Select Special combination</label>
+                                <select class="form-select shadow mb-3 bg-body rounded"
+                                    aria-label="Default select example" id="spComb">
+                                    <option selected>choose combination</option>
+                                    <option value="1">Special degree in Applied Electronics</option>
+                                    <option value="2">Special degree in Industrial Management</option>
+                                    <option value="3">Special degree in Mathematics with Statistics</option>
+                                    <option value="3">Special degree in Mathematics with Statistics</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 
@@ -270,6 +272,7 @@
         </div>
 
         <script src="/javaScript/formHandler.js"></script>
+
         <!-- <footer> -->
         <%- include('../partials/footer') %>
 
