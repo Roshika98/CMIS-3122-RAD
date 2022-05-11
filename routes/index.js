@@ -14,8 +14,12 @@ router.get('/courses/register', (req, res) => {
 });
 
 router.get('/courses/modules', async (req, res) => {
-    var data = await db.getmodules();
-    res.render('layouts/modules', { data });
+    if (Object.keys(req.query).length === 0)
+        res.render('layouts/modules');
+    else {
+        var data = req.query;
+        res.render('layouts/test', { data });
+    }
 });
 
 // db.startConnection();
