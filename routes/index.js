@@ -9,8 +9,15 @@ router.get('/courses', (req, res) => {
     res.render('layouts/homepage');
 });
 
-router.get('/courses/register', (req, res) => {
-    res.render('layouts/course_registration');
+router.get('/courses/register', async (req, res) => {
+    if (Object.keys(req.query).length === 0)
+        res.render('layouts/course_registration');
+    else {
+        var q = req.query;
+        var data = await db.processSelection(q);
+        var lvl = q.level;
+        res.render('boilerplates/showSelectionModules', { lvl, data });
+    }
 });
 
 router.get('/courses/modules', async (req, res) => {
@@ -25,9 +32,6 @@ router.get('/courses/modules', async (req, res) => {
         res.render('boilerplates/showModules', { dept, result });
     }
 });
-
-// db.startConnection();
-// db.getmodules();
 
 
 module.exports = router;

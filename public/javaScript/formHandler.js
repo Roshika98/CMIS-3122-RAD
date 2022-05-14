@@ -8,15 +8,30 @@ var submitBtn = document.getElementById('submit');
 var levelSelector = document.getElementById('levelSelect');
 var degreeSelector = document.getElementById('degreeType');
 
+// * USED TO SHOW WHICH CONTENT SET TO DISPLAY ACCORDING TO LEVEL SELECTION
+
 var set1 = document.getElementById('combSet1');
 var set2 = document.getElementById('combSet2');
+
+// * USED TO SHOW WHICH DEGREE SELECTION CONTAINER TO DISPLAY ACCORDING TO DEGREE SELECTION
 
 var generalComb = document.getElementById('General');
 var jointComb = document.getElementById('JM');
 var specialComb = document.getElementById('special');
 
+//* USED TO GET THE COMBINATION OF THE SELECTED DEGREE TYPE
 
-const content = document.getElementsByClassName('tab');
+var normalSelection = document.getElementById('combSelect');
+var generalSelection = document.getElementById('generalComb');
+var jmSelection = document.getElementById('jmComb');
+var specialSelection = document.getElementById('spComb');
+
+//* DIV ELEMENT TO HOLD DYNAMIC CONTENT
+
+var dynamicHolder = document.getElementById('dynamicContent');
+
+
+var content = document.getElementsByClassName('tab');
 const degreetypes = [generalComb, jointComb, specialComb];
 
 //! Events----------------------------------------------------
@@ -24,6 +39,11 @@ const degreetypes = [generalComb, jointComb, specialComb];
 nextBtn.addEventListener('click', async (event) => {
     event.preventDefault();
     event.stopPropagation();
+    if (currTab == 0) {
+        var params = prepareSelectionQuery();
+        var response = await axios.get('https://localhost:3000/courses/register', { params });
+        addDynamicContent(response.data);
+    }
     Showcontent(1);
 });
 
@@ -109,4 +129,29 @@ function HideAll() {
     set2.style.display = 'none';
 }
 
+
+function prepareSelectionQuery() {
+    if (levelSelector.value == 1 || levelSelector.value == 2) {
+        var queryP = new URLSearchParams([['level', `${levelSelector.value}`], ['selection', `${normalSelection.value}`]]);
+        return queryP;
+    } else if (levelSelector.value == 3 || levelSelector.value == 4) {
+        if (degreeSelector.value == 1) {
+            var queryP = new URLSearchParams([['level', `${levelSelector.value}`], ['type', `${degreeSelector.value}`], ['selection', `${generalSelection.value}`]]);
+            return queryP;
+        } else if (degreeSelector.value == 2) {
+            var queryP = new URLSearchParams([['level', `${levelSelector.value}`], ['type', `${degreeSelector.value}`], ['selection', `${jmSelection.value}`]]);
+            return queryP;
+        } else {
+            var queryP = new URLSearchParams([['level', `${levelSelector.value}`], ['type', `${degreeSelector.value}`], ['selection', `${specialSelection.value}`]]);
+            return queryP;
+        }
+    }
+}
+
+function addDynamicContent(dynamicContent) {
+    dynamicHolder.innerHTML = dynamicContent;
+    content = document.getElementsByClassName('tab');
+    content[1].style.display = 'none';
+    content[2].style.display = 'none';
+}
 
