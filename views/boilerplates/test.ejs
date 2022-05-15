@@ -39,21 +39,25 @@
 
     <div>
         <label class="form-label">Optional modules</label>
-        <% let opCount=0 %>
-        <% for( let i = 0; i < data.semester1[index][1].length; i++ ) { %>
-        <% if (!data.semester1[index][1][i].mandatory) { %>
-        <div class="input-group mb-3">
-            <div class="input-group-text">
-                <input class="form-check-input mt-0" type="checkbox" value=""
-                    aria-label="Checkbox for following text input">
-            </div>
-            <span class="input-group-text" id="inputGroup-sizing-default"><%= data.semester1[index][1][i].course_code %>
-                - <%= data.semester1[index][1][i].name %> - <%= data.semester1[index][1][i].credit %>
-            </span>
-        </div>
-        <% opCount+=1 %>
-        <% } %>
-        <% } %>
+        <ul class="list-group shadow mb-3 bg-body rounded">
+            <% let opCount=0 %>
+            <% for( let i = 0; i < data.semester1[index][1].length; i++ ) { %>
+            <% if (!data.semester1[index][1][i].mandatory) { %>
+            <li class="list-group-item">
+                <div class="input-group mb-3">
+                    <input class="form-check-input mt-1" type="checkbox" value="<%= data.semester1[index][1][i].course_code %>
+                - <%= data.semester1[index][1][i].name %> - <%= data.semester1[index][1][i].credit %>"
+                        aria-label="Checkbox for following text input">
+                    <label class="form-lable checkbox-inline" aria-describedby="ProcessingConsultantYN"
+                        id="lbProcessingConsultant" for="ProcessingConsultantYN" style="padding-left: 2.5%;">
+                        <%= data.semester1[index][1][i].course_code %>
+                        - <%= data.semester1[index][1][i].name %> - <%= data.semester1[index][1][i].credit %></label>
+                </div>
+            </li>
+            <% opCount+=1 %>
+            <% } %>
+            <% } %>
+        </ul>
     </div>
     <% if (opCount==0) { %>
     <h6 style="text-align: center;">no optional modules available</h6>
@@ -104,22 +108,29 @@
 
     <div>
         <label class="form-label">Optional modules</label>
-        <% let opCount=0 %>
-        <% for( let i = 0; i < data.semester2[index][1].length; i++ ) { %>
-        <% if (!data.semester2[index][1][i].mandatory) { %>
-        <div class="input-group mb-3">
-            <div class="input-group-text">
-                <input class="form-check-input mt-0" type="checkbox" value=""
-                    aria-label="Checkbox for following text input">
-            </div>
-            <span class="input-group-text" id="inputGroup-sizing-default"><%= data.semester2[index][1][i].course_code %>
-                - <%= data.semester2[index][1][i].name %> - <%= data.semester2[index][1][i].credit %>
-            </span>
-        </div>
-        <% opCount+=1 %>
-        <% } %>
-        <% } %>
+        <ul class="list-group shadow mb-3 bg-body rounded display-flex">
+            <% let opCount=0 %>
+            <% for( let i = 0; i < data.semester2[index][1].length; i++ ) { %>
+            <% if (!data.semester2[index][1][i].mandatory) { %>
+            <li class="list-group-item">
+                <div class="input-group mb-3">
+
+                    <input class="form-check-input mt-1" type="checkbox" value=""
+                        aria-label="Checkbox for following text input">
+                    <label class="form-lable checkbox-inline" aria-describedby="ProcessingConsultantYN"
+                        id="lbProcessingConsultant" for="ProcessingConsultantYN" style="padding-left:2.5%">
+                        <%= data.semester2[index][1][i].course_code %>
+                        - <%= data.semester2[index][1][i].name %> - <%= data.semester2[index][1][i].credit %>
+                    </label>
+
+                </div>
+            </li>
+            <% opCount+=1 %>
+            <% } %>
+            <% } %>
+        </ul>
     </div>
+
     <% if (opCount==0) { %>
     <h6 style="text-align: center;">no optional modules available</h6>
     <% } %>

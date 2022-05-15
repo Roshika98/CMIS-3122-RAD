@@ -10,11 +10,15 @@ router.get('/courses', (req, res) => {
 });
 
 router.get('/courses/register', async (req, res) => {
-    if (Object.keys(req.query).length === 0)
+    if (Object.keys(req.query).length === 0) {
+        console.log('server hit');
         res.render('layouts/course_registration');
+    }
     else {
         var q = req.query;
+        console.log('query recieved');
         var data = await db.processSelection(q);
+        console.log('query processed');
         var lvl = q.level;
         res.render('boilerplates/test', { lvl, data });
     }
