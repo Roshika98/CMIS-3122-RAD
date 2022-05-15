@@ -1,0 +1,100 @@
+<div class="tab">
+    <h3>Step 2 of 3</h3>
+    <h4>Semester I</h4>
+    <br>
+    <div>
+        <% if (lvl<=2) { %>
+        <% data.semester1.forEach(element => { %>
+        <h5><%= element[0].deptName %></h5>
+        <div>
+            <label class="form-label">Available modules</label>
+            <ul class="list-group shadow mb-3 bg-body rounded">
+                <% element[1].forEach(e => { %>
+                <li class="list-group-item"><%= e.course_code %> - <%= e.name %> - <%= e.credit %></li>
+                <% }) %>
+            </ul>
+        </div>
+        <% }) %>
+        <% } else { %>
+        <% data.semester1.forEach(element => { %>
+        <h5><%= element[0].deptName %></h5>
+        <div>
+            <label class="form-label">Mandatory modules</label>
+            <ul class="list-group shadow mb-3 bg-body rounded">
+                <% element[1].forEach(e => { %>
+                <% if (e.mandatory==1) { %>
+                <li class="list-group-item"><%= e.course_code %> - <%= e.name %> - <%= e.credit %></li>
+                <% } %>
+                <% }) %>
+            </ul>
+        </div>
+        <div>
+            <label class="form-label">Optional modules</label>
+            <% element[1].forEach(e => { %>
+            <% if (e.mandatory==0) { %>
+            <div class="input-group mb-3">
+                <div class="input-group-text">
+                    <input class="form-check-input mt-0" type="checkbox" value=""
+                        aria-label="Checkbox for following text input">
+                </div>
+                <span class="input-group-text" id="inputGroup-sizing-default"><%= e.course_code %> - <%= e.name %> -
+                    <%= e.credit %></span>
+            </div>
+            <% } %>
+            <% }) %>
+        </div>
+        <% }) %>
+        <% } %>
+
+    </div>
+</div>
+
+<div class="tab">
+    <h3>Step 3 of 3</h3>
+    <h4>Semester II</h4>
+    <br>
+    <div>
+        <% if (lvl<=2) { %>
+        <% data.semester2.forEach(element => { %>
+        <h5><%= element[0].deptName %></h5>
+        <div>
+            <label class="form-label">Available modules</label>
+            <ul class="list-group shadow mb-3 bg-body rounded">
+                <% element[1].forEach(e => { %>
+                <li class="list-group-item"><%= e.course_code %> - <%= e.name %> - <%= e.credit %></li>
+                <% }) %>
+            </ul>
+        </div>
+        <% }) %>
+        <% } else { %>
+        <% data.semester2.forEach(element => { %>
+        <h5><%= element[0].deptName %></h5>
+        <div>
+            <label class="form-label">Mandatory modules</label>
+            <ul class="list-group shadow mb-3 bg-body rounded">
+                <% element[1].forEach(e => { %>
+                <% if (e.mandatory==1) { %>
+                <li class="list-group-item"><%= e.course_code %> - <%= e.name %> - <%= e.credit %></li>
+                <% } %>
+                <% }) %>
+            </ul>
+        </div>
+        <div>
+            <label class="form-label">Optional modules</label>
+            <% element[1].forEach(e => { %>
+            <% if (e.mandatory==0) { %>
+            <div class="input-group mb-3">
+                <div class="input-group-text">
+                    <input class="form-check-input mt-0" type="checkbox" value=""
+                        aria-label="Checkbox for following text input">
+                </div>
+                <span class="input-group-text" id="inputGroup-sizing-default"><%= e.course_code %> - <%= e.name %> -
+                    <%= e.credit %></span>
+            </div>
+            <% } %>
+            <% }) %>
+        </div>
+    </div>
+    <% }) %>
+    <% } %>
+</div>

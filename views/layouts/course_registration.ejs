@@ -7,7 +7,7 @@
         <title>Resgitration Form</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
             integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     </head>
 
     <body class="d-flex flex-column vh-100">
@@ -65,125 +65,85 @@
                                 placeholder="2017/2018">
                         </div>
                     </div>
+                    <div class="row g-2" id="combSet1">
+                        <div class="col-sm">
+                            <label for="combSelect" class="form-label">Select combination</label>
+                            <select class="form-select shadow mb-3 bg-body rounded" aria-label="Default select example"
+                                id="combSelect">
+                                <option selected>choose combination</option>
+                                <option value="1">Comb 1: CMIS + ELTN + MATH & STAT</option>
+                                <option value="2">Comb 2: ELTN + IMGT + MATH & STAT</option>
+                                <option value="3">Comb 3: IMGT + CMIS + MATH & STAT</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="combSet2">
+                        <div class="row g-2">
+                            <div class="col-sm">
+                                <label for="degreeType" class="form-label">Select Degree Type</label>
+                                <select class="form-select shadow mb-3 bg-body rounded"
+                                    aria-label="Default select example" id="degreeType">
+                                    <option selected>choose Degree Type</option>
+                                    <option value="1">General</option>
+                                    <option value="2">Joint Major</option>
+                                    <option value="3">Special</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="col-sm" id="General">
+                                <label for="generalComb" class="form-label">Select General Combination</label>
+                                <select class="form-select shadow mb-3 bg-body rounded"
+                                    aria-label="Default select example" id="generalComb">
+                                    <option selected>choose Combination</option>
+                                    <option value="1A">Comb 1A: MATH + CMIS + ELTN </option>
+                                    <option value="1B">Comb 1B: STAT + CMIS + ELTN</option>
+                                    <option value="1C">Comb 1C: MATH + STAT + CMIS</option>
+                                    <option value="2A">Comb 2A: MATH + ELTN + IMGT</option>
+                                    <option value="2B">Comb 2B: STAT + ELTN + IMGT</option>
+                                    <option value="2C">Comb 2C: MATH + STAT + ELTN</option>
+                                    <option value="3A">Comb 3A: MATH + IMGT + CMIS</option>
+                                    <option value="3B">Comb 3B: STAT + IMGT + CMIS</option>
+                                    <option value="3C">Comb 3C: MATH + STAT + IMGT</option>
+                                </select>
+                            </div>
+                            <div class="col-sm" id="JM">
+                                <label for="jmComb" class="form-label">Select JM combination</label>
+                                <select class="form-select shadow mb-3 bg-body rounded"
+                                    aria-label="Default select example" id="jmComb">
+                                    <option selected>choose combination</option>
+                                    <option value="1A">Comb 1A: CMIS + ELTN </option>
+                                    <option value="1B">Comb 1B: CMIS + MMST</option>
+                                    <option value="1C">Comb 1C: CMIS + IMGT</option>
+                                    <option value="2A">Comb 2A: ELTN + CMIS</option>
+                                    <option value="2B">Comb 2B: ELTN + MMST</option>
+                                    <option value="2C">Comb 2C: ELTN + IMGT</option>
+                                    <option value="3A">Comb 3A: IMGT + ELTN</option>
+                                    <option value="3B">Comb 3B: IMGT + MMST</option>
+                                    <option value="3C">Comb 3C: IMGT + CMIS</option>
+                                    <option value="4A">Comb 4A: MMST + CMIS</option>
+                                    <option value="4B">Comb 4B: MMST + ELTN</option>
+                                    <option value="4C">Comb 4C: MMST + IMGT</option>
+                                </select>
+                            </div>
+                            <div class="col-sm" id="special">
+                                <label for="spComb" class="form-label">Select Special combination</label>
+                                <select class="form-select shadow mb-3 bg-body rounded"
+                                    aria-label="Default select example" id="spComb">
+                                    <option selected>choose combination</option>
+                                    <option value="1">Special degree in Applied Electronics</option>
+                                    <option value="2">Special degree in Industrial Management</option>
+                                    <option value="3">Special degree in Mathematics with Statistics</option>
+                                    <option value="4">Special degree in Computer Science</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
 
-                <div class="tab">
-                    <h3>Step 2 of 3</h3>
-                    <h4>Semester I modules:</h4>
-                    <br>
-                    <div>
-                        <h5>Department of Computing & Information systems</h5>
-                        <div>
-                            <label class="form-label">Mandatory modules</label>
-                            <ul class="list-group shadow mb-3 bg-body rounded">
-                                <li class="list-group-item">CMIS 3124 - Computer Architecture & Compiler Design</li>
-                                <li class="list-group-item">CMIS 3114 - Data Communication & computer Networks</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <label class="form-label">Optional modules</label>
-                            <div class="input-group mb-3">
-                                <div class="input-group-text">
-                                    <input class="form-check-input mt-0" type="checkbox" value=""
-                                        aria-label="Checkbox for following text input">
-                                </div>
-                                <!-- <label class="form-label" aria-label="Text input with checkbox">CMIS 3122</label> -->
-                                <span class="input-group-text" id="inputGroup-sizing-default">CMIS 3122 - Rapid
-                                    Application Development</span>
-                            </div>
-                            <div class="input-group mb-3">
-                                <div class="input-group-text">
-                                    <input class="form-check-input mt-0" type="checkbox" value=""
-                                        aria-label="Checkbox for following text input">
-                                </div>
-                                <!-- <label class="form-label" aria-label="Text input with checkbox">CMIS 3122</label> -->
-                                <span class="input-group-text" id="inputGroup-sizing-default">CMIS 3122 - Rapid
-                                    Application Development</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <h5>Department of Mathematical Studies</h5>
-                        <div>
-                            <label class="form-label">Mandatory modules</label>
-                            <ul class="list-group shadow mb-3 bg-body rounded">
-                                <li class="list-group-item">An item</li>
-                                <li class="list-group-item">A second item</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <label class="form-label">Optional modules</label>
-                            <div class="input-group mb-3">
-                                <div class="input-group-text">
-                                    <input class="form-check-input mt-0" type="checkbox" value=""
-                                        aria-label="Checkbox for following text input">
-                                </div>
-                                <!-- <label class="form-label" aria-label="Text input with checkbox">CMIS 3122</label> -->
-                                <span class="input-group-text" id="inputGroup-sizing-default">CMIS 3122 - Rapid
-                                    Application Development</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div id="dynamicContent">
 
-                <div class="tab">
-                    <h3>Step 3 of 3</h3>
-                    <h4>Semester II modules:</h4>
-                    <br>
-                    <div>
-                        <h5>Department of Computing & Information systems</h5>
-                        <div>
-                            <label class="form-label">Mandatory modules</label>
-                            <ul class="list-group shadow mb-3 bg-body rounded">
-                                <li class="list-group-item">CMIS 3124 - Computer Architecture & Compiler Design</li>
-                                <li class="list-group-item">CMIS 3114 - Data Communication & computer Networks</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <label class="form-label">Optional modules</label>
-                            <div class="input-group mb-3">
-                                <div class="input-group-text">
-                                    <input class="form-check-input mt-0" type="checkbox" value=""
-                                        aria-label="Checkbox for following text input">
-                                </div>
-                                <!-- <label class="form-label" aria-label="Text input with checkbox">CMIS 3122</label> -->
-                                <span class="input-group-text" id="inputGroup-sizing-default">CMIS 3122 - Rapid
-                                    Application Development</span>
-                            </div>
-                            <div class="input-group mb-3">
-                                <div class="input-group-text">
-                                    <input class="form-check-input mt-0" type="checkbox" value=""
-                                        aria-label="Checkbox for following text input">
-                                </div>
-                                <!-- <label class="form-label" aria-label="Text input with checkbox">CMIS 3122</label> -->
-                                <span class="input-group-text" id="inputGroup-sizing-default">CMIS 3122 - Rapid
-                                    Application Development</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <h5>Department of Mathematical Studies</h5>
-                        <div>
-                            <label class="form-label">Mandatory modules</label>
-                            <ul class="list-group shadow mb-3 bg-body rounded">
-                                <li class="list-group-item">An item</li>
-                                <li class="list-group-item">A second item</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <label class="form-label">Optional modules</label>
-                            <div class="input-group mb-3">
-                                <div class="input-group-text">
-                                    <input class="form-check-input mt-0" type="checkbox" value=""
-                                        aria-label="Checkbox for following text input">
-                                </div>
-                                <!-- <label class="form-label" aria-label="Text input with checkbox">CMIS 3122</label> -->
-                                <span class="input-group-text" id="inputGroup-sizing-default">CMIS 3122 - Rapid
-                                    Application Development</span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -198,6 +158,7 @@
         </div>
 
         <script src="/javaScript/formHandler.js"></script>
+
         <!-- <footer> -->
         <%- include('../partials/footer') %>
 
