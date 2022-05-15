@@ -16,11 +16,6 @@ router.get('/courses/register', async (req, res) => {
         var q = req.query;
         var data = await db.processSelection(q);
         var lvl = q.level;
-        data.semester1.forEach(element => {
-            element[1].forEach(e => {
-                console.log(`${e.course_code} --- ${e.name}-----`);
-            });
-        });
         res.render('boilerplates/test', { lvl, data });
     }
 });
