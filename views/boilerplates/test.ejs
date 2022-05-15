@@ -1,0 +1,24 @@
+<div class="tab">
+    tab 1
+    <br>
+    <% for( let index = 0; index < data.semester1.length; index++ ) { %>
+    <%= data.semester1[index][0].deptName %>
+    <br>
+    <% for( let i = 0; i < data.semester1[index][1].length; i++ ) { %>
+    <%= data.semester1[index][1][i].course_code %>
+    <br>
+    <% } %>
+    <% } %>
+</div>
+<div class="tab">
+    tab 2
+    <br>
+    <% for( let index = 0; index < data.semester2.length; index++ ) { %>
+    <%= data.semester2[index][0].deptName %>
+    <br>
+    <% for( let i = 0; i < data.semester2[index][1].length; i++ ) { %>
+    <%= data.semester2[index][1][i].course_code %>
+    <br>
+    <% } %>
+    <% } %>
+</div>
