@@ -34,6 +34,13 @@ var dynamicHolder = document.getElementById('dynamicContent');
 var content = document.getElementsByClassName('tab');
 const degreetypes = [generalComb, jointComb, specialComb];
 
+
+//* REQUEST HELPERS-----------------------------------------
+var sem1Mandatory = [];
+var sem1Optional = [];
+var sem2Mandatory = [];
+var sem2Optional = [];
+
 //! Events----------------------------------------------------
 
 nextBtn.addEventListener('click', async (event) => {
@@ -154,4 +161,7 @@ function addDynamicContent(dynamicContent) {
     content[1].style.display = 'none';
     content[2].style.display = 'none';
 }
+
+
+
 

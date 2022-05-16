@@ -20,7 +20,7 @@ router.get('/courses/register', async (req, res) => {
         var data = await db.processSelection(q);
         console.log('query processed');
         var lvl = q.level;
-        res.render('boilerplates/test', { lvl, data });
+        res.render('boilerplates/selection', { lvl, data });
     }
 });
 

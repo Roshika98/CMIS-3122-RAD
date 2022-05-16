@@ -1,4 +1,4 @@
-<div class="tab">
+<div class="tab sem1">
     <h3>Step 2 of 3</h3>
     <h4>Semester I</h4>
     <br>
@@ -19,14 +19,18 @@
     <% for( let index = 0; index < data.semester1.length; index++ ) { %>
     <h5><%= data.semester1[index][0].deptName %></h5>
 
-    <div>
+    <div class="mandatory">
         <label class="form-label">Mandatory modules</label>
         <ul class="list-group shadow mb-3 bg-body rounded">
             <% let manCount=0 %>
             <% for( let i = 0; i < data.semester1[index][1].length; i++ ) { %>
             <% if (data.semester1[index][1][i].mandatory) { %>
-            <li class="list-group-item"><%= data.semester1[index][1][i].course_code %> -
-                <%= data.semester1[index][1][i].name %> - <%= data.semester1[index][1][i].credit %> </li>
+            <% var code=data.semester1[index][1][i].course_code %>
+            <% var name=data.semester1[index][1][i].name %>
+            <% var credit=data.semester1[index][1][i].credit %>
+            <li class="list-group-item" data-code="<%= code %>" data-name="<%= name %>" data-credit="<%= credit %>">
+                <%= code %> - <%= name %> - <%= credit %>
+            </li>
             <% manCount+=1 %>
             <% } %>
             <% } %>
@@ -37,21 +41,22 @@
     </div>
 
 
-    <div>
+    <div class="optional">
         <label class="form-label">Optional modules</label>
         <ul class="list-group shadow mb-3 bg-body rounded">
             <% let opCount=0 %>
             <% for( let i = 0; i < data.semester1[index][1].length; i++ ) { %>
             <% if (!data.semester1[index][1][i].mandatory) { %>
-            <li class="list-group-item">
+            <% var code=data.semester1[index][1][i].course_code %>
+            <% var name=data.semester1[index][1][i].name %>
+            <% var credit=data.semester1[index][1][i].credit %>
+            <li class="list-group-item" data-code="<%= code %>" data-name="<%= name %>" data-credit="<%= credit %>">
                 <div class="input-group mb-3">
-                    <input class="form-check-input mt-1" type="checkbox" value="<%= data.semester1[index][1][i].course_code %>
-                - <%= data.semester1[index][1][i].name %> - <%= data.semester1[index][1][i].credit %>"
-                        aria-label="Checkbox for following text input">
-                    <label class="form-lable checkbox-inline" aria-describedby="ProcessingConsultantYN"
-                        id="lbProcessingConsultant" for="ProcessingConsultantYN" style="padding-left: 2.5%;">
-                        <%= data.semester1[index][1][i].course_code %>
-                        - <%= data.semester1[index][1][i].name %> - <%= data.semester1[index][1][i].credit %></label>
+                    <input class="form-check-input mt-1" type="checkbox">
+                    <label class="form-lable checkbox-inline" id="lbProcessingConsultant" for="ProcessingConsultantYN"
+                        style="padding-left: 2.5%;">
+                        <%= code %> - <%= name %> - <%= credit %>
+                    </label>
                 </div>
             </li>
             <% opCount+=1 %>
@@ -67,7 +72,7 @@
 </div>
 
 
-<div class="tab">
+<div class="tab sem2">
 
     <h3>Step 3 of 3</h3>
     <h4>Semester II</h4>
@@ -89,14 +94,17 @@
     <% for( let index = 0; index < data.semester2.length; index++ ) { %>
     <h5><%= data.semester2[index][0].deptName %></h5>
 
-    <div>
+    <div class="mandatory">
         <label class="form-label">Mandatory modules</label>
         <ul class="list-group shadow mb-3 bg-body rounded display-flex">
             <% let manCount=0 %>
             <% for( let i = 0; i < data.semester2[index][1].length; i++ ) { %>
             <% if (data.semester2[index][1][i].mandatory) { %>
-            <li class="list-group-item"><%= data.semester2[index][1][i].course_code %> -
-                <%= data.semester2[index][1][i].name %> - <%= data.semester2[index][1][i].credit %> </li>
+            <% var code=data.semester2[index][1][i].course_code %>
+            <% var name=data.semester2[index][1][i].name %>
+            <% var credit=data.semester2[index][1][i].credit %>
+            <li class="list-group-item" data-code="<%= code %>" data-name="<%= name %>" data-credit="<%= credit %>">
+                <%= code %> - <%= name %> - <%= credit %> </li>
             <% manCount+=1 %>
             <% } %>
             <% } %>
@@ -106,23 +114,23 @@
         <% } %>
     </div>
 
-    <div>
+    <div class="optional">
         <label class="form-label">Optional modules</label>
         <ul class="list-group shadow mb-3 bg-body rounded display-flex">
             <% let opCount=0 %>
             <% for( let i = 0; i < data.semester2[index][1].length; i++ ) { %>
             <% if (!data.semester2[index][1][i].mandatory) { %>
-            <li class="list-group-item">
+            <% var code=data.semester2[index][1][i].course_code %>
+            <% var name=data.semester2[index][1][i].name %>
+            <% var credit=data.semester2[index][1][i].credit %>
+            <li class="list-group-item" data-code="<%= code %>" data-name="<%= name %>" data-credit="<%= credit %>">
                 <div class="input-group mb-3">
-
                     <input class="form-check-input mt-1" type="checkbox" value=""
                         aria-label="Checkbox for following text input">
-                    <label class="form-lable checkbox-inline" aria-describedby="ProcessingConsultantYN"
-                        id="lbProcessingConsultant" for="ProcessingConsultantYN" style="padding-left:2.5%">
-                        <%= data.semester2[index][1][i].course_code %>
-                        - <%= data.semester2[index][1][i].name %> - <%= data.semester2[index][1][i].credit %>
+                    <label class="form-lable checkbox-inline" id="lbProcessingConsultant" for="ProcessingConsultantYN"
+                        style="padding-left:2.5%">
+                        <%= code %> - <%= name %> - <%= credit %>
                     </label>
-
                 </div>
             </li>
             <% opCount+=1 %>
