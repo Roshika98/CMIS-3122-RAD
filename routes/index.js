@@ -43,25 +43,10 @@ router.post('/courses/register', async (req, res) => {
     console.log('post request made');
     console.log(req.body);
     data = req.body;
-    const pdfFile = await pdfContent(data.personal.level, data);
-    pdf.create(pdfFile, {
-        format: 'A4',
-        httpHeaders: { 'content-type': 'application/pdf' },
-        quality: '100',
-        orientation: 'portrait',
-        type: 'pdf'
-    }).toFile(path.join(__dirname, '../public/temp/index.pdf'), (error, stream) => {
-
+    data.semester1.mandatory.forEach(element => {
+        console.log(element);
     });
-    pdf.create(pdfFile, {
-        format: 'A4',
-        httpHeaders: { 'content-type': 'application/pdf' },
-        quality: '100',
-        orientation: 'portrait',
-        type: 'pdf'
-    }).toStream((error, stream) => {
-        stream.pipe(res);
-    });
+    res.render('forms/normal', { data });
 });
 
 
