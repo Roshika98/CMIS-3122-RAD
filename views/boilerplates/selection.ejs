@@ -1,15 +1,18 @@
-<div class="tab sem1">
+<div class="tab sem">
     <h3>Step 2 of 3</h3>
     <h4>Semester I</h4>
     <br>
     <% if (lvl<=2) { %>
     <% data.semester1.forEach(element => { %>
     <h5><%= element[0].deptName %></h5>
-    <div>
+    <div class="mandatory">
         <label class="form-label">Available modules</label>
         <ul class="list-group shadow mb-3 bg-body rounded">
             <% element[1].forEach(e => { %>
-            <li class="list-group-item"><%= e.course_code %> - <%= e.name %> - <%= e.credit %></li>
+            <li class="list-group-item" data-code="<%= e.course_code %>" data-name="<%= e.name %>"
+                data-credit="<%= e.credit %>">
+                <%= e.course_code %> - <%= e.name %> - <%= e.credit %>
+            </li>
             <% }) %>
         </ul>
     </div>
@@ -72,7 +75,7 @@
 </div>
 
 
-<div class="tab sem2">
+<div class="tab sem">
 
     <h3>Step 3 of 3</h3>
     <h4>Semester II</h4>
@@ -80,11 +83,14 @@
     <% if (lvl<=2) { %>
     <% data.semester2.forEach(element => { %>
     <h5><%= element[0].deptName %></h5>
-    <div>
+    <div class="mandatory">
         <label class="form-label">Available modules</label>
         <ul class="list-group shadow mb-3 bg-body rounded">
             <% element[1].forEach(e => { %>
-            <li class="list-group-item"><%= e.course_code %> - <%= e.name %> - <%= e.credit %></li>
+            <li class="list-group-item" data-code="<%= e.course_code %>" data-name="<%= e.name %>"
+                data-credit="<%= e.credit %>">
+                <%= e.course_code %> - <%= e.name %> - <%= e.credit %>
+            </li>
             <% }) %>
         </ul>
     </div>

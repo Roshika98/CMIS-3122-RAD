@@ -29,17 +29,22 @@ var specialSelection = document.getElementById('spComb');
 //* DIV ELEMENT TO HOLD DYNAMIC CONTENT
 
 var dynamicHolder = document.getElementById('dynamicContent');
-
-
 var content = document.getElementsByClassName('tab');
 const degreetypes = [generalComb, jointComb, specialComb];
 
 
 //* REQUEST HELPERS-----------------------------------------
+
 var sem1Mandatory = [];
 var sem1Optional = [];
 var sem2Mandatory = [];
 var sem2Optional = [];
+
+var fName = document.getElementById('fullname');
+var regNo = document.getElementById('registrationNo');
+var contact = document.getElementById('contact');
+var imageFile = document.getElementById('imageInput');
+var acYear = document.getElementById('acyear');
 
 //! Events----------------------------------------------------
 
@@ -48,10 +53,19 @@ nextBtn.addEventListener('click', async (event) => {
     event.stopPropagation();
     if (currTab == 0) {
         var params = prepareSelectionQuery();
-        var response = await axios.get('https://localhost:3000/courses/register', { params });
+        var response = await axios.get('https://192.168.1.102:3000/courses/register', { params });
         addDynamicContent(response.data);
     }
     Showcontent(1);
+});
+
+
+submitBtn.addEventListener('click', async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    var body = JSON.stringify(prepareReqBody());
+    var response = await axios.post('https://192.168.1.102:3000/courses/register', body,
+        { headers: { 'Content-Type': 'application/json' } });
 });
 
 prevBtn.addEventListener('click', (event) => {
@@ -112,6 +126,9 @@ function ShowLevelContent(n) {
     } else if (n <= 4) {
         set1.style.display = 'none';
         set2.style.display = '';
+        if (n == 4) degreeSelector.querySelectorAll('option')[1].style.display = 'none';
+        else degreeSelector.querySelectorAll('option')[1].style.display = '';
+        degreeSelector.value = 'choose Degree Type';
         ShowDegreeType(degreeSelector.value);
     } else {
         set1.style.display = 'none';
@@ -160,8 +177,89 @@ function addDynamicContent(dynamicContent) {
     content = document.getElementsByClassName('tab');
     content[1].style.display = 'none';
     content[2].style.display = 'none';
+    fillUpMandatory();
 }
 
 
+function fillUpMandatory() {
+    if (sem1Mandatory.length > 0 && sem2Mandatory.length > 0) {
+        sem1Mandatory = [];
+        sem2Mandatory = [];
+    }
+    var semesters = document.getElementsByClassName('sem');
+    for (var i = 0; i < semesters.length; i++) {
+        var mandatoryContent = semesters[i].querySelectorAll('.mandatory');
+        for (var j = 0; j < mandatoryContent.length; j++) {
+            var listItems = mandatoryContent[j].querySelectorAll('ul li');
+            for (var k = 0; k < listItems.length; k++) {
+                var code = listItems[k].getAttribute('data-code');
+                var name = listItems[k].getAttribute('data-name');
+                var credit = listItems[k].getAttribute('data-credit');
+                var data = { code: code, name: name, credit: credit };
+                if (i == 0) sem1Mandatory.push(data);
+                else sem2Mandatory.push(data);
+            }
+        }
+    }
+    console.log(sem1Mandatory);
+    console.log(sem2Mandatory);
+}
+
+
+function fillUpOptional() {
+    var semesters = document.getElementsByClassName('sem');
+    for (var i = 0; i < semesters.length; i++) {
+        var optionalContent = semesters[i].querySelectorAll('.optional');
+        for (var j = 0; j < optionalContent.length; j++) {
+            var listItems = optionalContent[j].querySelectorAll('ul li');
+            for (var k = 0; k < listItems.length; k++) {
+                var checkbox = listItems[k].querySelector('input');
+                if (checkbox.checked) {
+                    var code = listItems[k].getAttribute('data-code');
+                    var name = listItems[k].getAttribute('data-name');
+                    var credit = listItems[k].getAttribute('data-credit');
+                    var data = { code: code, name: name, credit: credit };
+                    if (i == 0) sem1Optional.push(data);
+                    else sem2Optional.push(data);
+                }
+            }
+        }
+    }
+}
+
+function prepareReqBody() {
+    fillUpOptional();
+    var degree = null;
+    if (levelSelector.value <= 2) {
+        degree = { combination: normalSelection.value };
+    } else {
+        if (degreeSelector.value == 1)
+            degree = { degreeType: degreeSelector.value, combination: generalSelection.value };
+        else if (degreeSelector.value == 2)
+            degree = { degreeType: degreeSelector.value, combination: jmSelection.value };
+        else
+            degree = { degreeType: degreeSelector.value, combination: specialSelection.value };
+    }
+    var details = {
+        name: fName.value,
+        regNo: regNo.value,
+        contact: contact.value,
+        image: imageFile.value,
+        level: levelSelector.value,
+        academicYear: acYear.value,
+        degreeDetails: degree
+    };
+    var req = {
+        personal: details,
+        semester1: {
+            mandatory: sem1Mandatory,
+            optional: sem1Optional
+        }, semester2: {
+            mandatory: sem2Mandatory,
+            optional: sem2Optional
+        }
+    };
+    return req;
+}
 
 
