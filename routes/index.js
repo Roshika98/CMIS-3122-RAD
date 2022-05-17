@@ -1,5 +1,8 @@
 const express = require('express');
 const db = require('../database/dbHandler');
+const pdfContent = require('../utility/pdfCreator');
+const pdf = require('html-pdf');
+const path = require('path');
 const router = express.Router();
 
 
@@ -39,7 +42,27 @@ router.get('/courses/modules', async (req, res) => {
 router.post('/courses/register', async (req, res) => {
     console.log('post request made');
     console.log(req.body);
-})
+    data = req.body;
+    const pdfFile = await pdfContent(data.personal.level, data);
+    pdf.create(pdfFile, {
+        format: 'A4',
+        httpHeaders: { 'content-type': 'application/pdf' },
+        quality: '100',
+        orientation: 'portrait',
+        type: 'pdf'
+    }).toFile(path.join(__dirname, '../public/temp/index.pdf'), (error, stream) => {
+
+    });
+    pdf.create(pdfFile, {
+        format: 'A4',
+        httpHeaders: { 'content-type': 'application/pdf' },
+        quality: '100',
+        orientation: 'portrait',
+        type: 'pdf'
+    }).toStream((error, stream) => {
+        stream.pipe(res);
+    });
+});
 
 
 
