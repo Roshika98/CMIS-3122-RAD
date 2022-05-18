@@ -36,6 +36,7 @@
     </head>
 
     <body>
+        <!-- <img src="/img/dashboardHeader.jpg" alt="" srcset="" style="max-width:100%;max-height: 100%;"> -->
         <div class="wrapper">
             <div class="sidebar" data-color="yellow">
                 <!--
@@ -119,10 +120,9 @@
                 </div>
             </div>
 
-
             <div class="main-panel" id="main-panel">
                 <!-- Navbar -->
-                <nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute">
+                <nav class="navbar navbar-expand-lg   bg-white  sticky-top">
                     <div class="container-fluid">
                         <div class="navbar-wrapper">
                             <div class="navbar-toggle">
@@ -132,7 +132,7 @@
                                     <span class="navbar-toggler-bar bar3"></span>
                                 </button>
                             </div>
-                            <a class="navbar-brand" href="#pablo">Dashboard</a>
+                            <a class="navbar-brand" href="#pablo">Faculty of Applied Sciences</a>
                         </div>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
                             aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -143,7 +143,8 @@
                         <div class="collapse navbar-collapse justify-content-end" id="navigation">
                             <form>
                                 <div class="input-group no-border">
-                                    <input type="text" value="" class="form-control" placeholder="Search...">
+                                    <input type="text" value="" class="form-control" placeholder="Search..."
+                                        style="color: black;">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             <i class="now-ui-icons ui-1_zoom-bold"></i>
@@ -188,15 +189,12 @@
                     </div>
                 </nav>
                 <!-- End Navbar -->
-                <div class="panel-header panel-header-sm">
-                    <canvas id="bigDashboardChart"></canvas>
-                </div>
-                <br>
-                <br>
+                <!-- <div class="panel-header panel-header-lg"
+                    style="background-image: url('/img/dashboardHeader2.jpg');background-position: center; background-size:cover; background-repeat: no-repeat;">
+                </div> -->
                 <div class="content">
-
+                    <br><br><br>
                     <%- body %>
-
                 </div>
                 <footer class="footer">
                     <div class=" container-fluid ">
