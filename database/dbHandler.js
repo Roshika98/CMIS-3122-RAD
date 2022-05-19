@@ -26,6 +26,17 @@ class DbHandler {
         return data[0];
     }
 
+    static async getAllDepartments() {
+        var q = 'SELECT * FROM departments';
+        var data = null;
+        try {
+            data = await connection.general.promise().query(q);
+        } catch (error) {
+            console.log(error);
+        }
+        return data[0];
+    }
+
     static async processSelection(data) {
         if (data.level == 1 || data.level == 2) {
             var result = await this.#normalSelect(data.level, data.selection);

@@ -40,9 +40,34 @@ router.get('/courses/modules', async (req, res) => {
 
 //* ADMIN ROUTES---------------------------------------------------
 
-router.get('/courses/admin', (req, res) => {
-    res.render('admin/partials/home', { layout: 'admin/layout' });
+router.get('/courses/admin/homepage', (req, res) => {
+    var layoutVar = { title: 'home', script: '' };
+
+    res.render('admin/partials/home', { layoutVar, layout: 'admin/layout' });
 });
+
+router.get('/courses/admin/account', (req, res) => {
+    var layoutVar = { title: 'home', script: '/javaScript/controllers/user.js' };
+    res.render('admin/partials/user', { layoutVar, layout: 'admin/layout' });
+});
+
+router.get('/courses/admin/departments', (req, res) => {
+    var layoutVar = { title: 'home', script: '/javaScript/controllers/departments.js' };
+    var result = await db.getAllDepartments();
+    res.render('admin/partials/departments', { layoutVar, layout: 'admin/layout' });
+});
+
+router.get('courses/admin/departments/:id', (req, res) => {
+    var { id } = req.params;
+
+});
+
+
+router.get('/courses/admin/modules', (req, res) => {
+    var layoutVar = { title: 'home', script: '/javaScript/controllers/modules.js' };
+    res.render('admin/partials/modules', { layoutVar, layout: 'admin/layout' });
+});
+
 
 
 
