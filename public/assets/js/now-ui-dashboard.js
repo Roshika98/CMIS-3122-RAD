@@ -32,7 +32,7 @@
 
  */
 
-(function() {
+(function () {
   isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
 
   if (isWindows) {
@@ -61,13 +61,13 @@ var scrollElement = navigator.platform.indexOf('Win') > -1 ? $(".main-panel") : 
 seq = 0, delays = 80, durations = 500;
 seq2 = 0, delays2 = 80, durations2 = 500;
 
-$(document).ready(function() {
+$(document).ready(function () {
 
   if ($('.full-screen-map').length == 0 && $('.bd-docs').length == 0) {
     // On click navbar-collapse the menu will be white not transparent
-    $('.collapse').on('show.bs.collapse', function() {
+    $('.collapse').on('show.bs.collapse', function () {
       $(this).closest('.navbar').removeClass('navbar-transparent').addClass('bg-white');
-    }).on('hide.bs.collapse', function() {
+    }).on('hide.bs.collapse', function () {
       $(this).closest('.navbar').addClass('navbar-transparent').removeClass('bg-white');
     });
   }
@@ -81,14 +81,14 @@ $(document).ready(function() {
     $(window).on('scroll', nowuiDashboard.checkScrollForTransparentNavbar)
   }
 
-  $('.form-control').on("focus", function() {
+  $('.form-control').on("focus", function () {
     $(this).parent('.input-group').addClass("input-group-focus");
-  }).on("blur", function() {
+  }).on("blur", function () {
     $(this).parent(".input-group").removeClass("input-group-focus");
   });
 
   // Activate bootstrapSwitch
-  $('.bootstrap-switch').each(function() {
+  $('.bootstrap-switch').each(function () {
     $this = $(this);
     data_on_label = $this.data('on-label') || '';
     data_off_label = $this.data('off-label') || '';
@@ -100,27 +100,27 @@ $(document).ready(function() {
   });
 });
 
-$(document).on('click', '.navbar-toggle', function() {
+$(document).on('click', '.navbar-toggle', function () {
   $toggle = $(this);
 
   if (nowuiDashboard.misc.navbar_menu_visible == 1) {
     $('html').removeClass('nav-open');
     nowuiDashboard.misc.navbar_menu_visible = 0;
-    setTimeout(function() {
+    setTimeout(function () {
       $toggle.removeClass('toggled');
       $('#bodyClick').remove();
     }, 550);
 
   } else {
-    setTimeout(function() {
+    setTimeout(function () {
       $toggle.addClass('toggled');
     }, 580);
 
     div = '<div id="bodyClick"></div>';
-    $(div).appendTo('body').click(function() {
+    $(div).appendTo('body').click(function () {
       $('html').removeClass('nav-open');
       nowuiDashboard.misc.navbar_menu_visible = 0;
-      setTimeout(function() {
+      setTimeout(function () {
         $toggle.removeClass('toggled');
         $('#bodyClick').remove();
       }, 550);
@@ -131,7 +131,7 @@ $(document).on('click', '.navbar-toggle', function() {
   }
 });
 
-$(window).resize(function() {
+$(window).resize(function () {
   // reset the seq for charts drawing animations
   seq = seq2 = 0;
 
@@ -157,24 +157,22 @@ nowuiDashboard = {
     navbar_menu_visible: 0
   },
 
-  showNotification: function(from, align) {
-    color = 'primary';
+  showNotification: function (options) {
+    color = options.colorTheme;
 
     $.notify({
-      icon: "now-ui-icons ui-1_bell-53",
-      message: "Welcome to <b>Now Ui Dashboard</b> - a beautiful freebie for every web developer."
+      icon: options.icon,
+      message: options.message
 
     }, {
       type: color,
-      timer: 8000,
+      timer: options.timer,
       placement: {
-        from: from,
-        align: align
+        from: options.from,
+        align: options.align
       }
     });
   }
-
-
 };
 
 function hexToRGB(hex, alpha) {
