@@ -3,6 +3,7 @@ const connection = require('./dbConnector');
 
 class DbHandler {
 
+    // * DATABASE READ OPERATIONS-----------------------------------------------
 
     static async getmodulesDetails(dept, lvl) {
         var q = 'SELECT course_code,name,credit,semester,description FROM modules INNER JOIN departments ON departments.deptID=modules.deptID WHERE departments.deptID=? && modules.level=?';
@@ -56,6 +57,29 @@ class DbHandler {
             }
         }
     }
+
+    // * DATABASE CREATE OPERATIONS---------------------------------------------------------
+
+    static async createNewDepartment(data) {
+        var queryString = 'INSERT INTO departments (deptID,deptName) VALUES (?,?)';
+        const result = await connection.admin.promise().execute(queryString, [data.id, data.name]);
+        console.log(result);
+        return result;
+    }
+
+
+    //* DATABASE DELETE OPERATIONS ----------------------------------------------
+
+    static async deleteDepartment(id) {
+        var queryString = 'DELETE FROM departments WHERE deptID=?';
+        const result = await connection.admin.promise().execute(queryString, [id]);
+        console.log(result);
+        return result;
+    }
+
+
+
+    // * DATABASE HELPER OPERATIONS--------------------------------------------
 
     static async #normalSelect(level, selection) {
         var dep1 = null;
