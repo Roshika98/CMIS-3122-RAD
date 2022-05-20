@@ -1,11 +1,11 @@
 const express = require('express');
 const db = require('../database/dbHandler');
 const pdfContent = require('../utility/pdfCreator');
-const pdf = require('html-pdf');
 const path = require('path');
+const puppeteer = require('puppeteer');
 const router = express.Router();
 
-
+var pdfPage = null;
 
 // !GET ROUTES---------------------------------------------------
 
@@ -37,6 +37,17 @@ router.get('/courses/modules', async (req, res) => {
 });
 
 
+router.get('/courses/downloads', async (req, res) => {
+    res.writeHead(200, { 'content-Type': 'application/pdf', 'Content-Disposition': 'attachment; filename="registrationform.pdf"' });
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.setContent(`${pdfPage}`);
+    const buffer = await page.pdf({ format: "A4" });
+    await browser.close();
+    res.end(buffer);
+});
+
+
 // !POST ROUTES--------------------------------------------
 
 router.post('/courses/register', async (req, res) => {
@@ -46,7 +57,9 @@ router.post('/courses/register', async (req, res) => {
     data.semester1.mandatory.forEach(element => {
         console.log(element);
     });
-    res.render('forms/normal', { data });
+    var pdfTemplate = await pdfContent(data.personal.level, data);
+    pdfPage = pdfTemplate;
+    res.send('okay');
 });
 
 
