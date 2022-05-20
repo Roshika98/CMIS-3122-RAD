@@ -1,4 +1,33 @@
-.container {  
-    padding: 50px;  
-  background-color: rgb(243, 244, 245);  
+.container-fluid {   
+  
+  border-radius: 5px;
+  background-color: white;
+  border-style: solid;
+  padding: 50px; 
+}
+.photo{
+ text-align: center;
+  width: 30px;
+  border: solid;
+  padding: 50px;
+  /* margin: 10px; */
 }  
+h5{
+  margin-top: 1px;
+}
+textarea{
+  margin-top: 1px;
+}
+table {
+  border-collapse: collapse;
+  width: 50%;
+    
+}
+
+th {
+  height: 70px;
+}
+th, td {
+  padding: 15px;
+  text-align: left;
+}
