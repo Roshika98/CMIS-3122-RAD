@@ -53,7 +53,6 @@ router.get('/courses/admin/account', (req, res) => {
 router.get('/courses/admin/departments', async (req, res) => {
     var layoutVar = { title: 'departments', script: '/javaScript/controllers/departments.js' };
     var result = await db.getAllDepartments();
-    console.log(result);
     res.render('admin/partials/departments', { layoutVar, result, layout: 'admin/layout' });
 });
 
@@ -73,7 +72,6 @@ router.get('/courses/admin/modules', async (req, res) => {
         const dept = await db.getDepartmentDetails(data.department);
         const result = await db.getmodulesDetails(data.department, data.level);
         var level = data.level;
-        console.log(dept);
         res.render('admin/cardContent/modulesCard', { dept, level, result, layout: false });
     }
 });

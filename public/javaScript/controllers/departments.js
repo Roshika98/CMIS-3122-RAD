@@ -6,6 +6,9 @@ const mainContent = document.getElementById('mainContent');
 const subContent = document.getElementById('subContent');
 const newDept = document.getElementById('newDept');
 const backBtn = document.getElementById('back');
+const addDeptBtn = document.getElementById('addDept');
+const deptID = document.getElementById('deptID');
+const deptName = document.getElementById('deptName');
 
 subContent.style.display = 'none';
 
@@ -31,4 +34,13 @@ backBtn.addEventListener('click', e => {
     e.stopPropagation();
     subContent.style.display = 'none';
     mainContent.style.display = '';
-})
+});
+
+addDeptBtn.addEventListener('click', async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    var data = { id: deptID.value, name: deptName.value };
+    const response = await axios.post('https://localhost:3000/courses/admin/departments', JSON.stringify(data),
+        { headers: { 'Content-Type': 'application/json' } });
+    window.location = 'https://localhost:3000/courses/admin/departments';
+});
