@@ -59,6 +59,7 @@ router.get('/courses/admin/departments', async (req, res) => {
 router.get('/courses/admin/departments/:id', async (req, res) => {
     var { id } = req.params;
     var result = await db.getDepartmentDetails(id);
+    res.render('admin/cardContent/editDepartment', { id, result, layout: false });
 });
 
 
@@ -89,8 +90,10 @@ router.post('/courses/register', async (req, res) => {
 
 //* ADMIN ROUTES--------------------------------------
 
-router.put('/courses/admin/departments/:id', (req, res) => {
-
+router.put('/courses/admin/departments/:id', async (req, res) => {
+    var data = req.body;
+    const result = await db.updateDepartments(data);
+    res.send(result);
 });
 
 router.post('/courses/admin/departments', async (req, res) => {

@@ -70,6 +70,10 @@ class DbHandler {
 
     //* DATABASE DELETE OPERATIONS ----------------------------------------------
 
+    /** 
+    * Used to delete a department from the departments table
+    * @param {} id department identifier
+    */
     static async deleteDepartment(id) {
         var queryString = 'DELETE FROM departments WHERE deptID=?';
         const result = await connection.admin.promise().execute(queryString, [id]);
@@ -78,9 +82,27 @@ class DbHandler {
     }
 
 
+    // * DATABASE UPDATE OPERATIONS---------------------------------------------
+
+    /**
+     * Used to update a record in the departments table
+     * @param  {object} data data to be updated
+    */
+    static async updateDepartments(data) {
+        var queryString = 'UPDATE departments SET deptName=? WHERE deptID=?';
+        const result = await connection.admin.promise().execute(queryString, [data.deptName, data.deptID]);
+        return result;
+    }
+
+
 
     // * DATABASE HELPER OPERATIONS--------------------------------------------
 
+    /**
+     * used as a helper function to create normal combination object
+     * @param  {} level The level of study
+     * @param  {} selection The selected combination identifier
+     */
     static async #normalSelect(level, selection) {
         var dep1 = null;
         var dep2 = null;
