@@ -65,9 +65,25 @@ class DbHandler {
 
     // * DATABASE CREATE OPERATIONS---------------------------------------------------------
 
+    /**
+     * Used enter a new Department record to Departments table
+     * @param  {object} data contains key value pairs necessary to execute the query
+     */
     static async createNewDepartment(data) {
         var queryString = 'INSERT INTO departments (deptID,deptName) VALUES (?,?)';
         const result = await connection.admin.promise().execute(queryString, [data.id, data.name]);
+        console.log(result);
+        return result;
+    }
+
+
+    /**
+     * Used to insert a new module record to the modules table
+     * @param  {object} data contains the keys necessary for the query to execute
+     */
+    static async createNewModule(data) {
+        var queryString = 'INSERT INTO modules (course_code,name,credit,level,semester,deptID,special,special_mandatory,major1,major1_mandatory,major2,major2_mandatory,general,general_mandatory,description) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+        const result = await connection.admin.promise().execute(queryString, [data.code, data.name, data.credit, data.level, data.semester, data.department, data.special_available, data.special_mandatory, data.m1_available, data.m1_mandatory, data.m2_available, data.m2_mandatory, data.general_available, data.general_mandatory, data.description]);
         console.log(result);
         return result;
     }
@@ -82,6 +98,17 @@ class DbHandler {
     static async deleteDepartment(id) {
         var queryString = 'DELETE FROM departments WHERE deptID=?';
         const result = await connection.admin.promise().execute(queryString, [id]);
+        console.log(result);
+        return result;
+    }
+
+    /**
+     * Deletes a record in modules table according to the given module name
+     * @param  {} name name of the module to be deleted
+     */
+    static async deleteModule(name) {
+        var queryString = 'DELETE FROM modules WHERE name=?';
+        const result = await connection.admin.promise().execute(queryString, [name]);
         console.log(result);
         return result;
     }

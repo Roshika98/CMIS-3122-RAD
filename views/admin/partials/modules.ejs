@@ -1,54 +1,263 @@
 <div class="row">
     <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title"> Get Modules</h4>
+        <div class="card card-nav-tabs">
+            <div class="card-header card-header-danger">
+                <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+                <div class="nav-tabs-navigation">
+                    <div class="nav-tabs-wrapper">
+                        <ul class="nav nav-tabs" data-tabs="tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#home" data-toggle="tab">Modules</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#newModule" data-toggle="tab">Add Module</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                <form>
-                    <div class="form-row">
-                        <div class="col-md-3 pr-1">
-                            <div style="width: 225px;">
-                                <div class="selectdiv">
-                                    <label>
-                                        <select id="deptSelect">
+            <div class="card-body ">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="home">
+                        <form>
+                            <div class="row">
+                                <div class="col-md-5 pr-1">
+                                    <div class="form-group">
+                                        <label for="deptSelect">Department</label>
+                                        <select class="form-control" id="deptSelect">
                                             <option selected> Select Department</option>
                                             <% departmentsSet.forEach(element => { %>
-                                            <option value="<%= element.deptID %>"><%= element.deptName %></option>
+                                            <option value="<%= element.deptID %>"><%= element.deptName %>
+                                            </option>
                                             <% }) %>
                                         </select>
-                                    </label>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 pl-1">
-                            <div class="form-group" style="width:max-content;">
-                                <div class="selectdiv">
-                                    <label>
-                                        <select id="lvlSelect" style="width: 225px;">
+                                <div class="col-md-3 pl-1">
+                                    <div class="form-group">
+                                        <label for="lvlSelect">Module Level</label>
+                                        <select class="form-control" id="lvlSelect">
                                             <option selected> Select Level of study</option>
                                             <option value="1">Level I </option>
                                             <option value="2">Level II</option>
                                             <option value="3">Level III</option>
                                             <option value="4">Level IV</option>
                                         </select>
-                                    </label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-2 pr-1">
-                            <div class="form-group">
-                                <button class="btn btn-primary btn-round btn-outline-info" id="submitbtn">
-                                    <i class="now-ui-icons education_agenda-bookmark"></i> Get Modules
-                                </button>
+                            <div class="row">
+                                <div class="col-md-2 pr-1">
+                                    <div class="form-group">
+                                        <button class="btn btn-primary btn-round btn-outline-info" id="submitbtn">
+                                            <i class="now-ui-icons education_agenda-bookmark"></i> Get Modules
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
+                        </form>
+                        <div class="col-md-12" id="dynamicContent">
+
                         </div>
                     </div>
-                </form>
+                    <div class="tab-pane" id="newModule">
+                        <h5 class="title">Add New Module</h5>
+
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label for="m_code">Module Code</label>
+                                        <input type="text" class="form-control" id="m_code">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 pl-1">
+                                    <div class="form-group">
+                                        <label for="m_name">Module Name</label>
+                                        <input type="email" class="form-control" id="m_name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label for="m_credit">Module Credit</label>
+                                        <input type="number" class="form-control" placeholder="Eg: 1" id="m_credit">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pl-1">
+                                    <div class="form-group">
+                                        <label for="m_dept">Department</label>
+                                        <select class="form-control" id="m_dept">
+                                            <option selected> Select Department</option>
+                                            <% departmentsSet.forEach(element => { %>
+                                            <option value="<%= element.deptID %>"><%= element.deptName %>
+                                            </option>
+                                            <% }) %>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label for="m_level">Module Level</label>
+                                        <select class="form-control" id="m_level">
+                                            <option selected> Select Level of study</option>
+                                            <option value="1">Level I </option>
+                                            <option value="2">Level II</option>
+                                            <option value="3">Level III</option>
+                                            <option value="4">Level IV</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pl-1">
+                                    <div class="form-group">
+                                        <label for="m_semester">Semester</label>
+                                        <select class="form-control" id="m_semester">
+                                            <option selected> Select Semester</option>
+                                            <option value="1">Semester 1</option>
+                                            <option value="2">Semester 2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="m_desc">Module description</label>
+                                        <textarea rows="4" cols="80" class="form-control"
+                                            placeholder="Enter module description here" id="m_desc"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h6 class="title">Availability</h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 pr-1">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            General Availability
+                                            <input class="form-check-input" type="checkbox" id="m_general_available">
+                                            <span class="form-check-sign">
+                                                <span class="check"></span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 pl-1">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            Is Mandatory
+                                            <input class="form-check-input" type="checkbox" id="m_general_mandatory">
+                                            <span class="form-check-sign">
+                                                <span class="check"></span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 pr-1">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            Major 1 Availability
+                                            <input class="form-check-input" type="checkbox" id="m_m1_available">
+                                            <span class="form-check-sign">
+                                                <span class="check"></span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 pl-1">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            Is Mandatory
+                                            <input class="form-check-input" type="checkbox" id="m_m1_mandatory">
+                                            <span class="form-check-sign">
+                                                <span class="check"></span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 pr-1">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            Major 2 Availability
+                                            <input class="form-check-input" type="checkbox" id="m_m2_available">
+                                            <span class="form-check-sign">
+                                                <span class="check"></span>
+                                            </span>
+                                        </label>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-2 pl-1">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            Is Mandatory
+                                            <input class="form-check-input" type="checkbox" id="m_m2_mandatory">
+                                            <span class="form-check-sign">
+                                                <span class="check"></span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 pr-1">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            Special Availability
+                                            <input class="form-check-input" type="checkbox" id="m_special_available">
+                                            <span class="form-check-sign">
+                                                <span class="check"></span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 pl-1">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            Is Mandatory
+                                            <input class="form-check-input" type="checkbox" id="m_special_mandatory">
+                                            <span class="form-check-sign">
+                                                <span class="check"></span>
+                                            </span>
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-2 pr-1">
+                                    <div class="form-group">
+                                        <button class="btn btn-danger btn-round btn-outline-danger" id="m_clear">
+                                            <i class="now-ui-icons education_agenda-bookmark"></i> Clear
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 pl-1">
+                                    <div class="form-group">
+                                        <button class="btn btn-primary btn-round btn-outline-info" id="m_submit">
+                                            <i class="now-ui-icons education_agenda-bookmark"></i> Add Module
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-12" id="dynamicContent">
 
     </div>
 </div>

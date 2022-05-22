@@ -103,9 +103,21 @@ router.post('/courses/admin/departments', async (req, res) => {
     res.send(result);
 });
 
+router.post('/courses/admin/modules', async (req, res) => {
+    const data = req.body;
+    const result = await db.createNewModule(data);
+    res.send(result);
+});
+
 router.delete('/courses/admin/departments/:id', async (req, res) => {
     const id = req.params.id;
     const result = await db.deleteDepartment(id);
+    res.send(result);
+});
+
+router.delete('/courses/admin/modules/:name', async (req, res) => {
+    const name = req.params.name;
+    const result = await db.deleteModule(name);
     res.send(result);
 });
 
