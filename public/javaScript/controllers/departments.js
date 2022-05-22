@@ -83,4 +83,13 @@ function setupEditContent(data) {
         mainContent.style.display = '';
     })
 
+    updateBtn.addEventListener('click', async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        var data = { deptID: updateDeptID.value, deptName: updateDeptName.value };
+        const response = await axios.put('https://localhost:3000/courses/admin/departments', JSON.stringify(data),
+            { headers: { 'Content-Type': 'application/json' } });
+        window.location = 'https://localhost:3000/courses/admin/departments';
+    });
+
 }

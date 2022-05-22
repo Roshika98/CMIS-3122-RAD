@@ -27,6 +27,11 @@ class DbHandler {
         return data[0];
     }
 
+
+    /**
+     * Used retrieve all the departments of applied science faculty 
+     * @returns object containing a collection of departments - contains keys=> deptID , deptName
+     */
     static async getAllDepartments() {
         var q = 'SELECT * FROM departments';
         var data = null;
@@ -86,7 +91,7 @@ class DbHandler {
 
     /**
      * Used to update a record in the departments table
-     * @param  {object} data data to be updated
+     * @param  {object} data data to be updated (contains two keys: deptID , deptName);
     */
     static async updateDepartments(data) {
         var queryString = 'UPDATE departments SET deptName=? WHERE deptID=?';

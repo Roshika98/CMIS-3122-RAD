@@ -13,10 +13,9 @@
                                     <label>
                                         <select id="deptSelect">
                                             <option selected> Select Department</option>
-                                            <option value="1">Department of Computing & Information Systems</option>
-                                            <option value="2">Department of Electronics</option>
-                                            <option value="3">Department of MAthematical Studies</option>
-                                            <option value="4">Department of Industrial Management</option>
+                                            <% departmentsSet.forEach(element => { %>
+                                            <option value="<%= element.deptID %>"><%= element.deptName %></option>
+                                            <% }) %>
                                         </select>
                                     </label>
                                 </div>

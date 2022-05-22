@@ -66,7 +66,8 @@ router.get('/courses/admin/departments/:id', async (req, res) => {
 router.get('/courses/admin/modules', async (req, res) => {
     if (Object.keys(req.query).length == 0) {
         var layoutVar = { title: 'modules', script: '/javaScript/controllers/modules.js' };
-        res.render('admin/partials/modules', { layoutVar, layout: 'admin/layout' });
+        const departmentsSet = await db.getAllDepartments();
+        res.render('admin/partials/modules', { departmentsSet, layoutVar, layout: 'admin/layout' });
     } else {
         console.log('hit');
         var data = req.query;
@@ -90,7 +91,7 @@ router.post('/courses/register', async (req, res) => {
 
 //* ADMIN ROUTES--------------------------------------
 
-router.put('/courses/admin/departments/:id', async (req, res) => {
+router.put('/courses/admin/departments', async (req, res) => {
     var data = req.body;
     const result = await db.updateDepartments(data);
     res.send(result);
