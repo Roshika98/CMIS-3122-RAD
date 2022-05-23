@@ -1,6 +1,8 @@
 
 //! Variables-------------------------------------------------------
 
+
+
 var currTab = 0;
 var prevBtn = document.getElementById('previous');
 var nextBtn = document.getElementById('next');
@@ -53,7 +55,7 @@ nextBtn.addEventListener('click', async (event) => {
     event.stopPropagation();
     if (currTab == 0) {
         var params = prepareSelectionQuery();
-        var response = await axios.get('https://192.168.1.102:3000/courses/register', { params });
+        var response = await axios.get('https://localhost:3000/courses/register', { params });
         addDynamicContent(response.data);
     }
     Showcontent(1);
@@ -64,8 +66,11 @@ submitBtn.addEventListener('click', async (event) => {
     event.preventDefault();
     event.stopPropagation();
     var body = JSON.stringify(prepareReqBody());
-    var response = await axios.post('https://192.168.1.102:3000/courses/register', body,
+    var response = await axios.post('https://localhost:3000/courses/register', body,
         { headers: { 'Content-Type': 'application/json' } });
+    var data = response.data;
+    console.log(data);
+    window.location = 'https://localhost:3000/courses/downloads';
 });
 
 prevBtn.addEventListener('click', (event) => {
