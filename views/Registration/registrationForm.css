@@ -7,27 +7,50 @@
 }
 .photo{
  text-align: center;
-  width: 30px;
-  border: solid;
-  padding: 50px;
-  /* margin: 10px; */
+  width: 50px;
+  /* border: solid; */
+  border: 1px solid black;
+  padding-top: 50px;
+  padding-right: 30px;
+  padding-bottom: 50px;
+  padding-left: 30px;
+  text-align: center;
 }  
+
 h5{
   margin-top: 1px;
+}
+input[type=text] {
+  width: 250px;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
 }
 textarea{
   margin-top: 1px;
 }
 table {
   border-collapse: collapse;
-  width: 50%;
+  width: 70%;
     
 }
 
 th {
-  height: 70px;
+  height: 40px;
+  text-align: center;
 }
 th, td {
   padding: 15px;
-  text-align: left;
+  text-align: center;
+}
+.date_table{
+  width:100%;
+
+}
+.date_table td{
+  text-align:justify;
+  
+}
+.Signature_table{
+  width:100%;
 }
