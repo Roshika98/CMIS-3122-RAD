@@ -69,13 +69,8 @@ submitBtn.addEventListener('click', async (event) => {
     var response = await axios.post('https://localhost:3000/courses/register', body,
         { headers: { 'Content-Type': 'application/json' } });
     var data = response.data;
-    var element = document.createElement('div');
-    element.innerHTML = data;
-    html2pdf(element, { html2canvas: { scale: 4 }, filename: `${regNo.value} - registration.pdf`, margin: [5, 10, 5, 10] }, (e) => {
-        setTimeout(() => {
-            window.location = 'https://localhost:3000/courses';
-        }, 1000);
-    });
+    console.log(data);
+    window.location = 'https://localhost:3000/courses/downloads';
 });
 
 prevBtn.addEventListener('click', (event) => {
