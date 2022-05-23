@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const methodOverride = require('method-override');
 const expressLayouts = require('express-ejs-layouts');
-const router = require('./routes');
+const router = require('./routes/index');
 const https = require('https');
 
 
@@ -31,7 +31,8 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
-app.use(router);
+app.use('/courses/admin', router.admin);
+app.use('/courses', router.user);
 
 
 server.listen(port, () => {
