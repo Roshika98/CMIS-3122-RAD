@@ -2,6 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const methodOverride = require('method-override');
+const expressLayouts = require('express-ejs-layouts');
 const router = require('./routes');
 const https = require('https');
 
@@ -20,9 +21,10 @@ const app = express();
 const port = 3000;
 const server = https.createServer(credentials, app);
 
-
+app.use(expressLayouts);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
 
 
 app.use(express.static(path.join(__dirname, '/public')));

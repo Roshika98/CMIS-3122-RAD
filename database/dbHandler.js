@@ -3,6 +3,7 @@ const connection = require('./dbConnector');
 
 class DbHandler {
 
+    // * DATABASE READ OPERATIONS-----------------------------------------------
 
     static async getmodulesDetails(dept, lvl) {
         var q = 'SELECT course_code,name,credit,semester,description FROM modules INNER JOIN departments ON departments.deptID=modules.deptID WHERE departments.deptID=? && modules.level=?';
@@ -20,6 +21,38 @@ class DbHandler {
         var data = null;
         try {
             data = await connection.general.promise().execute(q, [id]);
+        } catch (error) {
+            console.log(error);
+        }
+        return data[0];
+    }
+
+
+    /**
+     * Used to get all the details of the module specified by name
+     * @param  {} name name of the required module
+     */
+    static async getModuleDetail(name) {
+        var q = 'SELECT * FROM modules WHERE name=?';
+        var data = null;
+        try {
+            data = await connection.general.promise().execute(q, [name]);
+        } catch (error) {
+            console.log(error);
+        }
+        return data[0];
+    }
+
+
+    /**
+     * Used retrieve all the departments of applied science faculty 
+     * @returns object containing a collection of departments - contains keys=> deptID , deptName
+     */
+    static async getAllDepartments() {
+        var q = 'SELECT * FROM departments';
+        var data = null;
+        try {
+            data = await connection.general.promise().query(q);
         } catch (error) {
             console.log(error);
         }
@@ -46,6 +79,88 @@ class DbHandler {
         }
     }
 
+    // * DATABASE CREATE OPERATIONS---------------------------------------------------------
+
+    /**
+     * Used enter a new Department record to Departments table
+     * @param  {object} data contains key value pairs necessary to execute the query
+     */
+    static async createNewDepartment(data) {
+        var queryString = 'INSERT INTO departments (deptID,deptName) VALUES (?,?)';
+        const result = await connection.admin.promise().execute(queryString, [data.id, data.name]);
+        console.log(result);
+        return result;
+    }
+
+
+    /**
+     * Used to insert a new module record to the modules table
+     * @param  {object} data contains the keys necessary for the query to execute
+     */
+    static async createNewModule(data) {
+        var queryString = 'INSERT INTO modules (course_code,name,credit,level,semester,deptID,special,special_mandatory,major1,major1_mandatory,major2,major2_mandatory,general,general_mandatory,description) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+        const result = await connection.admin.promise().execute(queryString, [data.code, data.name, data.credit, data.level, data.semester, data.department, data.special_available, data.special_mandatory, data.m1_available, data.m1_mandatory, data.m2_available, data.m2_mandatory, data.general_available, data.general_mandatory, data.description]);
+        console.log(result);
+        return result;
+    }
+
+
+    //* DATABASE DELETE OPERATIONS ----------------------------------------------
+
+    /** 
+    * Used to delete a department from the departments table
+    * @param {} id department identifier
+    */
+    static async deleteDepartment(id) {
+        var queryString = 'DELETE FROM departments WHERE deptID=?';
+        const result = await connection.admin.promise().execute(queryString, [id]);
+        console.log(result);
+        return result;
+    }
+
+    /**
+     * Deletes a record in modules table according to the given module name
+     * @param  {} name name of the module to be deleted
+     */
+    static async deleteModule(name) {
+        var queryString = 'DELETE FROM modules WHERE name=?';
+        const result = await connection.admin.promise().execute(queryString, [name]);
+        console.log(result);
+        return result;
+    }
+
+
+    // * DATABASE UPDATE OPERATIONS---------------------------------------------
+
+    /**
+     * Used to update a record in the departments table
+     * @param  {object} data data to be updated (contains two keys: deptID , deptName);
+    */
+    static async updateDepartments(data) {
+        var queryString = 'UPDATE departments SET deptName=? WHERE deptID=?';
+        const result = await connection.admin.promise().execute(queryString, [data.deptName, data.deptID]);
+        return result;
+    }
+
+    /**
+     * Used to update a record in the modules table
+     * @param  {} data Object containing updated data for the record
+     */
+    static async updateModules(data) {
+        var queryString = 'UPDATE modules SET course_code=?,name=?,credit=?,level=?,semester=?,deptID=?,special=?,special_mandatory=?,major1=?,major1_mandatory=?,major2=?,major2_mandatory=?,general=?,general_mandatory=?,description=? WHERE course_code=?';
+        const result = await connection.admin.promise().execute(queryString, [data.code, data.name, data.credit, data.level, data.semester, data.department, data.special_available, data.special_mandatory, data.m1_available, data.m1_mandatory, data.m2_available, data.m2_mandatory, data.general_available, data.general_mandatory, data.description, data.code]);
+        return result;
+    }
+
+
+
+    // * DATABASE HELPER OPERATIONS--------------------------------------------
+
+    /**
+     * used as a helper function to create normal combination object
+     * @param  {} level The level of study
+     * @param  {} selection The selected combination identifier
+     */
     static async #normalSelect(level, selection) {
         var dep1 = null;
         var dep2 = null;
