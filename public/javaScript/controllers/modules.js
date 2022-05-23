@@ -1,9 +1,13 @@
 console.log('I am modules');
 
+const mainContent = document.getElementById('mainDisplay');
 const dynamicContent = document.getElementById('dynamicContent');
+const editContent = document.getElementById('editContentDisplay');
+
 const submitBtn = document.getElementById('submitbtn');
 const deptSelect = document.getElementById('deptSelect');
 const lvlSelect = document.getElementById('lvlSelect');
+
 const n_Code = document.getElementById('m_code');
 const n_Name = document.getElementById('m_name');
 const n_Credit = document.getElementById('m_credit');
@@ -21,6 +25,30 @@ const n_Sp_Available = document.getElementById('m_special_available');
 const n_Sp_Mandatory = document.getElementById('m_special_mandatory');
 const n_submit = document.getElementById('m_submit');
 const n_clear = document.getElementById('m_clear');
+
+
+
+var u_Code = null;
+var u_Name = null;
+var u_Credit = null;
+var u_Dept = null;
+var u_Level = null;
+var u_Sem = null;
+var u_Desc = null;
+var u_Gen_Available = null;
+var u_Gen_Mandatory = null;
+var u_M1_Available = null;
+var u_M1_Mandatory = null;
+var u_M2_Available = null;
+var u_M2_Mandatory = null;
+var u_Sp_Available = null;
+var u_Sp_Mandatory = null;
+
+
+
+
+var backBtn = null;
+var updateBtn = null;
 
 
 var deleteBtns = null;
@@ -114,8 +142,90 @@ function setupBtns() {
             submitBtn.click();
         })
     }
+
+    for (let i = 0; i < editBtns.length; i++) {
+        const element = editBtns[i];
+        element.addEventListener('click', async (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            const response = await axios.get(`https://localhost:3000/courses/admin/modules/${element.getAttribute('data-id')}`);
+            setUpEditEnvironment(response.data);
+        });
+    }
 }
 
+
+function setUpEditEnvironment(content) {
+    editContent.innerHTML = content;
+    mainContent.style.display = 'none';
+    editContent.style.display = '';
+    backBtn = document.getElementById('back');
+    updateBtn = document.getElementById('update');
+    setupEditVariables();
+    backBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        resetEditEnvironment();
+    });
+    updateBtn.addEventListener('click', async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        await performUpdate();
+        resetEditEnvironment();
+        submitBtn.click();
+    });
+}
+
+function setupEditVariables() {
+
+    u_Code = document.getElementById('u_code');
+    u_Name = document.getElementById('u_name');
+    u_Credit = document.getElementById('u_credit');
+    u_Level = document.getElementById('u_level');
+    u_Sem = document.getElementById('u_semester');
+    u_Dept = document.getElementById('u_dept');
+    u_Desc = document.getElementById('u_desc');
+    u_Gen_Available = document.getElementById('u_general_available');
+    u_Gen_Mandatory = document.getElementById('u_general_mandatory');
+    u_M1_Available = document.getElementById('u_m1_available');
+    u_M1_Mandatory = document.getElementById('u_m1_mandatory');
+    u_M2_Available = document.getElementById('u_m2_available');
+    u_M2_Mandatory = document.getElementById('u_m2_mandatory');
+    u_Sp_Available = document.getElementById('u_special_available');
+    u_Sp_Mandatory = document.getElementById('u_special_mandatory');
+
+}
+
+async function performUpdate() {
+    const data = {
+        code: u_Code.value,
+        name: u_Name.value,
+        credit: u_Credit.value,
+        level: u_Level.value,
+        semester: u_Sem.value,
+        department: u_Dept.value,
+        description: u_Desc.value,
+        general_available: u_Gen_Available.checked,
+        general_mandatory: u_Gen_Mandatory.checked,
+        m1_available: u_M1_Available.checked,
+        m1_mandatory: u_M1_Mandatory.checked,
+        m2_available: u_M2_Available.checked,
+        m2_mandatory: u_M2_Mandatory.checked,
+        special_available: u_Sp_Available.checked,
+        special_mandatory: u_Sp_Mandatory.checked
+    }
+    const params = JSON.stringify(data);
+    const response = await axios.put('https://localhost:3000/courses/admin/modules', params,
+        { headers: { 'Content-Type': 'application/json' } });
+    console.log(response.data);
+}
+
+
+function resetEditEnvironment() {
+    editContent.innerHTML = '';
+    editContent.style.display = 'none';
+    mainContent.style.display = '';
+}
 
 
 /**
@@ -124,4 +234,5 @@ function setupBtns() {
  */
 function addContent(content) {
     dynamicContent.innerHTML = content;
+
 }

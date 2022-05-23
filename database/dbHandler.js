@@ -29,6 +29,22 @@ class DbHandler {
 
 
     /**
+     * Used to get all the details of the module specified by name
+     * @param  {} name name of the required module
+     */
+    static async getModuleDetail(name) {
+        var q = 'SELECT * FROM modules WHERE name=?';
+        var data = null;
+        try {
+            data = await connection.general.promise().execute(q, [name]);
+        } catch (error) {
+            console.log(error);
+        }
+        return data[0];
+    }
+
+
+    /**
      * Used retrieve all the departments of applied science faculty 
      * @returns object containing a collection of departments - contains keys=> deptID , deptName
      */
@@ -123,6 +139,16 @@ class DbHandler {
     static async updateDepartments(data) {
         var queryString = 'UPDATE departments SET deptName=? WHERE deptID=?';
         const result = await connection.admin.promise().execute(queryString, [data.deptName, data.deptID]);
+        return result;
+    }
+
+    /**
+     * Used to update a record in the modules table
+     * @param  {} data Object containing updated data for the record
+     */
+    static async updateModules(data) {
+        var queryString = 'UPDATE modules SET course_code=?,name=?,credit=?,level=?,semester=?,deptID=?,special=?,special_mandatory=?,major1=?,major1_mandatory=?,major2=?,major2_mandatory=?,general=?,general_mandatory=?,description=? WHERE course_code=?';
+        const result = await connection.admin.promise().execute(queryString, [data.code, data.name, data.credit, data.level, data.semester, data.department, data.special_available, data.special_mandatory, data.m1_available, data.m1_mandatory, data.m2_available, data.m2_mandatory, data.general_available, data.general_mandatory, data.description, data.code]);
         return result;
     }
 

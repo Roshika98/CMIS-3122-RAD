@@ -78,6 +78,13 @@ router.get('/courses/admin/modules', async (req, res) => {
     }
 });
 
+router.get('/courses/admin/modules/:name', async (req, res) => {
+    var name = req.params.name;
+    const moduleData = await db.getModuleDetail(name);
+    const departmentsSet = await db.getAllDepartments();
+    res.render('admin/cardContent/editModules', { departmentsSet, moduleData, layout: false });
+});
+
 
 
 
@@ -118,6 +125,13 @@ router.delete('/courses/admin/departments/:id', async (req, res) => {
 router.delete('/courses/admin/modules/:name', async (req, res) => {
     const name = req.params.name;
     const result = await db.deleteModule(name);
+    res.send(result);
+});
+
+router.put('/courses/admin/modules', async (req, res) => {
+    const data = req.body;
+    console.log(data);
+    const result = await db.updateModules(data);
     res.send(result);
 });
 
