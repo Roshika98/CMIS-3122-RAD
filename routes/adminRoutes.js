@@ -5,30 +5,30 @@ const router = express.Router();
 
 //* GET ROUTES------------------------------------------------------------------------
 
-router.get('/courses/admin/homepage', (req, res) => {
+router.get('/homepage', (req, res) => {
     var layoutVar = { title: 'home', script: '' };
     res.render('admin/partials/home', { layoutVar, layout: 'admin/layout' });
 });
 
-router.get('/courses/admin/account', (req, res) => {
+router.get('/account', (req, res) => {
     var layoutVar = { title: 'account', script: '/javaScript/controllers/user.js' };
     res.render('admin/partials/user', { layoutVar, layout: 'admin/layout' });
 });
 
-router.get('/courses/admin/departments', async (req, res) => {
+router.get('/departments', async (req, res) => {
     var layoutVar = { title: 'departments', script: '/javaScript/controllers/departments.js' };
     var result = await db.getAllDepartments();
     res.render('admin/partials/departments', { layoutVar, result, layout: 'admin/layout' });
 });
 
-router.get('/courses/admin/departments/:id', async (req, res) => {
+router.get('/departments/:id', async (req, res) => {
     var { id } = req.params;
     var result = await db.getDepartmentDetails(id);
     res.render('admin/cardContent/editDepartment', { id, result, layout: false });
 });
 
 
-router.get('/courses/admin/modules', async (req, res) => {
+router.get('/modules', async (req, res) => {
     if (Object.keys(req.query).length == 0) {
         var layoutVar = { title: 'modules', script: '/javaScript/controllers/modules.js' };
         const departmentsSet = await db.getAllDepartments();
@@ -43,7 +43,7 @@ router.get('/courses/admin/modules', async (req, res) => {
     }
 });
 
-router.get('/courses/admin/modules/:name', async (req, res) => {
+router.get('/modules/:name', async (req, res) => {
     var name = req.params.name;
     const moduleData = await db.getModuleDetail(name);
     const departmentsSet = await db.getAllDepartments();
@@ -53,13 +53,13 @@ router.get('/courses/admin/modules/:name', async (req, res) => {
 
 //* POST ROUTES----------------------------------------------------------------------
 
-router.post('/courses/admin/departments', async (req, res) => {
+router.post('/departments', async (req, res) => {
     const data = req.body;
     const result = await db.createNewDepartment(data);
     res.send(result);
 });
 
-router.post('/courses/admin/modules', async (req, res) => {
+router.post('/modules', async (req, res) => {
     const data = req.body;
     const result = await db.createNewModule(data);
     res.send(result);
@@ -68,14 +68,14 @@ router.post('/courses/admin/modules', async (req, res) => {
 
 //* PUT ROUTES----------------------------------------------------------------------------
 
-router.put('/courses/admin/departments', async (req, res) => {
+router.put('/departments', async (req, res) => {
     var data = req.body;
     const result = await db.updateDepartments(data);
     res.send(result);
 });
 
 
-router.put('/courses/admin/modules', async (req, res) => {
+router.put('/modules', async (req, res) => {
     const data = req.body;
     console.log(data);
     const result = await db.updateModules(data);
@@ -85,15 +85,17 @@ router.put('/courses/admin/modules', async (req, res) => {
 
 //* DELETE ROUTES---------------------------------------------------------------------
 
-router.delete('/courses/admin/departments/:id', async (req, res) => {
+router.delete('/departments/:id', async (req, res) => {
     const id = req.params.id;
     const result = await db.deleteDepartment(id);
     res.send(result);
 });
 
-router.delete('/courses/admin/modules/:name', async (req, res) => {
+router.delete('/modules/:name', async (req, res) => {
     const name = req.params.name;
     const result = await db.deleteModule(name);
     res.send(result);
 });
+
+module.exports = router;
 
