@@ -5,8 +5,16 @@ const router = express.Router();
 
 //* GET ROUTES------------------------------------------------------------------------
 
+
+router.get('/', (req, res) => {
+    req.flash('success', 'Logged in successfully');
+    res.redirect('/courses/admin/homepage');
+});
+
+
+
 router.get('/homepage', (req, res) => {
-    var layoutVar = { title: 'home', script: '' };
+    var layoutVar = { title: 'home', script: '/javaScript/controllers/home.js' };
     res.render('admin/partials/home', { layoutVar, layout: 'admin/layout' });
 });
 
@@ -56,6 +64,7 @@ router.get('/modules/:name', async (req, res) => {
 router.post('/departments', async (req, res) => {
     const data = req.body;
     const result = await db.createNewDepartment(data);
+    req.flash('success', 'Department successfully added');
     res.send(result);
 });
 

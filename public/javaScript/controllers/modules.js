@@ -236,3 +236,4 @@ function addContent(content) {
     dynamicContent.innerHTML = content;
 
 }
+

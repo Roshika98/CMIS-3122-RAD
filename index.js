@@ -5,9 +5,22 @@ const methodOverride = require('method-override');
 const expressLayouts = require('express-ejs-layouts');
 const router = require('./routes/index');
 const https = require('https');
+const session = require('express-session');
+const dotenv = require('dotenv');
+const flash = require('connect-flash');
 
+dotenv.config();
 
-
+const sessionAdmin = {
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24,
+        maxAge: 1000 * 60 * 60 * 24
+    }
+};
 
 //! SSL certificate setup for local environment --------------------------------------------
 
@@ -26,12 +39,19 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 
-
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
-app.use('/courses/admin', router.admin);
+app.use(flash());
+
+const flashMiddleware = (req, res, next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+};
+
+app.use('/courses/admin', session(sessionAdmin), flash(), flashMiddleware, router.admin);
 app.use('/courses', router.user);
 
 
