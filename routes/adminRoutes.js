@@ -3,8 +3,9 @@ const db = require('../database/dbHandler');
 const router = express.Router();
 
 
-//* GET ROUTES------------------------------------------------------------------------
+//! GET ROUTES------------------------------------------------------------------------
 
+//* DEFAULT ROUTE OF THE ADMIN SECTION----
 
 router.get('/', (req, res) => {
     req.flash('success', 'Logged in successfully');
@@ -12,16 +13,21 @@ router.get('/', (req, res) => {
 });
 
 
+//* HOMEPAGE ROUTE OF THE ADMIN SECTION----
 
 router.get('/homepage', (req, res) => {
     var layoutVar = { title: 'home', script: '/javaScript/controllers/home.js' };
     res.render('admin/partials/home', { layoutVar, layout: 'admin/layout' });
 });
 
+//* USER ACCOUNT ROUTE OF THE ADMIN SECTION----
+
 router.get('/account', (req, res) => {
     var layoutVar = { title: 'account', script: '/javaScript/controllers/user.js' };
     res.render('admin/partials/user', { layoutVar, layout: 'admin/layout' });
 });
+
+//* DEPARTMENTS ROUTE OF THE ADMIN SECTION----
 
 router.get('/departments', async (req, res) => {
     var layoutVar = { title: 'departments', script: '/javaScript/controllers/departments.js' };
@@ -29,12 +35,15 @@ router.get('/departments', async (req, res) => {
     res.render('admin/partials/departments', { layoutVar, result, layout: 'admin/layout' });
 });
 
+//* ROUTE FOR ACCESSING SPECIFIC DEPARTMENT DETAILS FOR EDITING----
+
 router.get('/departments/:id', async (req, res) => {
     var { id } = req.params;
     var result = await db.getDepartmentDetails(id);
     res.render('admin/cardContent/editDepartment', { id, result, layout: false });
 });
 
+//* MODULES ROUTE OF THE ADMIN SECTION----
 
 router.get('/modules', async (req, res) => {
     if (Object.keys(req.query).length == 0) {
@@ -51,6 +60,8 @@ router.get('/modules', async (req, res) => {
     }
 });
 
+//* ROUTE FOR ACCESSING SPECIFIC MODULE DETAILS FOR EDITING----
+
 router.get('/modules/:name', async (req, res) => {
     var name = req.params.name;
     const moduleData = await db.getModuleDetail(name);
@@ -59,7 +70,9 @@ router.get('/modules/:name', async (req, res) => {
 });
 
 
-//* POST ROUTES----------------------------------------------------------------------
+//! POST ROUTES----------------------------------------------------------------------
+
+//* ROUTE FOR CREATING A NEW DEPARTMENT----
 
 router.post('/departments', async (req, res) => {
     const data = req.body;
@@ -67,6 +80,8 @@ router.post('/departments', async (req, res) => {
     req.flash('success', 'Department successfully added');
     res.send(result);
 });
+
+//* ROUTE FOR CREATING A NEW MODULE----
 
 router.post('/modules', async (req, res) => {
     const data = req.body;
