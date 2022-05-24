@@ -16,6 +16,12 @@ router.get('/', (req, res) => {
 //* HOMEPAGE ROUTE OF THE ADMIN SECTION----
 
 router.get('/homepage', (req, res) => {
+    if (!req.session.name) {
+        console.log('No name Specified --- New one will be issued');
+        req.session.name = "Hello there Roshika!";
+    } else {
+        console.log(req.session.name);
+    }
     var layoutVar = { title: 'home', script: '/javaScript/controllers/home.js' };
     res.render('admin/partials/home', { layoutVar, layout: 'admin/layout' });
 });
@@ -23,6 +29,7 @@ router.get('/homepage', (req, res) => {
 //* USER ACCOUNT ROUTE OF THE ADMIN SECTION----
 
 router.get('/account', (req, res) => {
+    console.log(req.session.name);
     var layoutVar = { title: 'account', script: '/javaScript/controllers/user.js' };
     res.render('admin/partials/user', { layoutVar, layout: 'admin/layout' });
 });
