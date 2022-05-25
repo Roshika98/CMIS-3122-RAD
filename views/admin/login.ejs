@@ -22,29 +22,39 @@
         <script src="/assets/js/plugins/bootstrap-notify.js"></script>
     </head>
 
-    <body>
+    <body style="background-color: beige;">
+        <%- include('./notifications/success')  %>
+        <%- include('./notifications/error')  %>
+        <%- include('./notifications/warning')  %>
+
         <br>
         <br>
         <div class="row" style="display: flex;align-items: center;justify-content: center;">
             <div class="col-md-5">
-                <div class="card" style="display: flex;align-items: center;justify-content: center;">
-                    <div class="card-header">
-                        <h5 class="title">Login</h5>
+                <div class="card"
+                    style="display: flex;align-items: center;justify-content: center;background-image: url('/img/loginimg.jpg');background-position: center; background-size:cover; background-repeat: no-repeat;min-height: 350px;">
+                    <div class="card-header" style="display: flex;align-items: center;justify-content: center;">
+                        <div class="logo">
+                            <img src="https://fas.wyb.ac.lk/wp-content/uploads/2020/10/center_white.png" alt=""
+                                width="237" height="61" class="d-inline-block align-text-top">
+                        </div>
                     </div>
                     <div class="card-body">
+                        <div style="height: 50px;"></div>
                         <form action="https://localhost:3000/courses/admin/login" method="post">
                             <div class="row">
-                                <label for="username">Username</label>
+                                <label for="username" style="color: black;text-align: center;">Username</label>
                                 <input type="text" class="form-control" placeholder="Username" id="username"
-                                    name="username">
+                                    name="username" style="background-color: beige;">
                             </div>
                             <div class="row">
-                                <label for="pswrd">Password</label>
-                                <input type="password" class="form-control" id="pswrd" name="pswrd">
+                                <label for="pswrd" style="color: black;text-align: center;">Password</label>
+                                <input type="password" class="form-control" id="pswrd" name="pswrd"
+                                    style="background-color: beige;" placeholder="password">
                             </div>
                             <div class="row" style="display: flex;align-items: center;justify-content: center;">
                                 <button class="btn btn-primary btn-round" id="Login">
-                                    <i class="now-ui-icons ui-1_simple-add"></i> Login
+                                    <i class="fa fa-sign-in" aria-hidden="true"></i> &nbsp;Sign-in
                                 </button>
                             </div>
                     </div>
@@ -53,4 +63,7 @@
             </div>
         </div>
         </div>
+        <script src="/javaScript/controllers/login.js"></script>
     </body>
+
+</html>

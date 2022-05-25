@@ -1,6 +1,9 @@
 
+const homeIndicator = document.getElementById('homepage');
+homeIndicator.classList.add("active");
 
-function notifyLogin() {
+
+function notifySuccess() {
     try {
         var succes = document.getElementById('message').getAttribute('data-msg');
         var opt = {
@@ -9,7 +12,7 @@ function notifyLogin() {
             colorTheme: 'success',
             message: succes,
             timer: 800,
-            icon: 'now-ui-icons travel_info'
+            icon: 'fa fa-check'
         };
         nowuiDashboard.showNotification(opt);
     } catch (error) {
@@ -17,4 +20,4 @@ function notifyLogin() {
     }
 }
 
-notifyLogin();
+notifySuccess();

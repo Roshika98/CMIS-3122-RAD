@@ -37,7 +37,7 @@ const sessionAdmin = {
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
-        expires: 1000 * 60 * 15,
+        expires: 1000 * 60 * 60 * 24
     }
 };
 

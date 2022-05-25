@@ -18,6 +18,11 @@ router.get('/login', (req, res) => {
     res.render('admin/login', { layout: false });
 });
 
+router.get('/logout', user.isAuth, (req, res) => {
+    security.deserializeUser(req);
+    res.redirect('/courses/admin/login');
+});
+
 
 //* HOMEPAGE ROUTE OF THE ADMIN SECTION----
 
@@ -30,9 +35,7 @@ router.get('/homepage', user.isAuth, (req, res) => {
 //* USER ACCOUNT ROUTE OF THE ADMIN SECTION----
 
 router.get('/account', user.isAuth, (req, res) => {
-    console.log(req.session.name);
     var layoutVar = { title: 'account', script: '/javaScript/controllers/user.js' };
-    req.session.destroy();
     res.render('admin/partials/user', { layoutVar, layout: 'admin/layout' });
 });
 
@@ -90,6 +93,7 @@ router.post('/login', async (req, res) => {
         security.serializeUser(req, result.id);
         res.redirect('/courses/admin/homepage');
     } else {
+        req.flash('error', 'Username or password is incorrect. please try again..');
         res.redirect('/courses/admin/login');
     }
 });

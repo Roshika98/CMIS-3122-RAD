@@ -1,4 +1,6 @@
-console.log('I am modules');
+const modulePage = document.getElementById('modulespage');
+modulePage.classList.add('active');
+
 
 const mainContent = document.getElementById('mainDisplay');
 const dynamicContent = document.getElementById('dynamicContent');
