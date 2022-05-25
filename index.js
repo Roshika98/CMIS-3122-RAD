@@ -31,13 +31,13 @@ const connection = mysql2.createPool(dbOpt);
 const sessionStoreAdmin = new MySQLStore(sessionAdminOpt, connection);
 
 const sessionAdmin = {
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET || 'Session Secret',
     store: sessionStoreAdmin,
     resave: true,
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
-        expires: 1000 * 60,
+        expires: 1000 * 60 * 15,
     }
 };
 
@@ -59,16 +59,11 @@ app.set('view engine', 'ejs');
 
 
 app.use(express.static(path.join(__dirname, '/public')));
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(methodOverride('_method'));
 app.use(flash());
 
-// const flashMiddleware = (req, res, next) => {
-//     res.locals.success = req.flash('success');
-//     res.locals.error = req.flash('error');
-//     next();
-// };
 
 app.use('/courses/admin', session(sessionAdmin), flash(), flashMiddleware, router.admin);
 app.use('/courses', router.user);
