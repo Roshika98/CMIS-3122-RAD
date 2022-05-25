@@ -8,17 +8,36 @@ const https = require('https');
 const session = require('express-session');
 const dotenv = require('dotenv');
 const flash = require('connect-flash');
+const mysql2 = require('mysql2/promise');
+const MySQLStore = require('express-mysql-session')(session);
+const flashMiddleware = require('./middleware/flashMiddleware');
 
 dotenv.config();
 
+const dbOpt = {
+    host: 'localhost',
+    user: 'root',
+    database: 'fas'
+};
+
+const sessionAdminOpt = {
+    clearExpired: true,
+    checkExpirationInterval: 900000,
+    createDatabaseTable: true
+};
+
+const connection = mysql2.createPool(dbOpt);
+
+const sessionStoreAdmin = new MySQLStore(sessionAdminOpt, connection);
+
 const sessionAdmin = {
-    secret: process.env.SESSION_SECRET,
-    resave: false,
+    secret: process.env.SESSION_SECRET || 'Session Secret',
+    store: sessionStoreAdmin,
+    resave: true,
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
-        expires: Date.now() + 1000 * 60 * 60 * 24,
-        maxAge: 1000 * 60 * 60 * 24
+        expires: 1000 * 60 * 15,
     }
 };
 
@@ -40,16 +59,11 @@ app.set('view engine', 'ejs');
 
 
 app.use(express.static(path.join(__dirname, '/public')));
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(methodOverride('_method'));
 app.use(flash());
 
-const flashMiddleware = (req, res, next) => {
-    res.locals.success = req.flash('success');
-    res.locals.error = req.flash('error');
-    next();
-};
 
 app.use('/courses/admin', session(sessionAdmin), flash(), flashMiddleware, router.admin);
 app.use('/courses', router.user);
