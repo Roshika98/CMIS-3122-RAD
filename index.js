@@ -5,9 +5,41 @@ const methodOverride = require('method-override');
 const expressLayouts = require('express-ejs-layouts');
 const router = require('./routes/index');
 const https = require('https');
+const session = require('express-session');
+const dotenv = require('dotenv');
+const flash = require('connect-flash');
+const mysql2 = require('mysql2/promise');
+const MySQLStore = require('express-mysql-session')(session);
+const flashMiddleware = require('./middleware/flashMiddleware');
 
+dotenv.config();
 
+const dbOpt = {
+    host: 'localhost',
+    user: 'root',
+    database: 'fas'
+};
 
+const sessionAdminOpt = {
+    clearExpired: true,
+    checkExpirationInterval: 900000,
+    createDatabaseTable: true
+};
+
+const connection = mysql2.createPool(dbOpt);
+
+const sessionStoreAdmin = new MySQLStore(sessionAdminOpt, connection);
+
+const sessionAdmin = {
+    secret: process.env.SESSION_SECRET || 'Session Secret',
+    store: sessionStoreAdmin,
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: 1000 * 60 * 15,
+    }
+};
 
 //! SSL certificate setup for local environment --------------------------------------------
 
@@ -26,12 +58,14 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 
-
 app.use(express.static(path.join(__dirname, '/public')));
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(methodOverride('_method'));
-app.use('/courses/admin', router.admin);
+app.use(flash());
+
+
+app.use('/courses/admin', session(sessionAdmin), flash(), flashMiddleware, router.admin);
 app.use('/courses', router.user);
 
 

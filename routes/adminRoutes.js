@@ -1,34 +1,60 @@
 const express = require('express');
 const db = require('../database/dbHandler');
+const security = require('../authentication/security');
+const user = require('../middleware/authenticationMiddleware');
 const router = express.Router();
 
 
-//* GET ROUTES------------------------------------------------------------------------
+//! GET ROUTES------------------------------------------------------------------------
 
-router.get('/homepage', (req, res) => {
-    var layoutVar = { title: 'home', script: '' };
+//* DEFAULT ROUTE OF THE ADMIN SECTION----
+
+router.get('/', user.isAuth, (req, res) => {
+    res.redirect('/courses/admin/homepage');
+});
+
+
+router.get('/login', (req, res) => {
+    res.render('admin/login', { layout: false });
+});
+
+
+//* HOMEPAGE ROUTE OF THE ADMIN SECTION----
+
+router.get('/homepage', user.isAuth, (req, res) => {
+    console.log(req.session.user_id);
+    var layoutVar = { title: 'home', script: '/javaScript/controllers/home.js' };
     res.render('admin/partials/home', { layoutVar, layout: 'admin/layout' });
 });
 
-router.get('/account', (req, res) => {
+//* USER ACCOUNT ROUTE OF THE ADMIN SECTION----
+
+router.get('/account', user.isAuth, (req, res) => {
+    console.log(req.session.name);
     var layoutVar = { title: 'account', script: '/javaScript/controllers/user.js' };
+    req.session.destroy();
     res.render('admin/partials/user', { layoutVar, layout: 'admin/layout' });
 });
 
-router.get('/departments', async (req, res) => {
+//* DEPARTMENTS ROUTE OF THE ADMIN SECTION----
+
+router.get('/departments', user.isAuth, async (req, res) => {
     var layoutVar = { title: 'departments', script: '/javaScript/controllers/departments.js' };
     var result = await db.getAllDepartments();
     res.render('admin/partials/departments', { layoutVar, result, layout: 'admin/layout' });
 });
 
-router.get('/departments/:id', async (req, res) => {
+//* ROUTE FOR ACCESSING SPECIFIC DEPARTMENT DETAILS FOR EDITING----
+
+router.get('/departments/:id', user.isAuth, async (req, res) => {
     var { id } = req.params;
     var result = await db.getDepartmentDetails(id);
     res.render('admin/cardContent/editDepartment', { id, result, layout: false });
 });
 
+//* MODULES ROUTE OF THE ADMIN SECTION----
 
-router.get('/modules', async (req, res) => {
+router.get('/modules', user.isAuth, async (req, res) => {
     if (Object.keys(req.query).length == 0) {
         var layoutVar = { title: 'modules', script: '/javaScript/controllers/modules.js' };
         const departmentsSet = await db.getAllDepartments();
@@ -43,7 +69,9 @@ router.get('/modules', async (req, res) => {
     }
 });
 
-router.get('/modules/:name', async (req, res) => {
+//* ROUTE FOR ACCESSING SPECIFIC MODULE DETAILS FOR EDITING----
+
+router.get('/modules/:name', user.isAuth, async (req, res) => {
     var name = req.params.name;
     const moduleData = await db.getModuleDetail(name);
     const departmentsSet = await db.getAllDepartments();
@@ -51,15 +79,34 @@ router.get('/modules/:name', async (req, res) => {
 });
 
 
-//* POST ROUTES----------------------------------------------------------------------
+//! POST ROUTES----------------------------------------------------------------------
 
-router.post('/departments', async (req, res) => {
+router.post('/login', async (req, res) => {
+    const { username, pswrd } = req.body;
+    const result = await security.login(username, pswrd);
+    if (result.isValid) {
+        console.log('logged in');
+        req.flash('success', 'logged in successfully');
+        security.serializeUser(req, result.id);
+        res.redirect('/courses/admin/homepage');
+    } else {
+        res.redirect('/courses/admin/login');
+    }
+});
+
+
+//* ROUTE FOR CREATING A NEW DEPARTMENT----
+
+router.post('/departments', user.isAuth, async (req, res) => {
     const data = req.body;
     const result = await db.createNewDepartment(data);
+    req.flash('success', 'Department successfully added');
     res.send(result);
 });
 
-router.post('/modules', async (req, res) => {
+//* ROUTE FOR CREATING A NEW MODULE----
+
+router.post('/modules', user.isAuth, async (req, res) => {
     const data = req.body;
     const result = await db.createNewModule(data);
     res.send(result);
@@ -68,14 +115,14 @@ router.post('/modules', async (req, res) => {
 
 //* PUT ROUTES----------------------------------------------------------------------------
 
-router.put('/departments', async (req, res) => {
+router.put('/departments', user.isAuth, async (req, res) => {
     var data = req.body;
     const result = await db.updateDepartments(data);
     res.send(result);
 });
 
 
-router.put('/modules', async (req, res) => {
+router.put('/modules', user.isAuth, async (req, res) => {
     const data = req.body;
     console.log(data);
     const result = await db.updateModules(data);
@@ -85,13 +132,13 @@ router.put('/modules', async (req, res) => {
 
 //* DELETE ROUTES---------------------------------------------------------------------
 
-router.delete('/departments/:id', async (req, res) => {
+router.delete('/departments/:id', user.isAuth, async (req, res) => {
     const id = req.params.id;
     const result = await db.deleteDepartment(id);
     res.send(result);
 });
 
-router.delete('/modules/:name', async (req, res) => {
+router.delete('/modules/:name', user.isAuth, async (req, res) => {
     const name = req.params.name;
     const result = await db.deleteModule(name);
     res.send(result);
