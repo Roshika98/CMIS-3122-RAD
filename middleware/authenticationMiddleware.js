@@ -6,7 +6,13 @@ const isAuth = (req, res, next) => {
         var diff = currTime - beginTime;
         if (diff > 1000 * 60) {
             req.flash('warning', 'Signed out due to inactivity');
-            res.redirect('/courses/admin/login');
+            if (req.header['axios-request']) {
+
+            } else {
+                req.session.redirectURL = req.originalUrl;
+                console.log(req.session.redirectURL);
+                res.redirect('/courses/admin/login');
+            }
         } else {
             req.session.timer = Date.now();
             next();

@@ -27,7 +27,6 @@ router.get('/logout', user.isAuth, (req, res) => {
 //* HOMEPAGE ROUTE OF THE ADMIN SECTION----
 
 router.get('/homepage', user.isAuth, (req, res) => {
-    console.log(req.session.user_id);
     var layoutVar = { title: 'home', script: '/javaScript/controllers/home.js' };
     res.render('admin/partials/home', { layoutVar, layout: 'admin/layout' });
 });
@@ -88,10 +87,12 @@ router.post('/login', async (req, res) => {
     const { username, pswrd } = req.body;
     const result = await security.login(username, pswrd);
     if (result.isValid) {
-        console.log('logged in');
         req.flash('success', 'logged in successfully');
         security.serializeUser(req, result.id);
-        res.redirect('/courses/admin/homepage');
+        console.log(req.session.redirectURL)
+        const redirectURL = req.session.redirectURL || '/courses/admin/homepage';
+        console.log(`Redirecting to ${redirectURL}`);
+        res.redirect(redirectURL);
     } else {
         req.flash('error', 'Username or password is incorrect. please try again..');
         res.redirect('/courses/admin/login');
