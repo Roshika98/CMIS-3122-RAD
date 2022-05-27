@@ -15,9 +15,9 @@ const flashMiddleware = require('./middleware/flashMiddleware');
 dotenv.config();
 
 const dbOpt = {
-    host: 'localhost',
-    user: 'root',
-    database: 'fas'
+    host: process.env.DATABASE_URL,
+    user: process.env.DATABASE_USER,
+    database: process.env.DATABASE_NAME
 };
 
 const sessionAdminOpt = {
@@ -37,7 +37,7 @@ const sessionAdmin = {
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
-        expires: 1000 * 60 * 60 * 24
+        expires: 1000 * 60 * 30
     }
 };
 

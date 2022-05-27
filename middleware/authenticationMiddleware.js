@@ -1,10 +1,11 @@
 
+
 const isAuth = (req, res, next) => {
     if (req.session.user_id) {
         var beginTime = req.session.timer;
         var currTime = Date.now();
         var diff = currTime - beginTime;
-        if (diff > 1000 * 60) {
+        if (diff > parseInt(process.env.ADMIN_TIMEOUT)) {
             req.flash('warning', 'Signed out due to inactivity');
             if (req.header['axios-request']) {
 

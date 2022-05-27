@@ -79,6 +79,17 @@ class DbHandler {
         }
     }
 
+
+    /**
+     * Used get profile details from admin table
+     * @param  {} id unique identifier of the admin profile record 
+     */
+    static async getAdminProfileDetails(id) {
+        var queryString = 'SELECT username,email,firstName,lastName FROM admin WHERE id=?';
+        const response = await connection.admin.promise().execute(queryString, [id]);
+        return response[0];
+    }
+
     // * DATABASE CREATE OPERATIONS---------------------------------------------------------
 
     /**

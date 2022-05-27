@@ -15,10 +15,15 @@ router.get('/', user.isAuth, (req, res) => {
 
 
 router.get('/login', (req, res) => {
-    res.render('admin/login', { layout: false });
+    if (req.session.user_id) {
+        res.redirect('/courses/admin/homepage');
+    } else
+        res.render('admin/login', { layout: false });
 });
 
-router.get('/logout', user.isAuth, (req, res) => {
+
+router.get('/logout', async (req, res) => {
+    console.log(`On delete request ${req.session.user_id}`);
     security.deserializeUser(req);
     res.redirect('/courses/admin/login');
 });
@@ -33,9 +38,10 @@ router.get('/homepage', user.isAuth, (req, res) => {
 
 //* USER ACCOUNT ROUTE OF THE ADMIN SECTION----
 
-router.get('/account', user.isAuth, (req, res) => {
+router.get('/account', user.isAuth, async (req, res) => {
     var layoutVar = { title: 'account', script: '/javaScript/controllers/user.js' };
-    res.render('admin/partials/user', { layoutVar, layout: 'admin/layout' });
+    var data = await db.getAdminProfileDetails(req.session.user_id);
+    res.render('admin/partials/user', { layoutVar, data, layout: 'admin/layout' });
 });
 
 //* DEPARTMENTS ROUTE OF THE ADMIN SECTION----
@@ -79,6 +85,9 @@ router.get('/modules/:name', user.isAuth, async (req, res) => {
     const departmentsSet = await db.getAllDepartments();
     res.render('admin/cardContent/editModules', { departmentsSet, moduleData, layout: false });
 });
+
+
+
 
 
 //! POST ROUTES----------------------------------------------------------------------
@@ -136,6 +145,8 @@ router.put('/modules', user.isAuth, async (req, res) => {
 
 
 //* DELETE ROUTES---------------------------------------------------------------------
+
+
 
 router.delete('/departments/:id', user.isAuth, async (req, res) => {
     const id = req.params.id;
