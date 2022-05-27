@@ -1,0 +1,146 @@
+<main class="main">
+    <br>
+    <div class="col d-flex justify-content-center">
+        <form id="regForm" action="" class="p-3 mb-5 bg-light text-dark">
+            <!-- One "tab" for each step in the form: -->
+            <div class="tab">
+                <h3>Step 1 of 3</h3>
+                <h4>Enter student details:</h4>
+                <div class="mb-3">
+                    <label for="fullname" class="form-label">Name in Full</label>
+                    <input type="text" class="form-control shadow mb-3 bg-body rounded" id="fullname"
+                        placeholder="Full Name">
+                </div>
+                <div class="row g-2">
+                    <div class="col-sm">
+                        <label for="registrationNo" class="form-label">Registration No</label>
+                        <input type="text" class="form-control shadow mb-3 bg-body rounded" id="registrationNo"
+                            placeholder="Ex: 18xxxx">
+                    </div>
+                    <div class="col-md">
+                        <label for="contact" class="form-label">Contact No</label>
+                        <input type="text" class="form-control shadow mb-3 bg-body rounded" id="contact"
+                            placeholder="077xxxxxx">
+                    </div>
+                </div>
+                <div class="input-group-sm mb-3">
+                    <label for="imageInput" class="form-label">Image of student</label>
+                    <input type="file" class="form-control shadow mb-3 bg-body rounded" id="imageInput"
+                        style="width: min-content;">
+                </div>
+
+                <div>
+                    <h4>Course Details:</h4>
+                </div>
+                <div class="row g-2">
+                    <div class="col-sm">
+                        <label for="levelSelect" class="form-label">Level of Study</label>
+                        <select class="form-select shadow mb-3 bg-body rounded" aria-label="Default select example"
+                            id="levelSelect">
+                            <option selected>choose level</option>
+                            <option value="1">Level I</option>
+                            <option value="2">Level II</option>
+                            <option value="3">Level III</option>
+                            <option value="4">Level IV</option>
+                        </select>
+                    </div>
+                    <div class="col-md">
+                        <label for="acyear" class="form-label">Academic year</label>
+                        <input type="text" class="form-control shadow mb-3 bg-body rounded" id="acyear"
+                            placeholder="2017/2018">
+                    </div>
+                </div>
+                <div class="row g-2" id="combSet1">
+                    <div class="col-sm">
+                        <label for="combSelect" class="form-label">Select combination</label>
+                        <select class="form-select shadow mb-3 bg-body rounded" aria-label="Default select example"
+                            id="combSelect">
+                            <option selected>choose combination</option>
+                            <option value="1">Comb 1: CMIS + ELTN + MATH & STAT</option>
+                            <option value="2">Comb 2: ELTN + IMGT + MATH & STAT</option>
+                            <option value="3">Comb 3: IMGT + CMIS + MATH & STAT</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="combSet2">
+                    <div class="row g-2">
+                        <div class="col-sm">
+                            <label for="degreeType" class="form-label">Select Degree Type</label>
+                            <select class="form-select shadow mb-3 bg-body rounded" aria-label="Default select example"
+                                id="degreeType">
+                                <option selected>choose Degree Type</option>
+                                <option value="1">General</option>
+                                <option value="2">Joint Major</option>
+                                <option value="3">Special</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-sm" id="General">
+                            <label for="generalComb" class="form-label">Select General Combination</label>
+                            <select class="form-select shadow mb-3 bg-body rounded" aria-label="Default select example"
+                                id="generalComb">
+                                <option selected>choose Combination</option>
+                                <option value="1A">Comb 1A: MATH + CMIS + ELTN </option>
+                                <option value="1B">Comb 1B: STAT + CMIS + ELTN</option>
+                                <option value="1C">Comb 1C: MATH + STAT + CMIS</option>
+                                <option value="2A">Comb 2A: MATH + ELTN + IMGT</option>
+                                <option value="2B">Comb 2B: STAT + ELTN + IMGT</option>
+                                <option value="2C">Comb 2C: MATH + STAT + ELTN</option>
+                                <option value="3A">Comb 3A: MATH + IMGT + CMIS</option>
+                                <option value="3B">Comb 3B: STAT + IMGT + CMIS</option>
+                                <option value="3C">Comb 3C: MATH + STAT + IMGT</option>
+                            </select>
+                        </div>
+                        <div class="col-sm" id="JM">
+                            <label for="jmComb" class="form-label">Select JM combination</label>
+                            <select class="form-select shadow mb-3 bg-body rounded" aria-label="Default select example"
+                                id="jmComb">
+                                <option selected>choose combination</option>
+                                <option value="1A">Comb 1A: CMIS + ELTN </option>
+                                <option value="1B">Comb 1B: CMIS + MMST</option>
+                                <option value="1C">Comb 1C: CMIS + IMGT</option>
+                                <option value="2A">Comb 2A: ELTN + CMIS</option>
+                                <option value="2B">Comb 2B: ELTN + MMST</option>
+                                <option value="2C">Comb 2C: ELTN + IMGT</option>
+                                <option value="3A">Comb 3A: IMGT + ELTN</option>
+                                <option value="3B">Comb 3B: IMGT + MMST</option>
+                                <option value="3C">Comb 3C: IMGT + CMIS</option>
+                                <option value="4A">Comb 4A: MMST + CMIS</option>
+                                <option value="4B">Comb 4B: MMST + ELTN</option>
+                                <option value="4C">Comb 4C: MMST + IMGT</option>
+                            </select>
+                        </div>
+                        <div class="col-sm" id="special">
+                            <label for="spComb" class="form-label">Select Special combination</label>
+                            <select class="form-select shadow mb-3 bg-body rounded" aria-label="Default select example"
+                                id="spComb">
+                                <option selected>choose combination</option>
+                                <option value="1">Special degree in Applied Electronics</option>
+                                <option value="2">Special degree in Industrial Management</option>
+                                <option value="3">Special degree in Mathematics with Statistics</option>
+                                <option value="4">Special degree in Computer Science</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="dynamicContent">
+
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button class="btn btn-outline-secondary me-md-2" type="button" style="display: inline;"
+                    id="previous">Previous</button>
+                <button class="btn btn-primary" type="button" style="display: inline;" id="next">Next</button>
+                <button class="btn btn-success" type="button" style="display: inline;" id="submit">Create
+                    pdf</button>
+            </div>
+        </form>
+
+    </div>
+
+    <script src="/javaScript/formHandler.js"></script>
+</main>
