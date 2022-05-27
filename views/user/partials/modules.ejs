@@ -1,40 +1,55 @@
 <main class="main">
-    <br>
-    <br>
-    <br>
-    <div class="row d-flex justify-content-center">
-        <form class="row align-items-center p-3 bg-light text-dark" style="height: fit-content;">
-            <div class="col-auto">
-                <label class="form-label" for="deptSelect">Select Department</label>
-                <select class="form-select" id="deptSelect">
-                    <option selected>Choose...</option>
-                    <option value="1">CMIS</option>
-                    <option value="2">ELTN</option>
-                    <option value="3">Maths & Stat</option>
-                    <option value="4">IMGT</option>
-                </select>
-            </div>
-            <div class="col-auto">
-                <label class="form-label" for="lvlSelect">Level of Study</label>
-                <select class="form-select" id="lvlSelect">
-                    <option selected>Choose...</option>
-                    <option value="1">Level I</option>
-                    <option value="2">Level II</option>
-                    <option value="3">Level III</option>
-                    <option value="4">Level IV</option>
-                </select>
-            </div>
-            <div class="col-auto">
-                <br>
-                <button type="submit" class="btn-sm btn-info" id="searchQ">Get modules</button>
-            </div>
-        </form>
+    <!-- <link href="/assets/css/now-ui-dashboard.css" rel="stylesheet" /> -->
+    <link rel="stylesheet" href="/css/personal.css" />
 
-        <div class="row align-items-center p-3 bg-light" id="moduleContent">
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs" data-aos="fade-in">
+        <div class="container">
+            <h2>Module Details</h2>
+            <p>Search for Modules according to their respective department & the level of study to gain insight on each
+                module</p>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <form class="row align-items-center p-3"
+                style="height: fit-content;display: flex;align-items: center;justify-content: center;">
+                <div class="col-md-5 pr-1">
+                    <div class="form-group">
+                        <label for="deptSelect">Department</label>
+                        <select class="form-control" id="deptSelect">
+                            <option selected>Select Department</option>
+                            <option value="1">Department of Computing & Information Systems</option>
+                            <option value="2">ELTN</option>
+                            <option value="3">Maths & Stat</option>
+                            <option value="4">IMGT</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3 pl-1">
+                    <div class="form-group">
+                        <label for="lvlSelect">Module Level</label>
+                        <select class="form-control" id="lvlSelect">
+                            <option selected> Select Level of study</option>
+                            <option value="1">Level I </option>
+                            <option value="2">Level II</option>
+                            <option value="3">Level III</option>
+                            <option value="4">Level IV</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <br>
+                    <button type="submit" class="btn-sm btn-info" id="searchQ">Get modules</button>
+                </div>
+            </form>
+
 
         </div>
-    </div>
+    </div><!-- End Breadcrumbs -->
 
+
+    <div class="row align-items-center p-3 bg-light" id="moduleContent">
+
+    </div>
 
     <script src="/javaScript/infoHandler.js"></script>
 </main>
