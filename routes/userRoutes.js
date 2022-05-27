@@ -10,29 +10,29 @@ var pdfPage = null;
 
 
 router.get('/', (req, res) => {
-    res.render('layouts/homepage', { layout: false });
+    res.render('user/partials/homepage', { layout: 'user/layout' });
 });
 
 router.get('/register', async (req, res) => {
     if (Object.keys(req.query).length === 0) {
-        res.render('layouts/course_registration', { layout: false });
+        res.render('user/partials/course_registration', { layout: 'user/layout' });
     }
     else {
         var q = req.query;
         var data = await db.processSelection(q);
         var lvl = q.level;
-        res.render('boilerplates/selection', { lvl, data, layout: false });
+        res.render('user/boilerplates/selection', { lvl, data, layout: false });
     }
 });
 
 router.get('/modules', async (req, res) => {
     if (Object.keys(req.query).length === 0)
-        res.render('layouts/modules', { layout: false });
+        res.render('user/partials/modules', { layout: 'user/layout' });
     else {
         var data = req.query;
         const dept = await db.getDepartmentDetails(data.department);
         const result = await db.getmodulesDetails(data.department, data.level);
-        res.render('boilerplates/showModules', { dept, result, layout: false });
+        res.render('user/boilerplates/showModules', { dept, result, layout: false });
     }
 });
 
