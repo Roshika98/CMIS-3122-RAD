@@ -90,6 +90,14 @@ class DbHandler {
         return response[0];
     }
 
+
+    static async getAdminName(id) {
+        var queryString = 'SELECT username,firstName FROM admin WHERE id=?';
+        const response = await connection.admin.promise().execute(queryString, [id]);
+        return response[0];
+    }
+
+
     // * DATABASE CREATE OPERATIONS---------------------------------------------------------
 
     /**
@@ -160,6 +168,17 @@ class DbHandler {
     static async updateModules(data) {
         var queryString = 'UPDATE modules SET course_code=?,name=?,credit=?,level=?,semester=?,deptID=?,special=?,special_mandatory=?,major1=?,major1_mandatory=?,major2=?,major2_mandatory=?,general=?,general_mandatory=?,description=? WHERE course_code=?';
         const result = await connection.admin.promise().execute(queryString, [data.code, data.name, data.credit, data.level, data.semester, data.department, data.special_available, data.special_mandatory, data.m1_available, data.m1_mandatory, data.m2_available, data.m2_mandatory, data.general_available, data.general_mandatory, data.description, data.code]);
+        return result;
+    }
+
+    /**
+     * Used to update personal details of the admin record specified
+     * @param  {} id id associated with the current session admin
+     * @param  {object} data data to be updated
+     */
+    static async updateAdminData(id, data) {
+        var queryString = 'UPDATE admin SET firstName=? , lastName=? WHERE id=?';
+        const result = await connection.admin.promise().execute(queryString, [data.fName, data.lName, id]);
         return result;
     }
 

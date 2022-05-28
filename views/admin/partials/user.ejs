@@ -30,46 +30,47 @@
                 </h5>
             </div>
             <div class="card-body">
-                <form>
+                <form action="https://localhost:3000/courses/admin/account?_method=PUT" method="post">
                     <div class="row">
 
                         <div class="col-md-6 pr-1">
                             <div class="form-group">
-                                <label>Username</label>
+                                <label for="uName">Username</label>
                                 <input type="text" class="form-control" disabled="" placeholder="Username"
-                                    value="<%= data[0].username %>">
+                                    value="<%= data[0].username %>" id="uName">
                             </div>
                         </div>
                         <div class="col-md-4 pl-1">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Email address</label>
+                                <label for="email">Email address</label>
                                 <input type="email" class="form-control" placeholder="Email"
-                                    value="<%= data[0].email %>" disabled="">
+                                    value="<%= data[0].email %>" disabled="" id="email">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 pr-1">
                             <div class="form-group">
-                                <label>First Name</label>
+                                <label for="fName">First Name</label>
                                 <input type="text" class="form-control" placeholder="Company"
-                                    value="<%= data[0].firstName %>">
+                                    value="<%= data[0].firstName %>" id="fName" name="fName">
                             </div>
                         </div>
                         <div class="col-md-6 pl-1">
                             <div class="form-group">
-                                <label>Last Name</label>
+                                <label for="lName">Last Name</label>
                                 <input type="text" class="form-control" placeholder="Last Name"
-                                    value="<%= data[0].lastName %>">
+                                    value="<%= data[0].lastName %>" id="lName" name="lName">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Address</label>
+                                <label for="address">Address</label>
                                 <input type="text" class="form-control" placeholder="Home Address"
-                                    value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09">
+                                    value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09" id="address"
+                                    name="address">
                             </div>
                         </div>
                     </div>

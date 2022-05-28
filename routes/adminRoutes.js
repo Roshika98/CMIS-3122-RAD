@@ -2,6 +2,8 @@ const express = require('express');
 const db = require('../database/dbHandler');
 const security = require('../authentication/security');
 const user = require('../middleware/authenticationMiddleware');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 const router = express.Router();
 
 
@@ -31,9 +33,10 @@ router.get('/logout', async (req, res) => {
 
 //* HOMEPAGE ROUTE OF THE ADMIN SECTION----
 
-router.get('/homepage', user.isAuth, (req, res) => {
+router.get('/homepage', user.isAuth, async (req, res) => {
     var layoutVar = { title: 'home', script: '/javaScript/controllers/home.js' };
-    res.render('admin/partials/home', { layoutVar, layout: 'admin/layout' });
+    const data = await db.getAdminName(req.session.user_id);
+    res.render('admin/partials/home', { layoutVar, data, layout: 'admin/layout' });
 });
 
 //* USER ACCOUNT ROUTE OF THE ADMIN SECTION----
@@ -86,8 +89,12 @@ router.get('/modules/:name', user.isAuth, async (req, res) => {
     res.render('admin/cardContent/editModules', { departmentsSet, moduleData, layout: false });
 });
 
+//* NOTICES ROUTE OF THE ADMIN SECTION----
 
-
+router.get('/notices', user.isAuth, (req, res) => {
+    var layoutVar = { title: 'notices', script: '' };
+    res.render('admin/partials/notices', { layoutVar, layout: 'admin/layout' });
+});
 
 
 //! POST ROUTES----------------------------------------------------------------------
@@ -98,9 +105,7 @@ router.post('/login', async (req, res) => {
     if (result.isValid) {
         req.flash('success', 'logged in successfully');
         security.serializeUser(req, result.id);
-        console.log(req.session.redirectURL)
         const redirectURL = req.session.redirectURL || '/courses/admin/homepage';
-        console.log(`Redirecting to ${redirectURL}`);
         res.redirect(redirectURL);
     } else {
         req.flash('error', 'Username or password is incorrect. please try again..');
@@ -108,6 +113,10 @@ router.post('/login', async (req, res) => {
     }
 });
 
+router.post('/notices', user.isAuth, upload.single('fileInput'), async (req, res) => {
+    console.log(req.file);
+    res.redirect('/courses/admin/notices');
+});
 
 //* ROUTE FOR CREATING A NEW DEPARTMENT----
 
@@ -127,7 +136,7 @@ router.post('/modules', user.isAuth, async (req, res) => {
 });
 
 
-//* PUT ROUTES----------------------------------------------------------------------------
+//! PUT ROUTES----------------------------------------------------------------------------
 
 router.put('/departments', user.isAuth, async (req, res) => {
     var data = req.body;
@@ -143,8 +152,15 @@ router.put('/modules', user.isAuth, async (req, res) => {
     res.send(result);
 });
 
+router.put('/account', user.isAuth, async (req, res) => {
+    const data = req.body;
+    const result = await db.updateAdminData(req.session.user_id, data);
+    req.flash('success', 'Profile details updated successfully!');
+    res.redirect('/courses/admin/account');
+});
 
-//* DELETE ROUTES---------------------------------------------------------------------
+
+//! DELETE ROUTES---------------------------------------------------------------------
 
 
 
