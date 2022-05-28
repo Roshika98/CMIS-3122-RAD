@@ -49,6 +49,7 @@ const userLogin = async function logginUser(username, password) {
 const serializeUser = function serializeUserSession(req, userID) {
     req.session.user_id = userID;
     req.session.timer = Date.now();
+    req.session.signed_in = true;
 }
 
 const deserializeUser = function deserializeUserSession(req) {

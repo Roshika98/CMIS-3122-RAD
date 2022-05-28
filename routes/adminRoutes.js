@@ -15,7 +15,7 @@ router.get('/', user.isAuth, (req, res) => {
 
 
 router.get('/login', (req, res) => {
-    if (req.session.user_id) {
+    if (req.session.signed_in) {
         res.redirect('/courses/admin/homepage');
     } else
         res.render('admin/login', { layout: false });
