@@ -2,10 +2,11 @@ const express = require('express');
 const db = require('../database/dbHandler');
 const security = require('../authentication/security');
 const user = require('../middleware/authenticationMiddleware');
+const { storage } = require('../utility/cloudinary');
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ storage });
 const router = express.Router();
-
+const { v4: uuidv4 } = require('uuid');
 
 //! GET ROUTES------------------------------------------------------------------------
 
@@ -113,8 +114,12 @@ router.post('/login', async (req, res) => {
     }
 });
 
+//* ROUTE FOR CREATING A NEW NOTICE----
+
 router.post('/notices', user.isAuth, upload.single('fileInput'), async (req, res) => {
-    console.log(req.file);
+    const data = { id: uuidv4(), heading: req.body.heading, url: req.file.path, filename: req.file.filename };
+    const result = await db.addNewNotice(data);
+    req.flash('success', 'Notice successfully uploaded!');
     res.redirect('/courses/admin/notices');
 });
 

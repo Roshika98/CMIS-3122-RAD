@@ -1,3 +1,8 @@
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
+
+
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -6,13 +11,11 @@ const expressLayouts = require('express-ejs-layouts');
 const router = require('./routes/index');
 const https = require('https');
 const session = require('express-session');
-const dotenv = require('dotenv');
 const flash = require('connect-flash');
 const mysql2 = require('mysql2/promise');
 const MySQLStore = require('express-mysql-session')(session);
 const flashMiddleware = require('./middleware/flashMiddleware');
 
-dotenv.config();
 
 const dbOpt = {
     host: process.env.DATABASE_URL,

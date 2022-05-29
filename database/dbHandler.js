@@ -123,6 +123,17 @@ class DbHandler {
         return result;
     }
 
+    /**
+     * Used to add a new notice to the notices table
+     * @param  {} data An object containing keys :- id,heading,url & filename
+     */
+    static async addNewNotice(data) {
+        var queryString = 'INSERT INTO notices (id,heading,url,noticeDate,filename) VALUES (?,?,?,CURDATE(),?)';
+        const result = await connection.admin.promise().execute(queryString, [data.id, data.heading, data.url, data.filename]);
+        console.log(result);
+        return result;
+    }
+
 
     //* DATABASE DELETE OPERATIONS ----------------------------------------------
 
