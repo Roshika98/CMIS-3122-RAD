@@ -1,4 +1,5 @@
-console.log('I am departments');
+const deptPage = document.getElementById('departmentspage');
+deptPage.classList.add('active');
 
 
 function notifySuccess() {
@@ -10,7 +11,7 @@ function notifySuccess() {
             colorTheme: 'success',
             message: succes,
             timer: 800,
-            icon: 'now-ui-icons travel_info'
+            icon: 'fa fa-check'
         };
         nowuiDashboard.showNotification(opt);
     } catch (error) {

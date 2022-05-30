@@ -21,6 +21,12 @@ async function addNewUser(username, password) {
     connection.end();
 };
 
+
+/**
+ * Used to login a user to their account
+ * @param  {String} username username of the user account
+ * @param  {String} password password for the user account
+ */
 const userLogin = async function logginUser(username, password) {
     const connection = await mysql2.createConnection(dbOpt);
     var query = 'SELECT id,username,password FROM admin WHERE username=?';
@@ -42,13 +48,15 @@ const userLogin = async function logginUser(username, password) {
 
 const serializeUser = function serializeUserSession(req, userID) {
     req.session.user_id = userID;
+    req.session.timer = Date.now();
+    req.session.signed_in = true;
 }
 
 const deserializeUser = function deserializeUserSession(req) {
     req.session.destroy();
 }
 
-module.exports = { login: userLogin, serializeUser: serializeUser };
+module.exports = { login: userLogin, serializeUser: serializeUser, deserializeUser: deserializeUser, createNewUser: addNewUser };
 
 // logginUser('redcap98', 'Hello');
 

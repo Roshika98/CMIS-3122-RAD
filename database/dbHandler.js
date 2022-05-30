@@ -1,3 +1,4 @@
+const { query } = require('express');
 const res = require('express/lib/response');
 const connection = require('./dbConnector');
 
@@ -79,6 +80,46 @@ class DbHandler {
         }
     }
 
+
+    /**
+     * Used get profile details from admin table
+     * @param  {} id unique identifier of the admin profile record 
+     */
+    static async getAdminProfileDetails(id) {
+        var queryString = 'SELECT username,email,firstName,lastName FROM admin WHERE id=?';
+        const response = await connection.admin.promise().execute(queryString, [id]);
+        return response[0];
+    }
+
+    /**
+     * Returns the admin name & username specified by id
+     * @param  {} id unique id of the admin record
+     */
+    static async getAdminName(id) {
+        var queryString = 'SELECT username,firstName FROM admin WHERE id=?';
+        const response = await connection.admin.promise().execute(queryString, [id]);
+        return response[0];
+    }
+
+    /**
+     * Return all the notices available
+     */
+    static async getAllNotices() {
+        var queryString = 'SELECT id,heading,noticeDate,filename FROM notices ORDER BY noticeDate DESC';
+        const response = await connection.admin.promise().query(queryString);
+        return response[0];
+    }
+
+    /**
+     * Returns a notice according to the id provided
+     * @param  {} id unique identifier of the notice
+     */
+    static async getNotice(id) {
+        var queryString = 'SELECT url,filename FROM notices WHERE id=?';
+        const response = await connection.general.promise().execute(queryString, [id]);
+        return response[0];
+    }
+
     // * DATABASE CREATE OPERATIONS---------------------------------------------------------
 
     /**
@@ -100,6 +141,17 @@ class DbHandler {
     static async createNewModule(data) {
         var queryString = 'INSERT INTO modules (course_code,name,credit,level,semester,deptID,special,special_mandatory,major1,major1_mandatory,major2,major2_mandatory,general,general_mandatory,description) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
         const result = await connection.admin.promise().execute(queryString, [data.code, data.name, data.credit, data.level, data.semester, data.department, data.special_available, data.special_mandatory, data.m1_available, data.m1_mandatory, data.m2_available, data.m2_mandatory, data.general_available, data.general_mandatory, data.description]);
+        console.log(result);
+        return result;
+    }
+
+    /**
+     * Used to add a new notice to the notices table
+     * @param  {} data An object containing keys :- id,heading,url & filename
+     */
+    static async addNewNotice(data) {
+        var queryString = 'INSERT INTO notices (id,heading,url,noticeDate,filename) VALUES (?,?,?,CURDATE(),?)';
+        const result = await connection.admin.promise().execute(queryString, [data.id, data.heading, data.url, data.filename]);
         console.log(result);
         return result;
     }
@@ -129,6 +181,16 @@ class DbHandler {
         return result;
     }
 
+    /**
+     * Deletes a notice from the notices table
+     * @param  {} id unique identifier of the notice to be deleted
+     */
+    static async deleteNotice(filename) {
+        var queryString = 'DELETE FROM notices WHERE filename=?';
+        const result = await connection.admin.promise().execute(queryString, [filename]);
+        return result;
+    }
+
 
     // * DATABASE UPDATE OPERATIONS---------------------------------------------
 
@@ -149,6 +211,17 @@ class DbHandler {
     static async updateModules(data) {
         var queryString = 'UPDATE modules SET course_code=?,name=?,credit=?,level=?,semester=?,deptID=?,special=?,special_mandatory=?,major1=?,major1_mandatory=?,major2=?,major2_mandatory=?,general=?,general_mandatory=?,description=? WHERE course_code=?';
         const result = await connection.admin.promise().execute(queryString, [data.code, data.name, data.credit, data.level, data.semester, data.department, data.special_available, data.special_mandatory, data.m1_available, data.m1_mandatory, data.m2_available, data.m2_mandatory, data.general_available, data.general_mandatory, data.description, data.code]);
+        return result;
+    }
+
+    /**
+     * Used to update personal details of the admin record specified
+     * @param  {} id id associated with the current session admin
+     * @param  {object} data data to be updated
+     */
+    static async updateAdminData(id, data) {
+        var queryString = 'UPDATE admin SET firstName=? , lastName=? WHERE id=?';
+        const result = await connection.admin.promise().execute(queryString, [data.fName, data.lName, id]);
         return result;
     }
 

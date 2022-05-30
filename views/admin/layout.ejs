@@ -39,6 +39,9 @@
     </head>
 
     <body>
+        <%- include('./notifications/success')  %>
+        <%- include('./notifications/error')  %>
+        <%- include('./notifications/warning')  %>
         <div class="wrapper">
             <div class="sidebar" data-color="yellow">
                 <!--
@@ -51,34 +54,43 @@
 
                 <div class="sidebar-wrapper" id="sidebar-wrapper">
                     <ul class="nav">
-                        <li class="active ">
+                        <li id="homepage">
                             <a href="https://localhost:3000/courses/admin/homepage">
 
-                                <i class="now-ui-icons design_app"></i>
+                                <i class="fa fa-tachometer" aria-hidden="true"></i>
 
                                 <p>Dashboard</p>
                             </a>
                         </li>
 
-                        <li>
+                        <li id="departmentspage">
                             <a href="https://localhost:3000/courses/admin/departments">
 
-                                <i class="now-ui-icons education_hat"></i>
+                                <i class="fa fa-university" aria-hidden="true"></i>
 
                                 <p>Departments</p>
                             </a>
                         </li>
 
-                        <li>
+                        <li id="modulespage">
                             <a href="https://localhost:3000/courses/admin/modules">
 
-                                <i class="now-ui-icons education_agenda-bookmark"></i>
+                                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
 
                                 <p>Modules</p>
                             </a>
                         </li>
 
-                        <li>
+                        <li id="noticepage">
+                            <a href="https://localhost:3000/courses/admin/notices">
+
+                                <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+
+                                <p>Notices</p>
+                            </a>
+                        </li>
+
+                        <li id="accountspage">
                             <a href="https://localhost:3000/courses/admin/account">
 
                                 <i class="now-ui-icons users_single-02"></i>
@@ -87,21 +99,19 @@
                             </a>
                         </li>
 
-                        <li>
+                        <li id="statpage">
                             <a href="../tables.html">
 
-                                <i class="now-ui-icons business_chart-bar-32"></i>
+                                <i class="fa fa-bar-chart" aria-hidden="true"></i>
 
                                 <p>Statistics</p>
                             </a>
                         </li>
 
-                        <li>
-                            <a href="../typography.html">
-
-                                <i class="now-ui-icons ui-1_simple-add"></i>
-
-                                <p>New Account</p>
+                        <li style="position: absolute;width: 100%;bottom: 10px;">
+                            <a href="https://localhost:3000/courses/admin/logout">
+                                <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                <p>Sign out</p>
                             </a>
                         </li>
                     </ul>
