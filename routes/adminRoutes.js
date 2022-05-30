@@ -2,7 +2,7 @@ const express = require('express');
 const db = require('../database/dbHandler');
 const security = require('../authentication/security');
 const user = require('../middleware/authenticationMiddleware');
-const { storage } = require('../utility/cloudinary');
+const { cloudinary, storage } = require('../utility/cloudinary');
 const multer = require('multer');
 const upload = multer({ storage });
 const router = express.Router();
@@ -95,7 +95,6 @@ router.get('/modules/:name', user.isAuth, async (req, res) => {
 router.get('/notices', user.isAuth, async (req, res) => {
     var layoutVar = { title: 'notices', script: '/javaScript/controllers/notice.js' };
     const result = await db.getAllNotices();
-    console.log(result);
     res.render('admin/partials/notices', { layoutVar, result, layout: 'admin/layout' });
 });
 
@@ -183,9 +182,10 @@ router.delete('/modules/:name', user.isAuth, async (req, res) => {
     res.send(result);
 });
 
-router.delete('/notices/:id', user.isAuth, async (req, res) => {
-    const id = req.params.id;
-    console.log(id);
+router.delete('/notices', user.isAuth, async (req, res) => {
+    const filename = req.query.filename;
+    await cloudinary.uploader.destroy(filename);
+    const result = await db.deleteNotice(filename);
     req.flash('success', 'Notice Removed successfully');
     res.sendStatus(200);
 });

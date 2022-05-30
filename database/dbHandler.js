@@ -105,7 +105,7 @@ class DbHandler {
      * Return all the notices available
      */
     static async getAllNotices() {
-        var queryString = 'SELECT id,heading,noticeDate FROM notices ORDER BY noticeDate DESC';
+        var queryString = 'SELECT id,heading,noticeDate,filename FROM notices ORDER BY noticeDate DESC';
         const response = await connection.admin.promise().query(queryString);
         return response[0];
     }
@@ -185,9 +185,9 @@ class DbHandler {
      * Deletes a notice from the notices table
      * @param  {} id unique identifier of the notice to be deleted
      */
-    static async deleteNotice(id) {
-        var queryString = 'DELETE FROM notices WHERE id=?';
-        const result = await connection.admin.promise().execute(queryString, [id]);
+    static async deleteNotice(filename) {
+        var queryString = 'DELETE FROM notices WHERE filename=?';
+        const result = await connection.admin.promise().execute(queryString, [filename]);
         return result;
     }
 

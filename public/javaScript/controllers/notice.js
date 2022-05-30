@@ -28,7 +28,8 @@ for (let i = 0; i < deleteBtns.length; i++) {
     element.addEventListener('click', async (event) => {
         event.preventDefault();
         event.stopPropagation();
-        const result = await axios.delete(`https://localhost:3000/courses/admin/notices/${element.getAttribute('data-id')}`);
+        const params = new URLSearchParams([['filename', `${element.getAttribute('data-id')}`]])
+        const result = await axios.delete(`https://localhost:3000/courses/admin/notices`, { params });
         window.location = 'https://localhost:3000/courses/admin/notices';
     });
 }
