@@ -92,9 +92,11 @@ router.get('/modules/:name', user.isAuth, async (req, res) => {
 
 //* NOTICES ROUTE OF THE ADMIN SECTION----
 
-router.get('/notices', user.isAuth, (req, res) => {
-    var layoutVar = { title: 'notices', script: '' };
-    res.render('admin/partials/notices', { layoutVar, layout: 'admin/layout' });
+router.get('/notices', user.isAuth, async (req, res) => {
+    var layoutVar = { title: 'notices', script: '/javaScript/controllers/notice.js' };
+    const result = await db.getAllNotices();
+    console.log(result);
+    res.render('admin/partials/notices', { layoutVar, result, layout: 'admin/layout' });
 });
 
 
@@ -180,6 +182,14 @@ router.delete('/modules/:name', user.isAuth, async (req, res) => {
     const result = await db.deleteModule(name);
     res.send(result);
 });
+
+router.delete('/notices/:id', user.isAuth, async (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+    req.flash('success', 'Notice Removed successfully');
+    res.sendStatus(200);
+});
+
 
 module.exports = router;
 

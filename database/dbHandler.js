@@ -1,3 +1,4 @@
+const { query } = require('express');
 const res = require('express/lib/response');
 const connection = require('./dbConnector');
 
@@ -90,13 +91,34 @@ class DbHandler {
         return response[0];
     }
 
-
+    /**
+     * Returns the admin name & username specified by id
+     * @param  {} id unique id of the admin record
+     */
     static async getAdminName(id) {
         var queryString = 'SELECT username,firstName FROM admin WHERE id=?';
         const response = await connection.admin.promise().execute(queryString, [id]);
         return response[0];
     }
 
+    /**
+     * Return all the notices available
+     */
+    static async getAllNotices() {
+        var queryString = 'SELECT id,heading,noticeDate FROM notices ORDER BY noticeDate DESC';
+        const response = await connection.admin.promise().query(queryString);
+        return response[0];
+    }
+
+    /**
+     * Returns a notice according to the id provided
+     * @param  {} id unique identifier of the notice
+     */
+    static async getNotice(id) {
+        var queryString = 'SELECT url,filename FROM notices WHERE id=?';
+        const response = await connection.general.promise().execute(queryString, [id]);
+        return response[0];
+    }
 
     // * DATABASE CREATE OPERATIONS---------------------------------------------------------
 
@@ -156,6 +178,16 @@ class DbHandler {
         var queryString = 'DELETE FROM modules WHERE name=?';
         const result = await connection.admin.promise().execute(queryString, [name]);
         console.log(result);
+        return result;
+    }
+
+    /**
+     * Deletes a notice from the notices table
+     * @param  {} id unique identifier of the notice to be deleted
+     */
+    static async deleteNotice(id) {
+        var queryString = 'DELETE FROM notices WHERE id=?';
+        const result = await connection.admin.promise().execute(queryString, [id]);
         return result;
     }
 
