@@ -1,3 +1,5 @@
+const db = require('../../database/dbHandler');
+
 
 const getRegister = async (req, res) => {
     if (Object.keys(req.query).length === 0) {
