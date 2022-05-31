@@ -75,7 +75,7 @@ router.delete('/notices', user.isAuth, catchAsync(admin.deleteNotice));
 
 
 
-router.all('*', (req, res, next) => {
+router.all('*', user.isAuth, (req, res, next) => {
     next(new ExpressError(404, 'Page not found inside admin routes!'));
 });
 
@@ -83,11 +83,18 @@ router.all('*', (req, res, next) => {
 router.use((err, req, res, next) => {
     const requestedFrom = req.headers['request-type'];
     const { statusCode = 500, message = 'Something went Wrong' } = err;
-    if (requestedFrom) {
-        console.log(requestedFrom);
-        res.status(statusCode).render('error/adminerror', { layout: false });
-    } else
-        res.status(statusCode).render('error/adminerror', { layout: 'user/layout' });
+    if (statusCode === 404) {
+        var layoutVar = { title: 'Not found', script: '' };
+        res.status(statusCode).render('error/admin404', { layoutVar, layout: 'admin/layout' });
+    } else {
+        if (requestedFrom) {
+            console.log(requestedFrom);
+            res.status(statusCode).render('error/adminerror', { layout: false });
+        } else {
+            var layoutVar = { title: `Error ${statusCode}`, script: '' };
+            res.status(statusCode).render('error/adminerror', { layoutVar, layout: 'admin/layout' });
+        }
+    }
 });
 
 

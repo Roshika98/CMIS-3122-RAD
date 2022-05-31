@@ -11,6 +11,7 @@ const getHomepage = async (req, res) => {
 };
 
 const getAccountPage = async (req, res) => {
+    throw new ExpressError(500, 'heyooo');
     var layoutVar = { title: 'account', script: '/javaScript/controllers/user.js' };
     var data = await db.getAdminProfileDetails(req.session.user_id);
     res.render('admin/partials/user', { layoutVar, data, layout: 'admin/layout' });
