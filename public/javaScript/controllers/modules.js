@@ -48,6 +48,9 @@ const n_submit = document.getElementById('m_submit');
 const n_clear = document.getElementById('m_clear');
 
 
+const mainpageContent = document.getElementById('main-content');
+const errorContent = document.getElementById('error-content');
+
 
 var u_Code = null;
 var u_Name = null;
@@ -92,7 +95,11 @@ submitBtn.addEventListener('click', async (event) => {
     }
     var params = new URLSearchParams([['department', `${deptSelect.value}`], ['level', `${lvlSelect.value}`]]);
     try {
-        var response = await axios.get('https://localhost:3000/courses/admin/modules', { params });
+        var response = await axios.get('https://localhost:3000/courses/admin/modules', {
+            params, headers: {
+                'request-type': 'axios'
+            }
+        });
         addContent(response.data);
         var opt = {
             from: 'top',
@@ -115,6 +122,8 @@ submitBtn.addEventListener('click', async (event) => {
                 icon: 'now-ui-icons travel_info'
             };
             nowuiDashboard.showNotification(opt);
+        } else {
+            showErrorContent(error.response.data);
         }
     }
 
@@ -141,11 +150,15 @@ n_submit.addEventListener('click', async (event) => {
         special_available: n_Sp_Available.checked,
         special_mandatory: n_Sp_Mandatory.checked
     }
-    const params = JSON.stringify(data);
-    const response = await axios.post('https://localhost:3000/courses/admin/modules', params,
-        { headers: { 'Content-Type': 'application/json' } });
-    console.log(response.data);
-    window.location = 'https://localhost:3000/courses/admin/modules';
+    try {
+        const params = JSON.stringify(data);
+        const response = await axios.post('https://localhost:3000/courses/admin/modules', params,
+            { headers: { 'Content-Type': 'application/json', 'request-type': 'axios' } });
+        console.log(response.data);
+        window.location = 'https://localhost:3000/courses/admin/modules';
+    } catch (error) {
+        showErrorContent(error.response.data);
+    }
 });
 
 
@@ -158,9 +171,17 @@ function setupBtns() {
         element.addEventListener('click', async (event) => {
             event.preventDefault();
             event.stopPropagation();
-            const response = await axios.delete(`https://localhost:3000/courses/admin/modules/${element.getAttribute('data-id')}`);
-            console.log(response.data[0]);
-            submitBtn.click();
+            try {
+                const response = await axios.delete(`https://localhost:3000/courses/admin/modules/${element.getAttribute('data-id')}`, {
+                    headers: {
+                        'request-type': 'axios'
+                    }
+                });
+                console.log(response.data[0]);
+                submitBtn.click();
+            } catch (error) {
+                showErrorContent(error.response.data);
+            }
         })
     }
 
@@ -169,8 +190,16 @@ function setupBtns() {
         element.addEventListener('click', async (event) => {
             event.preventDefault();
             event.stopPropagation();
-            const response = await axios.get(`https://localhost:3000/courses/admin/modules/${element.getAttribute('data-id')}`);
-            setUpEditEnvironment(response.data);
+            try {
+                const response = await axios.get(`https://localhost:3000/courses/admin/modules/${element.getAttribute('data-id')}`, {
+                    headers: {
+                        'request-type': 'axios'
+                    }
+                });
+                setUpEditEnvironment(response.data);
+            } catch (error) {
+                showErrorContent(error.response.data);
+            }
         });
     }
 }
@@ -235,10 +264,14 @@ async function performUpdate() {
         special_available: u_Sp_Available.checked,
         special_mandatory: u_Sp_Mandatory.checked
     }
-    const params = JSON.stringify(data);
-    const response = await axios.put('https://localhost:3000/courses/admin/modules', params,
-        { headers: { 'Content-Type': 'application/json' } });
-    console.log(response.data);
+    try {
+        const params = JSON.stringify(data);
+        const response = await axios.put('https://localhost:3000/courses/admin/modules', params,
+            { headers: { 'Content-Type': 'application/json', 'request-type': 'axios' } });
+        console.log(response.data);
+    } catch (error) {
+        showErrorContent(error.response.data);
+    }
 }
 
 
@@ -257,4 +290,17 @@ function addContent(content) {
     dynamicContent.innerHTML = content;
 
 }
+
+
+function hideErrorContent() {
+    errorContent.style.display = 'none';
+}
+
+function showErrorContent(data) {
+    mainpageContent.style.display = 'none';
+    errorContent.innerHTML = data;
+    errorContent.style.display = '';
+}
+
+hideErrorContent();
 

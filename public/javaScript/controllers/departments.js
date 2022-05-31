@@ -38,6 +38,9 @@ var updateBtn = null;
 var updateDeptID = null;
 var updateDeptName = null;
 
+const mainpageContent = document.getElementById('main-content');
+const errorContent = document.getElementById('error-content');
+
 
 subContent.style.display = 'none';
 subContentUpdate.style.display = 'none';
@@ -47,8 +50,16 @@ for (let i = 0; i < deleteBtns.length; i++) {
     element.addEventListener('click', async (event) => {
         event.preventDefault();
         event.stopPropagation();
-        const result = await axios.delete(`https://localhost:3000/courses/admin/departments/${element.getAttribute('data-id')}`);
-        window.location = 'https://localhost:3000/courses/admin/departments';
+        try {
+            const result = await axios.delete(`https://localhost:3000/courses/admin/departments/${element.getAttribute('data-id')}`, {
+                headers: {
+                    'request-type': 'axios'
+                }
+            });
+            window.location = 'https://localhost:3000/courses/admin/departments';
+        } catch (error) {
+            showErrorContent(error.response.data);
+        }
     });
 }
 
@@ -57,8 +68,16 @@ for (let i = 0; i < updateBtnArray.length; i++) {
     element.addEventListener('click', async (e) => {
         e.preventDefault();
         e.stopPropagation();
-        const result = await axios.get(`https://localhost:3000/courses/admin/departments/${element.getAttribute('data-id')}`);
-        setupEditContent(result.data);
+        try {
+            const result = await axios.get(`https://localhost:3000/courses/admin/departments/${element.getAttribute('data-id')}`, {
+                headers: {
+                    'request-type': 'axios'
+                }
+            });
+            setupEditContent(result.data);
+        } catch (error) {
+            showErrorContent(error.response.data);
+        }
     });
 }
 
@@ -80,10 +99,14 @@ backBtn.addEventListener('click', e => {
 addDeptBtn.addEventListener('click', async (event) => {
     event.preventDefault();
     event.stopPropagation();
-    var data = { id: deptID.value, name: deptName.value };
-    const response = await axios.post('https://localhost:3000/courses/admin/departments', JSON.stringify(data),
-        { headers: { 'Content-Type': 'application/json' } });
-    window.location = 'https://localhost:3000/courses/admin/departments';
+    try {
+        var data = { id: deptID.value, name: deptName.value };
+        const response = await axios.post('https://localhost:3000/courses/admin/departments', JSON.stringify(data),
+            { headers: { 'Content-Type': 'application/json', 'request-type': 'axios' } });
+        window.location = 'https://localhost:3000/courses/admin/departments';
+    } catch (error) {
+        showErrorContent(error.response.data);
+    }
 });
 
 
@@ -107,10 +130,26 @@ function setupEditContent(data) {
     updateBtn.addEventListener('click', async (event) => {
         event.preventDefault();
         event.stopPropagation();
-        var data = { deptID: updateDeptID.value, deptName: updateDeptName.value };
-        const response = await axios.put('https://localhost:3000/courses/admin/departments', JSON.stringify(data),
-            { headers: { 'Content-Type': 'application/json' } });
-        window.location = 'https://localhost:3000/courses/admin/departments';
+        try {
+            var data = { deptID: updateDeptID.value, deptName: updateDeptName.value };
+            const response = await axios.put('https://localhost:3000/courses/admin/departments', JSON.stringify(data),
+                { headers: { 'Content-Type': 'application/json', 'request-type': 'axios' } });
+            window.location = 'https://localhost:3000/courses/admin/departments';
+        } catch (error) {
+            showErrorContent(error.response.data);
+        }
     });
 
 }
+
+function hideErrorContent() {
+    errorContent.style.display = 'none';
+}
+
+function showErrorContent(data) {
+    mainpageContent.style.display = 'none';
+    errorContent.innerHTML = data;
+    errorContent.style.display = '';
+}
+
+hideErrorContent();

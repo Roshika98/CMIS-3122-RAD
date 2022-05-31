@@ -81,8 +81,13 @@ router.all('*', (req, res, next) => {
 
 
 router.use((err, req, res, next) => {
+    const requestedFrom = req.headers['request-type'];
     const { statusCode = 500, message = 'Something went Wrong' } = err;
-    res.status(statusCode).send(message);
+    if (requestedFrom) {
+        console.log(requestedFrom);
+        res.status(statusCode).render('error/adminerror', { layout: false });
+    } else
+        res.status(statusCode).render('error/adminerror', { layout: 'user/layout' });
 });
 
 
