@@ -1,10 +1,8 @@
 const express = require('express');
-const db = require('../database/dbHandler');
 const router = express.Router();
-const pdfContent = require('../utility/pdfCreator');
-const puppeteer = require('puppeteer');
 const catchAsync = require('../utility/controllers/catchAsync');
 const user = require('../utility/controllers/userController');
+const ExpressError = require('../utility/error/ExpressError');
 
 var pdfPage = null;
 
@@ -21,12 +19,27 @@ router.get('/modules', catchAsync(user.getModules));
 
 router.get('/downloads', catchAsync(user.getDownloads));
 
-router.get('/error', catchAsync(user.getError));
 
 
 //* POST ROUTES----------------------------------------------------------------------
 
 router.post('/register', catchAsync(user.postRegister));
+
+
+
+router.all('*', (req, res, next) => {
+    next(new ExpressError(404, 'Page not found!'));
+});
+
+router.use((err, req, res, next) => {
+    const requestedFrom = req.headers['request-type'];
+    const { statusCode = 500, message = 'Something went Wrong' } = err;
+    if (requestedFrom) {
+        console.log(requestedFrom);
+        res.status(statusCode).render('error', { layout: false });
+    } else
+        res.status(statusCode).render('error', { layout: 'user/layout' });
+});
 
 module.exports = router;
 

@@ -72,14 +72,14 @@ app.use(flash());
 app.use('/courses/admin', session(sessionAdmin), flash(), flashMiddleware, router.admin);
 app.use('/courses', router.user);
 
-app.all('*', (req, res, next) => {
-    next(new ExpressError(404, 'Page not found!'));
-});
+// app.all('*', (req, res, next) => {
+//     next(new ExpressError(404, 'Page not found!'));
+// });
 
-app.use((err, req, res, next) => {
-    const { statusCode = 500, message = 'Something went Wrong' } = err;
-    res.status(statusCode).send(message);
-});
+// app.use((err, req, res, next) => {
+//     const { statusCode = 500, message = 'Something went Wrong' } = err;
+//     res.status(statusCode).send(message);
+// });
 
 
 

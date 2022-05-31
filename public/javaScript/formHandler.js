@@ -34,6 +34,11 @@ var dynamicHolder = document.getElementById('dynamicContent');
 var content = document.getElementsByClassName('tab');
 const degreetypes = [generalComb, jointComb, specialComb];
 
+//* ERROR HANDLERS-----------
+
+const mainpageContent = document.getElementById('main-content');
+const errorContent = document.getElementById('error-content');
+
 
 //* REQUEST HELPERS-----------------------------------------
 
@@ -53,25 +58,39 @@ var acYear = document.getElementById('acyear');
 nextBtn.addEventListener('click', async (event) => {
     event.preventDefault();
     event.stopPropagation();
-    if (currTab == 0) {
-        var params = prepareSelectionQuery();
-        var response = await axios.get('https://localhost:3000/courses/register', { params });
-        addDynamicContent(response.data);
+    try {
+        if (currTab == 0) {
+            var params = prepareSelectionQuery();
+            var response = await axios.get('https://localhost:3000/courses/register', {
+                params,
+                headers: {
+                    'request-type': 'axios'
+                }
+            });
+            addDynamicContent(response.data);
+        }
+        Showcontent(1);
+    } catch (error) {
+        showError(error.response.data);
     }
-    Showcontent(1);
 });
 
 
 submitBtn.addEventListener('click', async (event) => {
     event.preventDefault();
     event.stopPropagation();
-    var body = JSON.stringify(prepareReqBody());
-    var response = await axios.post('https://localhost:3000/courses/register', body,
-        { headers: { 'Content-Type': 'application/json' } });
-    var data = response.data;
-    console.log(data);
-    window.location = 'https://localhost:3000/courses/downloads';
+    try {
+        var body = JSON.stringify(prepareReqBody());
+        var response = await axios.post('https://localhost:3000/courses/register', body,
+            { headers: { 'Content-Type': 'application/json', 'request-type': 'axios' } });
+        var data = response.data;
+        console.log(data);
+        window.location = 'https://localhost:3000/courses/downloads';
+    } catch (error) {
+        showError(error.response.data);
+    }
 });
+
 
 prevBtn.addEventListener('click', (event) => {
     event.preventDefault();
@@ -266,5 +285,17 @@ function prepareReqBody() {
     };
     return req;
 }
+
+
+function showError(data) {
+    mainpageContent.style.display = 'none';
+    errorContent.innerHTML = data;
+    errorContent.style.display = '';
+}
+
+function hideErrorContent() {
+    errorContent.style.display = 'none';
+}
+
 
 

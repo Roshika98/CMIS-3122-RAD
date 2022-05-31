@@ -7,6 +7,7 @@ const upload = multer({ storage });
 const router = express.Router();
 const catchAsync = require('../utility/controllers/catchAsync');
 const admin = require('../utility/controllers/adminController');
+const ExpressError = require('../utility/error/ExpressError');
 
 //* GET ROUTES------------------------------------------------------------------------
 
@@ -71,6 +72,20 @@ router.delete('/departments/:id', user.isAuth, catchAsync(admin.deleteDepartment
 router.delete('/modules/:name', user.isAuth, catchAsync(admin.deleteModule));
 
 router.delete('/notices', user.isAuth, catchAsync(admin.deleteNotice));
+
+
+
+router.all('*', (req, res, next) => {
+    next(new ExpressError(404, 'Page not found inside admin routes!'));
+});
+
+
+router.use((err, req, res, next) => {
+    const { statusCode = 500, message = 'Something went Wrong' } = err;
+    res.status(statusCode).send(message);
+});
+
+
 
 
 module.exports = router;

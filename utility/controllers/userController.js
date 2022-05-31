@@ -1,5 +1,7 @@
 const db = require('../../database/dbHandler');
-
+const pdfContent = require('../pdfCreator');
+const puppeteer = require('puppeteer');
+const ExpressError = require('../error/ExpressError');
 
 const getRegister = async (req, res) => {
     if (Object.keys(req.query).length === 0) {
@@ -34,10 +36,6 @@ const getDownloads = async (req, res) => {
     res.end(buffer);
 };
 
-const getError = async (req, res, next) => {
-    throw new Error('This is an Error oh no!!!');
-};
-
 
 const postRegister = async (req, res) => {
     console.log('post request made');
@@ -51,4 +49,4 @@ const postRegister = async (req, res) => {
     res.send('okay');
 };
 
-module.exports = { getRegister, getModules, getDownloads, getError, postRegister };
+module.exports = { getRegister, getModules, getDownloads, postRegister };
