@@ -38,10 +38,11 @@ router.use((err, req, res, next) => {
     if (statusCode === 404) {
         res.status(statusCode).render('error/user404', { layout: 'user/layout' });
     } else {
+        const error = err;
         if (requestedFrom) {
-            res.status(statusCode).render('error/error', { layout: false });
+            res.status(statusCode).render('error/error', { error, layout: false });
         } else
-            res.status(statusCode).render('error/error', { layout: 'user/layout' });
+            res.status(statusCode).render('error/error', { error, layout: 'user/layout' });
     }
 });
 
