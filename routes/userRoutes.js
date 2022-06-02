@@ -33,17 +33,21 @@ router.all('*', (req, res, next) => {
 
 router.use((err, req, res, next) => {
     const requestedFrom = req.headers['request-type'];
-    const { statusCode = 500, message = 'Something went Wrong' } = err;
+    const { statusCode = 500 } = err;
+    const error = defineError(err);
     if (statusCode === 404) {
         res.status(statusCode).render('error/user404', { layout: 'user/layout' });
     } else {
         if (requestedFrom) {
-            console.log(requestedFrom);
             res.status(statusCode).render('error/error', { layout: false });
         } else
             res.status(statusCode).render('error/error', { layout: 'user/layout' });
     }
 });
+
+function defineError(error) {
+
+}
 
 module.exports = router;
 
