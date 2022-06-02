@@ -66,7 +66,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride('_method'));
-app.use(flash());
+// app.use(flash());
 
 
 app.use('/courses/admin', session(sessionAdmin), flash(), flashMiddleware, router.admin);
