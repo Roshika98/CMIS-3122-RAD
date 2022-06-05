@@ -1,5 +1,5 @@
 const express = require('express');
-const security = require('../authentication/security');
+const security = require('../Security/authentication');
 const user = require('../middleware/authenticationMiddleware');
 const { storage } = require('../utility/cloudinary');
 const multer = require('multer');

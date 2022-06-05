@@ -3,6 +3,7 @@ const router = express.Router();
 const catchAsync = require('../utility/controllers/catchAsync');
 const user = require('../utility/controllers/userController');
 const ExpressError = require('../utility/error/ExpressError');
+const validate = require('../middleware/validationMiddleware');
 
 var pdfPage = null;
 
@@ -13,9 +14,9 @@ router.get('/', (req, res) => {
     res.render('user/partials/homepage', { layout: 'user/layout' });
 });
 
-router.get('/register', catchAsync(user.getRegister));
+router.get('/register', validate.validateDegree, catchAsync(user.getRegister));
 
-router.get('/modules', catchAsync(user.getModules));
+router.get('/modules', validate.validateModules, catchAsync(user.getModules));
 
 router.get('/downloads', catchAsync(user.getDownloads));
 
@@ -23,7 +24,7 @@ router.get('/downloads', catchAsync(user.getDownloads));
 
 //* POST ROUTES----------------------------------------------------------------------
 
-router.post('/register', catchAsync(user.postRegister));
+router.post('/register', validate.validatePdf, catchAsync(user.postRegister));
 
 
 

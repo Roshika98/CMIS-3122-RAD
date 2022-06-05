@@ -1,7 +1,7 @@
 const db = require('../../database/dbHandler');
 const pdfContent = require('../pdfCreator');
 const puppeteer = require('puppeteer');
-const ExpressError = require('../error/ExpressError');
+
 
 const getRegister = async (req, res) => {
     if (Object.keys(req.query).length === 0) {
@@ -39,11 +39,8 @@ const getDownloads = async (req, res) => {
 
 const postRegister = async (req, res) => {
     console.log('post request made');
-    console.log(req.body);
+    // console.log(req.body);
     data = req.body;
-    data.semester1.mandatory.forEach(element => {
-        console.log(element);
-    });
     var pdfTemplate = await pdfContent(data.personal.level, data);
     pdfPage = pdfTemplate;
     res.send('okay');

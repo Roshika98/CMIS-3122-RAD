@@ -1,7 +1,7 @@
 const db = require('../../database/dbHandler');
 const { v4: uuidv4 } = require('uuid');
 const { cloudinary } = require('../cloudinary');
-const security = require('../../authentication/security');
+const security = require('../../Security/authentication');
 const ExpressError = require('../error/ExpressError');
 
 const getHomepage = async (req, res) => {

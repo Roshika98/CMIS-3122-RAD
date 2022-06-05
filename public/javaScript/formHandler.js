@@ -193,6 +193,9 @@ function prepareSelectionQuery() {
             var queryP = new URLSearchParams([['level', `${levelSelector.value}`], ['type', `${degreeSelector.value}`], ['selection', `${specialSelection.value}`]]);
             return queryP;
         }
+    } else {
+        var queryP = new URLSearchParams([['level', '0'], ['selection', '0']]);
+        return queryP;
     }
 }
 
@@ -268,7 +271,7 @@ function prepareReqBody() {
         name: fName.value,
         regNo: regNo.value,
         contact: contact.value,
-        image: imageFile.value,
+        // image: imageFile.value,
         level: levelSelector.value,
         academicYear: acYear.value,
         degreeDetails: degree
