@@ -2,7 +2,9 @@ const db = require('../../database/dbHandler');
 const { v4: uuidv4 } = require('uuid');
 const { cloudinary } = require('../cloudinary');
 const security = require('../../Security/authentication');
-const ExpressError = require('../error/ExpressError');
+
+
+
 
 const getHomepage = async (req, res) => {
     var layoutVar = { title: 'home', script: '/javaScript/controllers/home.js' };
@@ -11,7 +13,6 @@ const getHomepage = async (req, res) => {
 };
 
 const getAccountPage = async (req, res) => {
-    throw new ExpressError(500, 'heyooo');
     var layoutVar = { title: 'account', script: '/javaScript/controllers/user.js' };
     var data = await db.getAdminProfileDetails(req.session.user_id);
     res.render('admin/partials/user', { layoutVar, data, layout: 'admin/layout' });
@@ -82,13 +83,13 @@ const uploadNotice = async (req, res) => {
 const addDepartment = async (req, res) => {
     const data = req.body;
     const result = await db.createNewDepartment(data);
-    req.flash('success', 'Department successfully added');
+    req.flash('success', 'Department successfully added');  //done
     res.send(result);
 };
 
 const addModule = async (req, res) => {
     const data = req.body;
-    const result = await db.createNewModule(data);
+    const result = await db.createNewModule(data);  //done
     res.send(result);
 };
 

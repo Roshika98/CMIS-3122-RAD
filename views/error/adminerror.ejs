@@ -2,7 +2,8 @@
     <div class="card card-plain">
 
         <div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading">Error!</h4>
+            <% var message=error.message?error.message:error.code?error.code:'Something went wrong!' %>
+            <h4 class="alert-heading"><%= message %></h4>
             <p>Aww yeah, you successfully read this important alert message. This example text is going to run a
                 bit
                 longer so that you can see how spacing within an alert works with this kind of content.</p>
