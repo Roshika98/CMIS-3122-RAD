@@ -1,30 +1,25 @@
-const { query } = require('express');
-const res = require('express/lib/response');
 const connection = require('./dbConnector');
 
 class DbHandler {
 
+
+    constructor() {
+        console.log('New Database handler instance created');
+    }
+
     // * DATABASE READ OPERATIONS-----------------------------------------------
 
-    static async getmodulesDetails(dept, lvl) {
+    async getmodulesDetails(dept, lvl) {
         var q = 'SELECT course_code,name,credit,semester,description FROM modules INNER JOIN departments ON departments.deptID=modules.deptID WHERE departments.deptID=? && modules.level=?';
         var data = null;
-        try {
-            data = await connection.general.promise().execute(q, [dept, lvl]);
-        } catch (error) {
-            console.log(error);
-        }
+        data = await connection.general.promise().execute(q, [dept, lvl]);
         return data[0];
     }
 
-    static async getDepartmentDetails(id) {
+    async getDepartmentDetails(id) {
         var q = 'SELECT deptName FROM departments WHERE deptID=?';
         var data = null;
-        try {
-            data = await connection.general.promise().execute(q, [id]);
-        } catch (error) {
-            console.log(error);
-        }
+        data = await connection.general.promise().execute(q, [id]);
         return data[0];
     }
 
@@ -33,14 +28,10 @@ class DbHandler {
      * Used to get all the details of the module specified by name
      * @param  {} name name of the required module
      */
-    static async getModuleDetail(name) {
+    async getModuleDetail(name) {
         var q = 'SELECT * FROM modules WHERE name=?';
         var data = null;
-        try {
-            data = await connection.general.promise().execute(q, [name]);
-        } catch (error) {
-            console.log(error);
-        }
+        data = await connection.general.promise().execute(q, [name]);
         return data[0];
     }
 
@@ -49,18 +40,14 @@ class DbHandler {
      * Used retrieve all the departments of applied science faculty 
      * @returns object containing a collection of departments - contains keys=> deptID , deptName
      */
-    static async getAllDepartments() {
+    async getAllDepartments() {
         var q = 'SELECT * FROM departments';
         var data = null;
-        try {
-            data = await connection.general.promise().query(q);
-        } catch (error) {
-            console.log(error);
-        }
+        data = await connection.general.promise().query(q);
         return data[0];
     }
 
-    static async processSelection(data) {
+    async processSelection(data) {
         if (data.level == 1 || data.level == 2) {
             var result = await this.#normalSelect(data.level, data.selection);
             return result;
@@ -85,7 +72,7 @@ class DbHandler {
      * Used get profile details from admin table
      * @param  {} id unique identifier of the admin profile record 
      */
-    static async getAdminProfileDetails(id) {
+    async getAdminProfileDetails(id) {
         var queryString = 'SELECT username,email,firstName,lastName FROM admin WHERE id=?';
         const response = await connection.admin.promise().execute(queryString, [id]);
         return response[0];
@@ -95,7 +82,7 @@ class DbHandler {
      * Returns the admin name & username specified by id
      * @param  {} id unique id of the admin record
      */
-    static async getAdminName(id) {
+    async getAdminName(id) {
         var queryString = 'SELECT username,firstName FROM admin WHERE id=?';
         const response = await connection.admin.promise().execute(queryString, [id]);
         return response[0];
@@ -104,7 +91,7 @@ class DbHandler {
     /**
      * Return all the notices available
      */
-    static async getAllNotices() {
+    async getAllNotices() {
         var queryString = 'SELECT id,heading,noticeDate,filename FROM notices ORDER BY noticeDate DESC';
         const response = await connection.admin.promise().query(queryString);
         return response[0];
@@ -114,7 +101,7 @@ class DbHandler {
      * Returns a notice according to the id provided
      * @param  {} id unique identifier of the notice
      */
-    static async getNotice(id) {
+    async getNotice(id) {
         var queryString = 'SELECT url,filename FROM notices WHERE id=?';
         const response = await connection.general.promise().execute(queryString, [id]);
         return response[0];
@@ -126,7 +113,7 @@ class DbHandler {
      * Used enter a new Department record to Departments table
      * @param  {object} data contains key value pairs necessary to execute the query
      */
-    static async createNewDepartment(data) {
+    async createNewDepartment(data) {
         var queryString = 'INSERT INTO departments (deptID,deptName) VALUES (?,?)';
         const result = await connection.admin.promise().execute(queryString, [data.id, data.name]);
         console.log(result);
@@ -138,7 +125,7 @@ class DbHandler {
      * Used to insert a new module record to the modules table
      * @param  {object} data contains the keys necessary for the query to execute
      */
-    static async createNewModule(data) {
+    async createNewModule(data) {
         var queryString = 'INSERT INTO modules (course_code,name,credit,level,semester,deptID,special,special_mandatory,major1,major1_mandatory,major2,major2_mandatory,general,general_mandatory,description) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
         const result = await connection.admin.promise().execute(queryString, [data.code, data.name, data.credit, data.level, data.semester, data.department, data.special_available, data.special_mandatory, data.m1_available, data.m1_mandatory, data.m2_available, data.m2_mandatory, data.general_available, data.general_mandatory, data.description]);
         console.log(result);
@@ -149,7 +136,7 @@ class DbHandler {
      * Used to add a new notice to the notices table
      * @param  {} data An object containing keys :- id,heading,url & filename
      */
-    static async addNewNotice(data) {
+    async addNewNotice(data) {
         var queryString = 'INSERT INTO notices (id,heading,url,noticeDate,filename) VALUES (?,?,?,CURDATE(),?)';
         const result = await connection.admin.promise().execute(queryString, [data.id, data.heading, data.url, data.filename]);
         console.log(result);
@@ -163,7 +150,7 @@ class DbHandler {
     * Used to delete a department from the departments table
     * @param {} id department identifier
     */
-    static async deleteDepartment(id) {
+    async deleteDepartment(id) {
         var queryString = 'DELETE FROM departments WHERE deptID=?';
         const result = await connection.admin.promise().execute(queryString, [id]);
         console.log(result);
@@ -174,7 +161,7 @@ class DbHandler {
      * Deletes a record in modules table according to the given module name
      * @param  {} name name of the module to be deleted
      */
-    static async deleteModule(name) {
+    async deleteModule(name) {
         var queryString = 'DELETE FROM modules WHERE name=?';
         const result = await connection.admin.promise().execute(queryString, [name]);
         console.log(result);
@@ -185,7 +172,7 @@ class DbHandler {
      * Deletes a notice from the notices table
      * @param  {} id unique identifier of the notice to be deleted
      */
-    static async deleteNotice(filename) {
+    async deleteNotice(filename) {
         var queryString = 'DELETE FROM notices WHERE filename=?';
         const result = await connection.admin.promise().execute(queryString, [filename]);
         return result;
@@ -198,7 +185,7 @@ class DbHandler {
      * Used to update a record in the departments table
      * @param  {object} data data to be updated (contains two keys: deptID , deptName);
     */
-    static async updateDepartments(data) {
+    async updateDepartments(data) {
         var queryString = 'UPDATE departments SET deptName=? WHERE deptID=?';
         const result = await connection.admin.promise().execute(queryString, [data.deptName, data.deptID]);
         return result;
@@ -208,7 +195,7 @@ class DbHandler {
      * Used to update a record in the modules table
      * @param  {} data Object containing updated data for the record
      */
-    static async updateModules(data) {
+    async updateModules(data) {
         var queryString = 'UPDATE modules SET course_code=?,name=?,credit=?,level=?,semester=?,deptID=?,special=?,special_mandatory=?,major1=?,major1_mandatory=?,major2=?,major2_mandatory=?,general=?,general_mandatory=?,description=? WHERE course_code=?';
         const result = await connection.admin.promise().execute(queryString, [data.code, data.name, data.credit, data.level, data.semester, data.department, data.special_available, data.special_mandatory, data.m1_available, data.m1_mandatory, data.m2_available, data.m2_mandatory, data.general_available, data.general_mandatory, data.description, data.code]);
         return result;
@@ -219,7 +206,7 @@ class DbHandler {
      * @param  {} id id associated with the current session admin
      * @param  {object} data data to be updated
      */
-    static async updateAdminData(id, data) {
+    async updateAdminData(id, data) {
         var queryString = 'UPDATE admin SET firstName=? , lastName=? WHERE id=?';
         const result = await connection.admin.promise().execute(queryString, [data.fName, data.lName, id]);
         return result;
@@ -234,7 +221,7 @@ class DbHandler {
      * @param  {} level The level of study
      * @param  {} selection The selected combination identifier
      */
-    static async #normalSelect(level, selection) {
+    async #normalSelect(level, selection) {
         var dep1 = null;
         var dep2 = null;
         var dep3 = null;
@@ -253,7 +240,7 @@ class DbHandler {
         return { semester1: [[dep1[0], dep1[1]], [dep2[0], dep2[1]], [dep3[0], dep3[1]]], semester2: [[dep1[0], dep1[2]], [dep2[0], dep2[2]], [dep3[0], dep3[2]]] };
     }
 
-    static async #generalSelect(level, selection) {
+    async #generalSelect(level, selection) {
         var dep1 = null;
         var dep2 = null;
         var dep3 = null;
@@ -297,7 +284,7 @@ class DbHandler {
         return { semester1: [[dep1[0], dep1[1]], [dep2[0], dep2[1]], [dep3[0], dep3[1]]], semester2: [[dep1[0], dep1[2]], [dep2[0], dep2[2]], [dep3[0], dep3[2]]] };
     }
 
-    static async #jmSelect(level, selection) {
+    async #jmSelect(level, selection) {
         var dep1 = null;
         var dep2 = null;
         if (selection == '1A') {
@@ -340,7 +327,7 @@ class DbHandler {
         return { semester1: [[dep1[0], dep1[1]], [dep2[0], dep2[1]]], semester2: [[dep1[0], dep1[2]], [dep2[0], dep2[2]]] };
     }
 
-    static async #specialSelect(level, selection) {
+    async #specialSelect(level, selection) {
         var dep = null;
         if (selection == 1) {
             dep = await this.#spHelper(level, 2);
@@ -354,21 +341,21 @@ class DbHandler {
         return { semester1: [[dep[0], dep[1]]], semester2: [[dep[0], dep[2]]] };
     }
 
-    static async #normalHelper(level, dept) {
+    async #normalHelper(level, dept) {
         var q = 'SELECT deptName FROM departments WHERE deptID=?';
         var q2 = 'SELECT course_code,name,credit FROM modules INNER JOIN departments ON departments.deptID=modules.deptID WHERE modules.level=? && departments.deptID=? && modules.semester=1';
         var q3 = 'SELECT course_code,name,credit FROM modules INNER JOIN departments ON departments.deptID=modules.deptID WHERE modules.level=? && departments.deptID=? && modules.semester=2';
         return await this.#runQueries(q, q2, q3, level, dept);
     }
 
-    static async #generalHelper(level, dept) {
+    async #generalHelper(level, dept) {
         var q = 'SELECT deptName FROM departments WHERE deptID=?';
         var q2 = 'SELECT course_code,name,credit,general_mandatory AS mandatory FROM modules INNER JOIN departments ON departments.deptID=modules.deptID WHERE modules.level=? && departments.deptID=? && modules.semester=1 && general=true';
         var q3 = 'SELECT course_code,name,credit,general_mandatory AS mandatory FROM modules INNER JOIN departments ON departments.deptID=modules.deptID WHERE modules.level=? && departments.deptID=? && modules.semester=2 && general=true';
         return await this.#runQueries(q, q2, q3, level, dept);
     }
 
-    static async #generalHelperforMathsDept(level, type, dept) {
+    async #generalHelperforMathsDept(level, type, dept) {
         var q = 'SELECT deptName FROM departments WHERE deptID=?';
         var q2 = '';
         var q3 = '';
@@ -385,7 +372,7 @@ class DbHandler {
         return await this.#runQueries(q, q2, q3, level, dept);
     }
 
-    static async #jmHelper(level, dept, majorType) {
+    async #jmHelper(level, dept, majorType) {
         var q = 'SELECT deptName FROM departments WHERE deptID=?';
         var q2 = '';
         var q3 = '';
@@ -399,14 +386,14 @@ class DbHandler {
         return await this.#runQueries(q, q2, q3, level, dept);
     }
 
-    static async #spHelper(level, dept) {
+    async #spHelper(level, dept) {
         var q = 'SELECT deptName FROM departments WHERE deptID=?';
         var q2 = 'SELECT course_code,name,credit,special_mandatory AS mandatory FROM modules INNER JOIN departments ON departments.deptID=modules.deptID WHERE modules.level=? && departments.deptID=? && modules.semester=1 && special=true'
         var q3 = 'SELECT course_code,name,credit,special_mandatory AS mandatory FROM modules INNER JOIN departments ON departments.deptID=modules.deptID WHERE modules.level=? && departments.deptID=? && modules.semester=2 && special=true'
         return await this.#runQueries(q, q2, q3, level, dept);
     }
 
-    static async #runQueries(q, q2, q3, level, dept) {
+    async #runQueries(q, q2, q3, level, dept) {
         var depName = await connection.general.promise().execute(q, [dept]);
         var sem1 = await connection.general.promise().execute(q2, [level, dept]);
         var sem2 = await connection.general.promise().execute(q3, [level, dept]);
@@ -414,4 +401,4 @@ class DbHandler {
     }
 }
 
-module.exports = DbHandler;
+module.exports = new DbHandler();

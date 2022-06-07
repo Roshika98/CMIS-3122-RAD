@@ -1,8 +1,9 @@
 const express = require('express');
-const db = require('../database/dbHandler');
 const router = express.Router();
-const pdfContent = require('../utility/pdfCreator');
-const puppeteer = require('puppeteer');
+const catchAsync = require('../utility/controllers/catchAsync');
+const user = require('../utility/controllers/userController');
+const ExpressError = require('../utility/error/ExpressError');
+const validate = require('../middleware/validationMiddleware');
 
 var pdfPage = null;
 
@@ -13,54 +14,42 @@ router.get('/', (req, res) => {
     res.render('user/partials/homepage', { layout: 'user/layout' });
 });
 
-router.get('/register', async (req, res) => {
-    if (Object.keys(req.query).length === 0) {
-        res.render('user/partials/course_registration', { layout: 'user/layout' });
-    }
-    else {
-        var q = req.query;
-        var data = await db.processSelection(q);
-        var lvl = q.level;
-        res.render('user/boilerplates/selection', { lvl, data, layout: false });
-    }
-});
+router.get('/register', validate.validateDegree, catchAsync(user.getRegister));
 
-router.get('/modules', async (req, res) => {
-    if (Object.keys(req.query).length === 0)
-        res.render('user/partials/modules', { layout: 'user/layout' });
-    else {
-        var data = req.query;
-        const dept = await db.getDepartmentDetails(data.department);
-        const result = await db.getmodulesDetails(data.department, data.level);
-        res.render('user/boilerplates/showModules', { dept, result, layout: false });
-    }
-});
+router.get('/modules', validate.validateModules, catchAsync(user.getModules));
 
+router.get('/downloads', catchAsync(user.getDownloads));
 
-router.get('/downloads', async (req, res) => {
-    res.writeHead(200, { 'content-Type': 'application/pdf', 'Content-Disposition': 'attachment; filename="registrationform.pdf"' });
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.setContent(`${pdfPage}`);
-    const buffer = await page.pdf({ format: "A4" });
-    await browser.close();
-    res.end(buffer);
-});
 
 
 //* POST ROUTES----------------------------------------------------------------------
 
-router.post('/register', async (req, res) => {
-    console.log('post request made');
-    console.log(req.body);
-    data = req.body;
-    data.semester1.mandatory.forEach(element => {
-        console.log(element);
-    });
-    var pdfTemplate = await pdfContent(data.personal.level, data);
-    pdfPage = pdfTemplate;
-    res.send('okay');
+router.post('/register', validate.validatePdf, catchAsync(user.postRegister));
+
+
+
+router.all('*', (req, res, next) => {
+    next(new ExpressError(404, 'Page not found!'));
 });
+
+router.use((err, req, res, next) => {
+    const requestedFrom = req.headers['request-type'];
+    const { statusCode = 500 } = err;
+    const error = defineError(err);
+    if (statusCode === 404) {
+        res.status(statusCode).render('error/user404', { layout: 'user/layout' });
+    } else {
+        const error = err;
+        if (requestedFrom) {
+            res.status(statusCode).render('error/error', { error, layout: false });
+        } else
+            res.status(statusCode).render('error/error', { error, layout: 'user/layout' });
+    }
+});
+
+function defineError(error) {
+
+}
 
 module.exports = router;
 

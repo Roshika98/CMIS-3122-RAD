@@ -1,16 +1,17 @@
 const express = require('express');
-const db = require('../database/dbHandler');
-const security = require('../authentication/security');
+const security = require('../Security/authentication');
 const user = require('../middleware/authenticationMiddleware');
-const { cloudinary, storage } = require('../utility/cloudinary');
+const { storage } = require('../utility/cloudinary');
 const multer = require('multer');
 const upload = multer({ storage });
 const router = express.Router();
-const { v4: uuidv4 } = require('uuid');
+const catchAsync = require('../utility/controllers/catchAsync');
+const admin = require('../utility/controllers/adminController');
+const ExpressError = require('../utility/error/ExpressError');
+const validate = require('../middleware/validationMiddleware');
 
-//! GET ROUTES------------------------------------------------------------------------
+//* GET ROUTES------------------------------------------------------------------------
 
-//* DEFAULT ROUTE OF THE ADMIN SECTION----
 
 router.get('/', user.isAuth, (req, res) => {
     res.redirect('/courses/admin/homepage');
@@ -31,164 +32,85 @@ router.get('/logout', async (req, res) => {
     res.redirect('/courses/admin/login');
 });
 
+router.get('/homepage', user.isAuth, catchAsync(admin.getHomepage));
 
-//* HOMEPAGE ROUTE OF THE ADMIN SECTION----
+router.get('/account', user.isAuth, catchAsync(admin.getAccountPage));
 
-router.get('/homepage', user.isAuth, async (req, res) => {
-    var layoutVar = { title: 'home', script: '/javaScript/controllers/home.js' };
-    const data = await db.getAdminName(req.session.user_id);
-    res.render('admin/partials/home', { layoutVar, data, layout: 'admin/layout' });
+router.get('/departments', user.isAuth, catchAsync(admin.getDepartmentsPage));
+
+router.get('/departments/:id', user.isAuth, validate.validateDepartmentRetrieval, catchAsync(admin.getSpecificDept));
+
+router.get('/modules', user.isAuth, validate.validateModules, catchAsync(admin.getModulesPage));
+
+router.get('/modules/:name', user.isAuth, catchAsync(admin.getSpecificModule));
+
+router.get('/notices', user.isAuth, catchAsync(admin.getNotices));
+
+
+
+
+//* POST ROUTES----------------------------------------------------------------------
+
+router.post('/login', validate.validateLogin, catchAsync(admin.adminLogin));
+
+router.post('/notices', user.isAuth, upload.single('fileInput'), catchAsync(admin.uploadNotice));
+
+router.post('/departments', user.isAuth, validate.validateNewDept, catchAsync(admin.addDepartment));
+
+router.post('/modules', user.isAuth, validate.validateNewModule, catchAsync(admin.addModule));
+
+
+
+
+
+
+//* PUT ROUTES----------------------------------------------------------------------------
+
+router.put('/departments', user.isAuth, validate.validateNewDept, catchAsync(admin.updateDepartment));
+
+router.put('/modules', user.isAuth, validate.validateNewModule, catchAsync(admin.updateModule));
+
+router.put('/account', user.isAuth, validate.validateAdminAcc, catchAsync(admin.updateAccount));
+
+
+
+
+//* DELETE ROUTES---------------------------------------------------------------------
+
+router.delete('/departments/:id', user.isAuth, catchAsync(admin.deleteDepartment));
+
+router.delete('/modules/:name', user.isAuth, catchAsync(admin.deleteModule));
+
+router.delete('/notices', user.isAuth, catchAsync(admin.deleteNotice));
+
+
+
+router.all('*', user.isAuth, (req, res, next) => {
+    next(new ExpressError(404, 'Page not found inside admin routes!'));
 });
 
-//* USER ACCOUNT ROUTE OF THE ADMIN SECTION----
 
-router.get('/account', user.isAuth, async (req, res) => {
-    var layoutVar = { title: 'account', script: '/javaScript/controllers/user.js' };
-    var data = await db.getAdminProfileDetails(req.session.user_id);
-    res.render('admin/partials/user', { layoutVar, data, layout: 'admin/layout' });
-});
-
-//* DEPARTMENTS ROUTE OF THE ADMIN SECTION----
-
-router.get('/departments', user.isAuth, async (req, res) => {
-    var layoutVar = { title: 'departments', script: '/javaScript/controllers/departments.js' };
-    var result = await db.getAllDepartments();
-    res.render('admin/partials/departments', { layoutVar, result, layout: 'admin/layout' });
-});
-
-//* ROUTE FOR ACCESSING SPECIFIC DEPARTMENT DETAILS FOR EDITING----
-
-router.get('/departments/:id', user.isAuth, async (req, res) => {
-    var { id } = req.params;
-    var result = await db.getDepartmentDetails(id);
-    res.render('admin/cardContent/editDepartment', { id, result, layout: false });
-});
-
-//* MODULES ROUTE OF THE ADMIN SECTION----
-
-router.get('/modules', user.isAuth, async (req, res) => {
-    if (Object.keys(req.query).length == 0) {
-        var layoutVar = { title: 'modules', script: '/javaScript/controllers/modules.js' };
-        const departmentsSet = await db.getAllDepartments();
-        res.render('admin/partials/modules', { departmentsSet, layoutVar, layout: 'admin/layout' });
+router.use((err, req, res, next) => {
+    const requestedFrom = req.headers['request-type'];
+    const { statusCode = 500 } = err;
+    const error = err;
+    if (statusCode === 404) {
+        var layoutVar = { title: 'Not found', script: '' };
+        res.status(statusCode).render('error/admin404', { layoutVar, layout: 'admin/layout' });
+    } else if (statusCode === 401) {
+        res.status(statusCode).render('error/adminerror', { error, layout: false });
     } else {
-        console.log('hit');
-        var data = req.query;
-        const dept = await db.getDepartmentDetails(data.department);
-        const result = await db.getmodulesDetails(data.department, data.level);
-        var level = data.level;
-        res.render('admin/cardContent/modulesCard', { dept, level, result, layout: false });
+        if (requestedFrom) {
+            console.log(requestedFrom);
+            res.status(statusCode).render('error/adminerror', { error, layout: false });
+        } else {
+            var layoutVar = { title: `Error ${statusCode}`, script: '' };
+            res.status(statusCode).render('error/adminerror', { layoutVar, error, layout: 'admin/layout' });
+        }
     }
 });
 
-//* ROUTE FOR ACCESSING SPECIFIC MODULE DETAILS FOR EDITING----
 
-router.get('/modules/:name', user.isAuth, async (req, res) => {
-    var name = req.params.name;
-    const moduleData = await db.getModuleDetail(name);
-    const departmentsSet = await db.getAllDepartments();
-    res.render('admin/cardContent/editModules', { departmentsSet, moduleData, layout: false });
-});
-
-//* NOTICES ROUTE OF THE ADMIN SECTION----
-
-router.get('/notices', user.isAuth, async (req, res) => {
-    var layoutVar = { title: 'notices', script: '/javaScript/controllers/notice.js' };
-    const result = await db.getAllNotices();
-    res.render('admin/partials/notices', { layoutVar, result, layout: 'admin/layout' });
-});
-
-
-//! POST ROUTES----------------------------------------------------------------------
-
-router.post('/login', async (req, res) => {
-    const { username, pswrd } = req.body;
-    const result = await security.login(username, pswrd);
-    if (result.isValid) {
-        req.flash('success', 'logged in successfully');
-        security.serializeUser(req, result.id);
-        const redirectURL = req.session.redirectURL || '/courses/admin/homepage';
-        res.redirect(redirectURL);
-    } else {
-        req.flash('error', 'Username or password is incorrect. please try again..');
-        res.redirect('/courses/admin/login');
-    }
-});
-
-//* ROUTE FOR CREATING A NEW NOTICE----
-
-router.post('/notices', user.isAuth, upload.single('fileInput'), async (req, res) => {
-    const data = { id: uuidv4(), heading: req.body.heading, url: req.file.path, filename: req.file.filename };
-    const result = await db.addNewNotice(data);
-    req.flash('success', 'Notice successfully uploaded!');
-    res.redirect('/courses/admin/notices');
-});
-
-//* ROUTE FOR CREATING A NEW DEPARTMENT----
-
-router.post('/departments', user.isAuth, async (req, res) => {
-    const data = req.body;
-    const result = await db.createNewDepartment(data);
-    req.flash('success', 'Department successfully added');
-    res.send(result);
-});
-
-//* ROUTE FOR CREATING A NEW MODULE----
-
-router.post('/modules', user.isAuth, async (req, res) => {
-    const data = req.body;
-    const result = await db.createNewModule(data);
-    res.send(result);
-});
-
-
-//! PUT ROUTES----------------------------------------------------------------------------
-
-router.put('/departments', user.isAuth, async (req, res) => {
-    var data = req.body;
-    const result = await db.updateDepartments(data);
-    res.send(result);
-});
-
-
-router.put('/modules', user.isAuth, async (req, res) => {
-    const data = req.body;
-    console.log(data);
-    const result = await db.updateModules(data);
-    res.send(result);
-});
-
-router.put('/account', user.isAuth, async (req, res) => {
-    const data = req.body;
-    const result = await db.updateAdminData(req.session.user_id, data);
-    req.flash('success', 'Profile details updated successfully!');
-    res.redirect('/courses/admin/account');
-});
-
-
-//! DELETE ROUTES---------------------------------------------------------------------
-
-
-
-router.delete('/departments/:id', user.isAuth, async (req, res) => {
-    const id = req.params.id;
-    const result = await db.deleteDepartment(id);
-    res.send(result);
-});
-
-router.delete('/modules/:name', user.isAuth, async (req, res) => {
-    const name = req.params.name;
-    const result = await db.deleteModule(name);
-    res.send(result);
-});
-
-router.delete('/notices', user.isAuth, async (req, res) => {
-    const filename = req.query.filename;
-    await cloudinary.uploader.destroy(filename);
-    const result = await db.deleteNotice(filename);
-    req.flash('success', 'Notice Removed successfully');
-    res.sendStatus(200);
-});
 
 
 module.exports = router;

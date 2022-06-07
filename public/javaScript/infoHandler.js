@@ -4,6 +4,8 @@ const submit = document.getElementById('searchQ');
 const dept = document.getElementById('deptSelect');
 const lvl = document.getElementById('lvlSelect');
 const dynamic = document.getElementById('moduleContent');
+const mainpageContent = document.getElementById('main-content');
+const errorContent = document.getElementById('error-content');
 
 submit.addEventListener('click', async (e) => {
     e.preventDefault();
@@ -13,9 +15,18 @@ submit.addEventListener('click', async (e) => {
         return;
     }
     var params = new URLSearchParams([['department', `${dept.value}`], ['level', `${lvl.value}`]]);
-    var response = await axios.get('https://localhost:3000/courses/modules', { params });
-    addContent(response.data);
-    console.log('content displayed');
+    try {
+        var response = await axios.get('https://localhost:3000/courses/modules', {
+            params,
+            headers: {
+                'request-type': 'axios'
+            }
+        });
+        addContent(response.data);
+        console.log('content displayed');
+    } catch (error) {
+        showError(error.response.data);
+    }
 });
 
 function addContent(content) {
@@ -28,6 +39,18 @@ function nothingSelected() {
 }
 
 
+function showError(data) {
+    mainpageContent.style.display = 'none';
+    errorContent.innerHTML = data;
+    errorContent.style.display = '';
+}
+
+function hideErrorContent() {
+    errorContent.style.display = 'none';
+}
+
+
+hideErrorContent();
 nothingSelected();
 
 

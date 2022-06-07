@@ -1,6 +1,10 @@
 const userPage = document.getElementById('accountspage');
 userPage.classList.add('active');
 
+
+const mainpageContent = document.getElementById('main-content');
+const errorContent = document.getElementById('error-content');
+
 function notifySuccess() {
     try {
         var succes = document.getElementById('message').getAttribute('data-msg');
@@ -18,4 +22,17 @@ function notifySuccess() {
     }
 }
 
+function hideErrorContent() {
+    errorContent.style.display = 'none';
+}
+
+function showErrorContent(data) {
+    mainpageContent.style.display = 'none';
+    errorContent.innerHTML = data;
+    errorContent.style.display = '';
+}
+
+hideErrorContent();
+
 notifySuccess();
+

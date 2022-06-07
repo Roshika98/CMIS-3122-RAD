@@ -17,6 +17,7 @@ const MySQLStore = require('express-mysql-session')(session);
 const flashMiddleware = require('./middleware/flashMiddleware');
 
 
+
 const dbOpt = {
     host: process.env.DATABASE_URL,
     user: process.env.DATABASE_USER,
@@ -65,11 +66,12 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride('_method'));
-app.use(flash());
+// app.use(flash());
 
 
 app.use('/courses/admin', session(sessionAdmin), flash(), flashMiddleware, router.admin);
 app.use('/courses', router.user);
+
 
 
 server.listen(port, () => {

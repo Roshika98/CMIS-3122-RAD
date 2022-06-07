@@ -1,16 +1,24 @@
 const sql = require('mysql2');
 
-const generalConnection = sql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    database: 'fas'
+const generalConnection = sql.createPool({
+    host: process.env.DATABASE_URL,
+    user: process.env.DATABASE_USER,
+    database: process.env.DATABASE_NAME
 });
 
-const adminConnection = sql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    database: 'fas'
+generalConnection.on('error', (e) => {
+    console.log('general connection error');
+});
+
+const adminConnection = sql.createPool({
+    host: process.env.DATABASE_URL,
+    user: process.env.DATABASE_USER,
+    database: process.env.DATABASE_NAME
 })
+
+adminConnection.on('error', (e) => {
+    console.log('admin connection error');
+});
 
 const connectionPool = {
     general: generalConnection,
