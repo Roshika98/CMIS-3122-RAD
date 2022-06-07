@@ -1,195 +1,335 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <link rel="stylesheet" href="registration.css">
-</head>
-<body>
-	<form>
-	<div class="container-fluid">
-	<!-- <textarea cols="10" rows="8" value="">  
-</textarea>  -->
-<div class="photo">
-  <div class="img" style="background-image:url(/Images/); background-position: center; background-size: cover; background-repeat: no-repeat;">Photograph</div>
-	<p align="center"><em>Faculty of Applied Sciences</em></p>
-	<h5 align="center"><em>Wayamba University of Sri Lanka</em></h5>
-	<h4 align="center">Course Registration Form</h4>
-	<h5 align="center">Acadamic Year: <%= data.personal.academicYear %>  (Level <%= data.personal.level %> )</h5>
-</div>
-	<div align="right">
-    <input type="text" id="RegNo" name="username" value="<%= data.personal.regNo %> " placeholder="Reg. No................................."><br>
-	</div>
-	<div>
-    <span class="elements">
-      <label class="new" for="test">01.  Name with initials(In block capitals):-</label>
-      <input name="Title" type="email" value="<%= data.personal.name %> " placeholder="">
-  </span>
-  </div>
-  <p>02.  Gender :- <em>Male / Female</em></p>
-   <div>
-    <span class="elements"> 
-      <label class="field" for="Title">02.  Contact No. for  Immediate Correspondence:-</label>
-      
-      <input name="Title" type="email" value="<%= data.personal.contact %> " placeholder="">
-  </span>
-   </div>
-	<!-- <p>01.  Name with initials(In block capitals):-...........................................................................................................................................................................................................................................</p>
-	
-	<p>03.  Contact No. for  Immediate Correspondence:-......................................................................</p>
-	 -->
-  <p>04.  Selected subject Combination:- (Mark (✓) the selected combination) </p>
-	<table border="1px solid black" align="center">
-	<thead>
-	<tr>
-    <th><em>Combination code</em></th>
-    <th><em>Combination Discription</em></th>
-	<th><em>Selected Combination</em></th>
-  </tr>
-	</thead>
-	<tbody>
-	<tr>
-    <td>Combination 1</td>
-    <td>MATH & STAT + CMIS + ELTN </td>
-	<td></td>
-  </tr>
-  <tr>
-    <td>Combination 2</td>
-    <td>MATH & STAT + ELTN + IMGT</td>
-	<td></td>
-  </tr>
-  <tr>
-    <td>Combination 3</td>
-    <td>MATH & STAT + IMGT + CMIS </td>
-	<td></td>
-  </tr>
-  
-	</tbody>
-	</table>
-	<p>05. Please consult your Student Counselor before filling the following table:- </p>
+
+  <head>
+    <!-- <link rel="stylesheet" href="registration.css"> -->
+
+  </head>
+
+  <body>
+
+    <style>
+      .container-fluid {
+        background-color: white;
+
+        padding: 50px;
+      }
+
+      .photo {
+        display: inline;
+
+      }
+
+      .img {
+        display: inline;
+
+        width: 150px;
+
+        /* border: solid; */
+        border: 1px solid black;
+        padding-top: 0px;
+        padding-right: 30px;
+        padding-bottom: 100px;
+        padding-left: 30px;
 
 
-<table border="1px" align="center">
-<thead>
-<tr>
-    <td align="center" colspan="3">SEMESTER I - COURSE MODULES</td>
-	</thead>
-  </tr>
-  <tbody>
-  <tr>
-  
-   <td><em>Module Code</em></td>
-  <td><em>Title of the Module</em></td>
-  <td><em>No. Credits</em></td>
-  </tr>
-  <% var sem1Mandatory=data.semester1.mandatory %>
-                <% for( let i = 0; i < sem1Mandatory.length; i++ ) { %>
-                <tr>
-                    <td style="vertical-align:middle"><%= sem1Mandatory[i].code %></td>
-                    <td style="vertical-align:middle"><%= sem1Mandatory[i].name %></td>
-                    <td style="vertical-align:middle"><%= sem1Mandatory[i].credit %></td>
-                </tr>
-                <% } %>
-  <td></td>
-  <td colspan="2"><em>Total No. of Credits For Semester I =</em></td>
-  
-  </tr>
-  </tbody>
-  <br>
-</table>
-<div style="page-break-after:always;">
-    
-</div>
-<br>
+      }
 
-<table border="1px" align="center">
-<thead>
-<tr>
-    <td align="center" colspan="3">SEMESTER II - COURSE MODULES</td>
-	</thead>
-  </tr>
-  <tbody>
-  <tr>
-  
-   <td><em>Module Code</em></td>
-  <td><em>Title of the Module</em></td>
-  <td><em>No. Credits</em></td>
-  </tr>
-  <% var sem2Mandatory=data.semester2.mandatory %>
-                <% for( let i = 0; i < sem2Mandatory.length; i++ ) { %>
-                <tr>
-                    <td style="vertical-align:middle"><%= sem2Mandatory[i].code %></td>
-                    <td style="vertical-align:middle"><%= sem2Mandatory[i].name %></td>
-                    <td style="vertical-align:middle"><%= sem2Mandatory[i].credit %></td>
-                </tr>
-                <% } %>
-            
-  <tr>
-  <th></th>
-  <td colspan="2"><em>Total No. of Credits For Semester II =</em></td>
-  
-  <tr>
-    <td colspan="3"><em>Total Number of Credits For Academic Year =</em></td>
-  </tr>
-  </tbody>
-</table>
-<p>04. Registration Fee:  Rs. 150</p>
-<table class="date_table">
-  <tr>
-    <td>Date of Payments:</td>
-    <td>Receipt No:</td>
-    </tr>
-    <tr>
-      <td>Date: .....................................</td>
-      <td>.................................</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>Signature of Applicant</td>
-      </tr>
-      <tr></tr>
-      <tr>
-        <td>Date: .....................................</td>
-      <td>.................................</td>
-      </tr>
-      
-      <tr>
-        <td></td>
-        <td>Signature of Mentor</td>
-      </tr>
-  </table>
-</br>
-<hr>
-<p>I certify that the above student has selected the correct set of modules relevant to his/her combination at Level 2 and that he/she will fulfill the minimum annual credit requirement in respect of the subject area(s) offered by my Department. </p>
-</br>
-</br>
-<table class="Signature_table">
-  <tr>
-    <td>..................................................</td>
-    <td>..................................................</td>
-    <td>..................................................</td>
-    <td>..................................................</td>
+      .elements {
+        padding: 0px;
+        display: inline;
+        border-bottom: 1px solid;
+        border-bottom-color: black;
 
-    </tr>
-    <tr>
-      <td>Signature of the Head/Academic Advisor/CMIS</td>
-      <td>Signature of the Head/Academic Advisor/ELTN</td>
-      <td>Signature of the Head/Academic Advisor/IMGT</td>
-      <td>Signature of the Head/Academic Advisor/MATH</td>
-      </tr>
-      <tr>
-        <td>Date...........................................</td>
-        <td>Date...........................................</td>
-        <td>Date...........................................</td>
-        <td>Date...........................................</td>
-    
-        </tr>
-</table>	
-</br>
-<p>I certify that the above student has selected modules required minimum/maximum aggregating to the number of credits(30/33) for Level 3</p>
-</br>
-<p>.........................................................</p>
-	<p>Signature of the Student Counsellor</p>
-	
-	</div>
-	</form>
-</body>
+
+      }
+
+      .field {
+
+        color: black;
+        padding-left: 00px;
+        padding-right: 250px;
+
+      }
+
+      .new {
+
+        color: black;
+        padding-left: 00px;
+        padding-right: 75%;
+      }
+
+      input[type=email] {
+        border: 0px solid;
+        height: 20px;
+        width: 90%;
+        padding-left: 10px;
+
+      }
+
+      .details {
+        text-align: left;
+        width: 300px;
+        padding: 6px 10px;
+        margin: 1px 0;
+        /* box-sizing: unset; */
+      }
+
+
+      h5,
+      h4 {
+        margin-top: 1px;
+      }
+
+      /* input[type=text] {
+        text-align: center;
+        width: 160px;
+        padding: 6px 10px;
+        margin: 8px 0;
+        box-sizing: border-box;
+      } */
+
+      #RegNo {
+        text-align: center;
+        width: 160px;
+        padding: 6px 10px;
+        margin: 8px 0;
+        box-sizing: border-box;
+      }
+
+      textarea {
+        margin-top: 1px;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 70%;
+
+      }
+
+      th {
+        height: 10px;
+        text-align: center;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        text-align: center;
+      }
+
+      .date_table {
+        width: 100%;
+
+      }
+
+      .date_table td {
+        text-align: justify;
+
+      }
+
+      .Signature_table {
+        width: 100%;
+      }
+    </style>
+
+    <form>
+      <div class="container-fluid">
+
+        <div class="photo">
+          <div class="img"
+            style="background-image:url(/Images/); background-position: center; background-size: cover; background-repeat: no-repeat;">
+          </div>
+          <div>
+            <p style="text-align: center;"><em>Faculty of Applied Sciences</em></p>
+            <p style="text-align: center;"><em>Wayamba University of Sri Lanka</em></p>
+            <h4 align="center">Course Registration Form</h4>
+            <p style="text-align: center;"><em>Acadamic Year: <%= data.personal.academicYear %> (Level
+                <%= data.personal.level %> )</em> </p>
+          </div>
+        </div>
+
+
+        <div align="right">
+          <div style="display: inline-block;">
+            <label for="RegNo">Reg No:</label>
+            <input type="text" id="RegNo" name="username" value="<%= data.personal.regNo %>">
+          </div>
+        </div>
+
+
+        <div>
+          <div style="display: inline-block;">
+            <label for="test">01. Name with initials(In block capitals):-</label>
+            <label class="details"><%= data.personal.name %> </label>
+          </div>
+        </div>
+        <p>02. Gender :- <em>Male / Female</em></p>
+        <div>
+          <div style="display: inline-block;">
+            <label for="Title">02. Contact No. for Immediate Correspondence:-</label>
+            <label class="details"><%= data.personal.contact %> </label>
+          </div>
+        </div>
+
+        <p>04. Selected subject Combination:- (Mark (✓) the selected combination) </p>
+        <table border="1px solid black" align="center">
+          <thead>
+            <tr>
+              <th><em>Combination code</em></th>
+              <th><em>Combination Discription</em></th>
+              <th><em>Selected Combination</em></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Combination 1</td>
+              <td>MATH & STAT + CMIS + ELTN </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Combination 2</td>
+              <td>MATH & STAT + ELTN + IMGT</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Combination 3</td>
+              <td>MATH & STAT + IMGT + CMIS </td>
+              <td></td>
+            </tr>
+
+          </tbody>
+        </table>
+        <p>05. Please consult your Student Counselor before filling the following table:- </p>
+
+
+        <table border="1px" align="center" style="page-break-after:always;">
+          <thead>
+            <tr>
+              <td align="center" colspan="3">SEMESTER I - COURSE MODULES</td>
+          </thead>
+          </tr>
+          <tbody>
+            <tr>
+
+              <td><em>Module Code</em></td>
+              <td><em>Title of the Module</em></td>
+              <td><em>No. Credits</em></td>
+            </tr>
+            <% var sem1Mandatory=data.semester1.mandatory %>
+            <% for( let i = 0; i < sem1Mandatory.length; i++ ) { %>
+            <tr>
+              <td style="vertical-align:middle"><%= sem1Mandatory[i].code %></td>
+              <td style="vertical-align:middle"><%= sem1Mandatory[i].name %></td>
+              <td style="vertical-align:middle"><%= sem1Mandatory[i].credit %></td>
+            </tr>
+            <% } %>
+            <td></td>
+            <td colspan="2"><em>Total No. of Credits For Semester I =</em></td>
+
+            </tr>
+          </tbody>
+          <br>
+        </table>
+      </div>
+      <div class="container-fluid">
+        <br>
+
+        <table border="1px" align="center">
+          <thead>
+            <tr>
+              <td align="center" colspan="3">SEMESTER II - COURSE MODULES</td>
+          </thead>
+          </tr>
+          <tbody>
+            <tr>
+
+              <td><em>Module Code</em></td>
+              <td><em>Title of the Module</em></td>
+              <td><em>No. Credits</em></td>
+            </tr>
+            <% var sem2Mandatory=data.semester2.mandatory %>
+            <% for( let i = 0; i < sem2Mandatory.length; i++ ) { %>
+            <tr>
+              <td style="vertical-align:middle"><%= sem2Mandatory[i].code %></td>
+              <td style="vertical-align:middle"><%= sem2Mandatory[i].name %></td>
+              <td style="vertical-align:middle"><%= sem2Mandatory[i].credit %></td>
+            </tr>
+            <% } %>
+
+            <tr>
+              <th></th>
+              <td colspan="2"><em>Total No. of Credits For Semester II =</em></td>
+
+            <tr>
+              <td colspan="3"><em>Total Number of Credits For Academic Year =</em></td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+        <p>04. Registration Fee: Rs. 150</p>
+        <table class="date_table">
+          <tr>
+            <td>Date of Payments:</td>
+            <td>Receipt No:</td>
+          </tr>
+          <tr>
+            <td>Date: .....................................</td>
+            <td>.................................</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Signature of Applicant</td>
+          </tr>
+          <tr></tr>
+          <tr>
+            <td>Date: .....................................</td>
+            <td>.................................</td>
+          </tr>
+
+          <tr>
+            <td></td>
+            <td>Signature of Mentor</td>
+          </tr>
+        </table>
+        </br>
+        <hr>
+        <p>I certify that the above student has selected the correct set of modules relevant to his/her combination at
+          Level 2 and that he/she will fulfill the minimum annual credit requirement in respect of the subject area(s)
+          offered by my Department. </p>
+        </br>
+        </br>
+        <table class="Signature_table">
+          <tr>
+            <td>..................................................</td>
+            <td>..................................................</td>
+            <td>..................................................</td>
+            <td>..................................................</td>
+
+          </tr>
+          <tr>
+            <td>Signature of the Head/Academic Advisor/CMIS</td>
+            <td>Signature of the Head/Academic Advisor/ELTN</td>
+            <td>Signature of the Head/Academic Advisor/IMGT</td>
+            <td>Signature of the Head/Academic Advisor/MATH</td>
+          </tr>
+          <tr>
+            <td>Date...........................................</td>
+            <td>Date...........................................</td>
+            <td>Date...........................................</td>
+            <td>Date...........................................</td>
+
+          </tr>
+        </table>
+        </br>
+        <p>I certify that the above student has selected modules required minimum/maximum aggregating to the number of
+          credits(30/33) for Level 3</p>
+        </br>
+        <p>.........................................................</p>
+        <p>Signature of the Student Counsellor</p>
+
+      </div>
+    </form>
+  </body>
+
 </html>
