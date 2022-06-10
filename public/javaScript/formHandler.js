@@ -108,6 +108,13 @@ degreeSelector.addEventListener('change', e => {
 });
 
 
+imageFile.addEventListener('change', async (event) => {
+    var formData = new FormData();
+    formData.append("img", imageFile.files[0]);
+    // var params = new URLSearchParams([['file', `${imageFile.value}`]]);
+    var response = await axios.post('https://localhost:3000/courses/register/img', formData);
+})
+
 //! Function declarations & calls-------------------------------------
 
 HideAll();
@@ -234,6 +241,10 @@ function fillUpMandatory() {
 
 
 function fillUpOptional() {
+    if (sem1Optional.length > 0 && sem2Optional.length > 0) {
+        sem1Optional = [];
+        sem2Optional = [];
+    }
     var semesters = document.getElementsByClassName('sem');
     for (var i = 0; i < semesters.length; i++) {
         var optionalContent = semesters[i].querySelectorAll('.optional');

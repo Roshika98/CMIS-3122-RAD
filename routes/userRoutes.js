@@ -4,8 +4,11 @@ const catchAsync = require('../utility/controllers/catchAsync');
 const user = require('../utility/controllers/userController');
 const ExpressError = require('../utility/error/ExpressError');
 const validate = require('../middleware/validationMiddleware');
+const { storage } = require('../utility/cloudinary');
+const multer = require('multer');
+const upload = multer({ storage });
 
-var pdfPage = null;
+// var pdfPage = null;
 
 //* GET ROUTES---------------------------------------------------------
 
@@ -25,6 +28,8 @@ router.get('/downloads', catchAsync(user.getDownloads));
 //* POST ROUTES----------------------------------------------------------------------
 
 router.post('/register', validate.validatePdf, catchAsync(user.postRegister));
+
+router.post('/register/img', upload.single('img'), catchAsync(user.postImage));
 
 
 

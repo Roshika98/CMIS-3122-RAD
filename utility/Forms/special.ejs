@@ -1,352 +1,427 @@
-
 <html>
-    <head>
-      <link rel="stylesheet" href="registrationForm.css">
-    </head>
-    <body>
-        
-        <div class="container-fluid">
-        <form>
-        <!-- <textarea cols="10" rows="8" value="">  
-    </textarea>  -->
-    <div class="photo">
-      <div class="img" style="background-image:url(/Images/); background-position: center; background-size: cover; background-repeat: no-repeat;">Photograph</div>
-      <h5 align="center"><em>Faculty of Applied Sciences</em></h5>
-        <h5 align="center"><em>Wayamba University of Sri Lanka</em></h5>
-        <h4 align="center">Course Registration Form</h4>
-        <h5 align="center">Acadamic Year: 2019/2020 (Level 3)</h5>
-        <h3 align="center">B.Sc.(Special) Degree Program</h3>
-    </div>
+
+  <head>
+
+  </head>
+
+  <body>
+
+    <div class="container-fluid">
+      <form>
+
+        <style>
+          .container-fluid {
+            background-color: white;
+
+            padding: 50px;
+          }
+
+          .photo {
+            display: flex;
+
+          }
+
+          .img {
+            display: inline;
+
+            width: 150px;
+
+            /* border: solid; */
+            border: 1px solid black;
+            padding-top: 0px;
+            padding-right: 30px;
+            padding-bottom: 100px;
+            padding-left: 30px;
+
+
+          }
+
+          .elements {
+            padding: 0px;
+            display: inline;
+            border-bottom: 1px solid;
+            border-bottom-color: black;
+
+
+          }
+
+          .field {
+
+            color: black;
+            padding-left: 00px;
+            padding-right: 250px;
+
+          }
+
+          .new {
+
+            color: black;
+            padding-left: 00px;
+            padding-right: 75%;
+          }
+
+          input[type=email] {
+            border: 0px solid;
+            height: 20px;
+            width: 90%;
+            padding-left: 10px;
+
+          }
+
+          .details {
+            text-align: left;
+            width: 300px;
+            padding: 6px 10px;
+            margin: 1px 0;
+            border: none;
+            border-bottom: 1px;
+            border-bottom-style: dashed;
+            /* border-color: black; */
+            /* box-sizing: unset; */
+          }
+
+
+          h5,
+          h4 {
+            margin-top: 1px;
+          }
+
+          /* input[type=text] {
+              text-align: center;
+              width: 160px;
+              padding: 6px 10px;
+              margin: 8px 0;
+              box-sizing: border-box;
+            } */
+
+          #RegNo {
+            text-align: center;
+            width: 160px;
+            padding: 6px 10px;
+            margin: 8px 0;
+            box-sizing: border-box;
+          }
+
+          textarea {
+            margin-top: 1px;
+          }
+
+          table {
+            border-collapse: collapse;
+            width: 70%;
+
+          }
+
+          th {
+            height: 10px;
+            text-align: center;
+          }
+
+          th,
+          td {
+            padding: 10px;
+            text-align: center;
+          }
+
+          #selectionTable {
+            border-collapse: collapse;
+            width: 70%;
+          }
+
+          #selectionTable th {
+            height: min-content;
+            text-align: center;
+          }
+
+          #selectionTable td {
+            padding: 2px;
+            text-align: center;
+          }
+
+          .date_table {
+            width: 100%;
+
+          }
+
+          .date_table td {
+            text-align: justify;
+
+          }
+
+          .Signature_table {
+            width: 100%;
+          }
+        </style>
+
+        <div class="photo">
+          <div>
+            <img src="<%= imgUrl %> " alt="" style="width: 3.5cm;height: 4.5cm;">
+          </div>
+          <div style="width: 70%;">
+            <p style="text-align: center;"><em>Faculty of Applied Sciences</em><br>
+              <em>Wayamba University of Sri Lanka</em>
+            </p>
+            <h4 align="center">Course Registration Form</h4>
+            <p style="text-align: center;"><em>Acadamic Year: <%= data.personal.academicYear %> (Level
+                <%= data.personal.level %> )</em><br>
+              B.Sc.(Special) Degree Program</p>
+          </div>
+        </div>
+
+
         <div align="right">
-          <input type="text" id="RegNo" name="username" placeholder="Reg. No................................."><br>
+          <div style="display: inline-block;">
+            <label for="RegNo">Reg No:</label>
+            <input type="text" id="RegNo" name="username" value="<%= data.personal.regNo %>">
+          </div>
+        </div>
+
+
+        <div>
+          <div style="display: inline-block;margin-bottom: 4px;">
+            <label for="test">01. Name in Full(Mr./Ms.):-</label>
+            <label class="details"><%= data.personal.name %> </label>
+          </div>
         </div>
         <div>
-          <span class="elements">
-            <label class="new" for="test">01.  Name in Full(Mr./Ms.):-</label>
-            <input name="Title" type="email" placeholder="">
-        </span>
+          <div style="display: inline-block;margin-top: 8px;">
+            <label for="Title">02. Contact No. for Immediate Correspondence:-</label>
+            <label class="details"><%= data.personal.contact %> </label>
+          </div>
         </div>
-         <div>
-          <span class="elements"> 
-            <label class="field" for="Title">02.  Contact No. for  Immediate Correspondence:-</label>
-            
-            <input name="Title" type="email" placeholder="">
-        </span>
-         </div>
-        
 
-        <!-- <p>01.  Name in Full(Mr./Ms.) :-................................................................................................................................................................................................................................................................</p>
-        <p>02.  Contact No. for  Immediate Correspondence :-..................................................</p>
-         -->
-        <p>03.  Selected Subject Combinations    :-</p>
-        </br>
-        <table  border="1" cellpadding="10px" align="center">
+
+
+
+        <p>03. Selected Subject Combinations :-</p>
+
+        <table border="1" cellpadding="10px" align="center" id="selectionTable">
           <thead>
             <tr>
               <td>Degree Programme</td>
-              <td>Special Program Mark(✓)</td>
-              <td>Subsidiary Subject</td>
-              </tr>          
+              <td style="width: 15%;">Special Program Mark(✓)</td>
+              <td style="width: 15%;">Subsidiary Subject</td>
+            </tr>
           </thead>
-	
+
           <tbody>
-          <tr border="0">
-            <td border="0">B.Sc.(Special) Degree in Computer Science</td>
-            <td> </td>
-          <td>   </td>
-          </tr>
-          <tr>
-            <td>B.Sc.(Special) Degree in Applied Electronics</td>
-            <td> </td>
-          <td></td>
-          </tr>
-          <tr>
-            <td>B.Sc.(Special) Degree in Industrial Management</td>
-            <td> </td>
-          <td></td>
-          </tr>
-          <tr>
-            <td>B.Sc.(Special) Degree in Mathematics with Statistics</td>
-            <td></td>
-          <td></td>
-          </tr>
-          
+            <tr>
+              <td>B.Sc.(Special) Degree in Computer Science</td>
+              <td> </td>
+              <td> </td>
+            </tr>
+            <tr>
+              <td>B.Sc.(Special) Degree in Applied Electronics</td>
+              <td> </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>B.Sc.(Special) Degree in Industrial Management</td>
+              <td> </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>B.Sc.(Special) Degree in Mathematics with Statistics</td>
+              <td></td>
+              <td></td>
+            </tr>
+
           </tbody>
-          </table>
-          
-        
-    <h5>SEMESTER 1</h5>
-    <table border="1px" border="1" cellpadding="10px" align="center" align="center">
-    <thead>
-    <tr>
-    <td colspan="3" align="center">Specialized Subject</td>
-    </tr>
-    <tr>
-        <td>Module Code</td>
-        <td>Title of the Module</td>
-        <td>No. of Credits</td>
-        
-      </tr>
-      </thead>
-      <tr>
-       <td></td>
-      <td></td>
-      <td></td>
-      </tr>
-      <tr>
-       <td></td>
-      <td></td>
-      <td></td>
-      </tr>
-      <tr>
-       <td></td>
-      <td></td>
-      <td></td>
-      </tr>
-      <tr>
-       <td></td>
-      <td></td>
-      <td></td>
-      </tr>
-      <tr>
-       <td></td>
-      <td></td>
-      <td></td>
-      </tr>
-      <tr>
-       <td></td>
-      <td></td>
-      <td></td>
-      </tr>
-      <tr>
-       <td></td>
-      <td></td>
-      <td></td>
-      </tr>
-      <tr>
-       <td></td>
-      <td></td>
-      <td></td>
-      </tr>
-      <tr>
-       <td></td>
-      <td></td>
-      <td></td>
-      </tr>
-      <tr>
-      <td></td>
-      <td colspan="2">Total No. of Credits =</td>
-      
-      </tr>
-    </table>
-    </br>
-    <table border="1px" border="1" cellpadding="10px" align="center" align="center">
-    <thead>
-    <tr>
-    <td colspan="3" align="center">Subsidiary Subject</td>
-    </tr>
-    <tr>
-        <td>Module Code</td>
-        <td>Title of the Module</td>
-        <td>No. of Credits</td>
-        </thead>
-      </tr>
-      <tr>
-       <td></td>
-      <td></td>
-      <td></td>
-      </tr>
-      <tr>
-        <td></td>
-       <td></td>
-       <td></td>
-       </tr>
-       <tr>
-        <td></td>
-       <td></td>
-       <td></td>
-       </tr>
-       <tr>
-        <td></td>
-       <td></td>
-       <td></td>
-       </tr>
-      <tr>
-        <td></td>
-       <td></td>
-       <td></td>
-       </tr>
-      <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td colspan="2">Total No. of Credits =</td>
-        
-        </tr>
-    </table>
-    </br>
-    <h5>SEMESTER II</h5>
-    <table border="1px" border="1" cellpadding="10px" align="center" align="center">
-    <thead>
-    <tr>
-    <td colspan="3" align="center">Specialized Subject</td>
-    </tr>
-    <tr>
-        <td>Module Code</td>
-        <td>Title of the Module</td>
-        <td>No. of Credits</td>
-        
-      </tr>
-      </thead>
-      <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      </tr>
-      <tr>
-       <td></td>
-      <td></td>
-      <td></td>
-      </tr>
-      <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      </tr>
-      <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      </tr>
-      <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      </tr>
-      <tr>
-       <td></td>
-      <td></td>
-      <td></td>
-      </tr>
-      <tr>
-       <td></td>
-      <td></td>
-      <td></td>
-      </tr>
-      <tr>
-       <td></td>
-      <td></td>
-      <td></td>
-      </tr>
-      <tr>
-       <td></td>
-      <td></td>
-      <td></td>
-      </tr>
-      <tr>
-        <td></td>
+        </table>
+        <br>
+
+        <h4>SEMESTER 1</h4>
+        <table border="1px" border="1" cellpadding="10px" align="center" align="center">
+          <thead>
+            <tr>
+              <td colspan="3" align="center">Specialized Subject</td>
+            </tr>
+            <tr>
+              <td style="width: 15%;">Module Code</td>
+              <td style="width: 80%;">Title of the Module</td>
+              <td style="width: 5%;">No. of Credits</td>
+
+            </tr>
+          </thead>
+          <% var sem1Mandatory=data.semester1.mandatory %>
+          <% for( let i = 0; i < sem1Mandatory.length; i++ ) { %>
+          <tr>
+            <td style="vertical-align:middle"><%= sem1Mandatory[i].code %></td>
+            <td style="vertical-align:middle"><%= sem1Mandatory[i].name %></td>
+            <td style="vertical-align:middle"><%= sem1Mandatory[i].credit %></td>
+          </tr>
+          <% } %>
+          <% var sem1Optional=data.semester1.optional %>
+          <% for( let i = 0; i < sem1Optional.length; i++ ) { %>
+          <tr>
+            <td style="vertical-align:middle"><%= sem1Optional[i].code %></td>
+            <td style="vertical-align:middle"><%= sem1Optional[i].name %></td>
+            <td style="vertical-align:middle"><%= sem1Optional[i].credit %></td>
+          </tr>
+          <% } %>
+          <tr>
+            <td></td>
             <td colspan="2">Total No. of Credits =</td>
-            
-      </tr>
-    </table>
-    </br>
-    <table border="1px" border="1" cellpadding="10px" align="center" align="center">
-    <thead>
-    <tr>
-    <td colspan="3" align="center">Subsidiary Subject</td>
-    </tr>
-    <tr>
-        <td>Module Code</td>
-        <td>Title of the Module</td>
-        <td>No. of Credits</td>
-        
-      </tr>
-      </thead>
-      <tr>
-       <td>  </td>
-      <td>  </td>
-      <td></td>
-      </tr>
-      <tr>
-        <td></td>
-       <td></td>
-       <td></td>
-       </tr>
-       <tr>
-        <td></td>
-       <td></td>
-       <td></td>
-       </tr>
-       <tr>
-        <td></td>
-       <td></td>
-       <td></td>
-       </tr>
-      <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      </tr>
-      <tr>
-        <td></td>
-            <td colspan="2">Total No. of Credits =</td>  
-      </tr>
-      <tr>
-        <td colspan="3">Total number of credits for the academic year =</td>
-      </tr>
-    </table>
-    <p>04. Registration Fee:  Rs. 150</p>
-    <table class="date_table">
-      <tr>
-        <td>Date of Payments:</td>
-        <td>Receipt No:</td>
-        </tr>
-        <tr>
-          <td>Date: .....................................</td>
-          <td>.................................</td>
+
+          </tr>
+        </table>
+        </br>
+        <table border="1px" cellpadding="10px" align="center" style="page-break-after: always;">
+          <thead>
+            <tr>
+              <td colspan="3" align="center">Subsidiary Subject</td>
+            </tr>
+            <tr>
+              <td style="width: 20%;">Module Code</td>
+              <td style="width: 75%;">Title of the Module</td>
+              <td style="width: 5%;">No. of Credits</td>
+          </thead>
+          </tr>
+          <tr>
+            <td>MATH</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td colspan="2">Total No. of Credits =</td>
+
+          </tr>
+        </table>
+        <br>
+        <br>
+
+
+
+        <h4>SEMESTER II</h4>
+        <table border="1px" cellpadding="10px" align="center">
+          <thead>
+            <tr>
+              <td colspan="3" align="center">Specialized Subject</td>
+            </tr>
+            <tr>
+              <td>Module Code</td>
+              <td>Title of the Module</td>
+              <td>No. of Credits</td>
+
+            </tr>
+          </thead>
+          <% var sem2Mandatory=data.semester2.mandatory %>
+          <% for( let i = 0; i < sem2Mandatory.length; i++ ) { %>
+          <tr>
+            <td style="vertical-align:middle"><%= sem2Mandatory[i].code %></td>
+            <td style="vertical-align:middle"><%= sem2Mandatory[i].name %></td>
+            <td style="vertical-align:middle"><%= sem2Mandatory[i].credit %></td>
+          </tr>
+          <% } %>
+          <% var sem2Optional=data.semester2.optional %>
+          <% for( let i = 0; i < sem2Optional.length; i++ ) { %>
+          <tr>
+            <td style="vertical-align:middle"><%= sem2Optional[i].code %></td>
+            <td style="vertical-align:middle"><%= sem2Optional[i].name %></td>
+            <td style="vertical-align:middle"><%= sem2Optional[i].credit %></td>
+          </tr>
+          <% } %>
+
+          <tr>
+            <td></td>
+            <td colspan="2">Total No. of Credits =</td>
+
+          </tr>
+        </table>
+        </br>
+        <table border="1px" border="1" cellpadding="10px" align="center" align="center">
+          <thead>
+            <tr>
+              <td colspan="3" align="center">Subsidiary Subject</td>
+            </tr>
+            <tr>
+              <td>Module Code</td>
+              <td>Title of the Module</td>
+              <td>No. of Credits</td>
+
+            </tr>
+          </thead>
+          <tr>
+            <td> </td>
+            <td> </td>
+            <td></td>
+          </tr>
+
+          <tr>
+            <td></td>
+            <td colspan="2">Total No. of Credits =</td>
+          </tr>
+          <tr>
+            <td colspan="3">Total number of credits for the academic year =</td>
+          </tr>
+        </table>
+        <br>
+
+
+        <p>04. Registration Fee: Rs. 150</p>
+        <table class="date_table">
+          <tr>
+            <td>Date of Payments:</td>
+            <td>Receipt No:</td>
+          </tr>
+          <tr>
+            <td>Date: .....................................</td>
+            <td>.................................</td>
           </tr>
           <tr>
             <td></td>
             <td>Signature of Applicant</td>
           </tr>
-      </table>
-    </br>
-    <hr>
-    <p>I certify that the above student has selected the correct set of modules relevant to his/her combination at level 3 and that he/she will fulfill the minimum annual credit requirement in respect of the subject area(s) offered by my Department </p>
-  </br>
-</br>
-<table class="Signature_table">
-  <tr>
-    <td>..................................................</td>
-    <td>..................................................</td>
-    <td>..................................................</td>
-    <td>..................................................</td>
+        </table>
+        </br>
+        <hr>
+        <p>I certify that the above student has selected the correct set of modules relevant to his/her combination at
+          level 3 and that he/she will fulfill the minimum annual credit requirement in respect of the subject area(s)
+          offered by my Department </p>
+        </br>
+        </br>
+        <table class="Signature_table">
+          <tr>
+            <td>..................................................</td>
+            <td>..................................................</td>
+            <td>..................................................</td>
+            <td>..................................................</td>
 
-    </tr>
-    <tr>
-      <td>Signature of the Head/Academic Advisor/CMIS</td>
-      <td>Signature of the Head/Academic Advisor/ELTN</td>
-      <td>Signature of the Head/Academic Advisor/IMGT</td>
-      <td>Signature of the Head/Academic Advisor/MATH</td>
-      </tr>
-      <tr>
-        <td>Date...........................................</td>
-        <td>Date...........................................</td>
-        <td>Date...........................................</td>
-        <td>Date...........................................</td>
-    
-        </tr>
-</table>	
-</br>
-    <p>I certify that the above student has selected required minimum/maximum number of modules aggregating to the number of credits (30/33) for Level 3</p>
-  </br>
-  <p>.........................................................</p>
-    <p>Signature of the Student Counsellor</p>
-    
-        </form>
+          </tr>
+          <tr>
+            <td>Signature of the Head/Academic Advisor/CMIS</td>
+            <td>Signature of the Head/Academic Advisor/ELTN</td>
+            <td>Signature of the Head/Academic Advisor/IMGT</td>
+            <td>Signature of the Head/Academic Advisor/MATH</td>
+          </tr>
+          <tr>
+            <td>Date...........................................</td>
+            <td>Date...........................................</td>
+            <td>Date...........................................</td>
+            <td>Date...........................................</td>
+
+          </tr>
+        </table>
+        </br>
+        <p>I certify that the above student has selected required minimum/maximum number of modules aggregating to the
+          number of credits (30/33) for Level 3</p>
+        </br>
+        <p>.........................................................</p>
+        <p>Signature of the Student Counsellor</p>
+
+      </form>
     </div>
-    </body>
-    </html>
+  </body>
+
+</html>

@@ -45,6 +45,17 @@ const sessionAdmin = {
     }
 };
 
+const sessionUser = {
+    secret: process.env.SESSION_SECRET || 'Session Secret',
+    store: sessionStoreAdmin,
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: 1000 * 60 * 60 * 24 * 7
+    }
+}
+
 //! SSL certificate setup for local environment --------------------------------------------
 
 var privateKey = fs.readFileSync(path.join(__dirname, 'certificates/server.key'));
@@ -70,7 +81,7 @@ app.use(methodOverride('_method'));
 
 
 app.use('/courses/admin', session(sessionAdmin), flash(), flashMiddleware, router.admin);
-app.use('/courses', router.user);
+app.use('/courses', session(sessionUser), router.user);
 
 
 

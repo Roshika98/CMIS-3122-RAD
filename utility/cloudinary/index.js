@@ -11,9 +11,11 @@ const storage = new CloudinaryStorage({
     cloudinary,
     params: {
         folder: 'notices',
-        allowedFormats: ['pdf']
+        allowedFormats: ['pdf', 'jpeg', 'png', 'jpg']
     }
 });
+
+
 
 module.exports = {
     cloudinary, storage
