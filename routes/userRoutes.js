@@ -13,15 +13,15 @@ const upload = multer({ storage });
 //* GET ROUTES---------------------------------------------------------
 
 
-router.get('/', (req, res) => {
-    res.render('user/partials/homepage', { layout: 'user/layout' });
-});
+router.get('/', catchAsync(user.getHomepage));
 
 router.get('/register', validate.validateDegree, catchAsync(user.getRegister));
 
 router.get('/modules', validate.validateModules, catchAsync(user.getModules));
 
 router.get('/downloads', catchAsync(user.getDownloads));
+
+router.get('/notices/:id', catchAsync(user.showNotice));
 
 
 

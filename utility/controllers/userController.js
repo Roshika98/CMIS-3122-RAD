@@ -3,6 +3,13 @@ const pdfContent = require('../pdfCreator');
 const puppeteer = require('puppeteer');
 
 
+
+const getHomepage = async (req, res) => {
+    const notices = await db.getAllNotices();
+    res.render('user/partials/homepage', { notices, layout: 'user/layout' });
+};
+
+
 const getRegister = async (req, res) => {
     if (Object.keys(req.query).length === 0) {
         res.render('user/partials/course_registration', { layout: 'user/layout' });
@@ -52,4 +59,11 @@ const postImage = async (req, res) => {
     res.sendStatus(200);
 };
 
-module.exports = { getRegister, getModules, getDownloads, postRegister, postImage };
+
+const showNotice = async (req, res) => {
+    const id = req.params.id;
+    const result = await db.getNotice(id);
+    res.render('user/partials/notice', { result, layout: 'user/layout' });
+};
+
+module.exports = { getHomepage, getRegister, getModules, getDownloads, postRegister, postImage, showNotice };

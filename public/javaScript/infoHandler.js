@@ -6,6 +6,7 @@ const lvl = document.getElementById('lvlSelect');
 const dynamic = document.getElementById('moduleContent');
 const mainpageContent = document.getElementById('main-content');
 const errorContent = document.getElementById('error-content');
+const defaultContent = document.getElementById('nothing-selected');
 
 submit.addEventListener('click', async (e) => {
     e.preventDefault();
@@ -31,11 +32,15 @@ submit.addEventListener('click', async (e) => {
 
 function addContent(content) {
     dynamic.innerHTML = content;
+    dynamic.style.display = '';
+    defaultContent.style.display = 'none';
 }
 
 
 function nothingSelected() {
-    dynamic.innerHTML = '<h6>Nothing Selected</h6>';
+    // dynamic.innerHTML = '<h6>Nothing Selected</h6>';
+    defaultContent.style.display = '';
+    dynamic.style.display = 'none';
 }
 
 
