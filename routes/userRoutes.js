@@ -41,6 +41,7 @@ router.use((err, req, res, next) => {
     const requestedFrom = req.headers['request-type'];
     const { statusCode = 500 } = err;
     const error = defineError(err);
+    console.log(err);
     if (statusCode === 404) {
         res.status(statusCode).render('error/user404', { layout: 'user/layout' });
     } else {
