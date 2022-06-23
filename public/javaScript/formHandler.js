@@ -4,6 +4,7 @@
 
 
 var currTab = 0;
+const regForm = document.getElementById('regForm')
 var prevBtn = document.getElementById('previous');
 var nextBtn = document.getElementById('next');
 var submitBtn = document.getElementById('submit');
@@ -60,18 +61,27 @@ nextBtn.addEventListener('click', async (event) => {
     event.stopPropagation();
     try {
         if (currTab == 0) {
-            var params = prepareSelectionQuery();
-            var response = await axios.get('https://localhost:3000/courses/register', {
-                params,
-                headers: {
-                    'request-type': 'axios'
-                }
-            });
-            addDynamicContent(response.data);
+            if (!regForm.checkValidity()) {
+                regForm.classList.add('was-validated');
+                return;
+            }
+            else {
+                regForm.classList.add('was-validated');
+                var params = prepareSelectionQuery();
+                var response = await axios.get('https://localhost:3000/courses/register', {
+                    params,
+                    headers: {
+                        'request-type': 'axios'
+                    }
+                });
+                addDynamicContent(response.data);
+            }
         }
         Showcontent(1);
     } catch (error) {
-        showError(error.response.data);
+        if (error.response)
+            showError(error.response.data);
+        else console.log(error);
     }
 });
 
