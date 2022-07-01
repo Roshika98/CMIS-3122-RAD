@@ -3,6 +3,8 @@ const container = require('./data/dataHolder');
 
 var createDept = 'CREATE TABLE departments(deptID INT NOT NULL PRIMARY KEY,deptName VARCHAR(50) NOT NULL)';
 var createModules = 'CREATE TABLE modules(course_code VARCHAR(10) NOT NULL PRIMARY KEY, name VARCHAR(100) NOT NULL,credit INT NOT NULL,level INT NOT NULL,semester INT NOT NULL,deptID INT NOT NULL,special BOOLEAN NOT NULL,special_mandatory BOOLEAN NOT NULL,major1 BOOLEAN NOT NULL,major1_mandatory BOOLEAN NOT NULL,major2 BOOLEAN NOT NULL,major2_mandatory BOOLEAN NOT NULL,general BOOLEAN NOT NULL,general_mandatory BOOLEAN NOT NULL,description TEXT,CONSTRAINT fk_dept FOREIGN KEY (deptID) REFERENCES departments(deptID) ON DELETE CASCADE ON UPDATE CASCADE)';
+var createAdmin = 'CREATE TABLE admin(id VARCHAR(40) NOT NULL PRIMARY KEY,username VARCHAR(20) NOT NULL,password VARCHAR(200),email VARCHAR(50),firstName VARCHAR(20),lastName VARCHAR(20))';
+var createNotices = 'CREATE TABLE notices(id VARCHAR(40) NOT NULL PRIMARY KEY,heading VARCHAR(255) NOT NULL,url VARCHAR(255) NOT NULL,noticeDate DATE,filename VARCHAR(100))';
 
 var insertDept = 'INSERT INTO departments(deptID,deptName) VALUES (?,?)';
 var insertModules = 'INSERT INTO modules(course_code,name,credit,level,semester,deptID,special,special_mandatory,major1,major1_mandatory,major2,major2_mandatory,general,general_mandatory,description) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
@@ -20,6 +22,8 @@ async function createTables() {
         });
         var q1 = await connection.query(createDept);
         var q2 = await connection.query(createModules);
+        var q3 = await connection.query(createAdmin);
+        var q4 = await connection.query(createNotices);
         const ending = await connection.end();
     } catch (error) {
         console.log(error);

@@ -1,6 +1,7 @@
 <div class="tab sem">
     <h3>Step 2 of 3</h3>
     <h4>Semester I</h4>
+    <h5 id="sem1Credits"></h5>
     <br>
     <% if (lvl<=2) { %>
     <% data.semester1.forEach(element => { %>
@@ -79,6 +80,8 @@
 
     <h3>Step 3 of 3</h3>
     <h4>Semester II</h4>
+    <h5 id="sem2Credits"> </h5>
+
     <br>
     <% if (lvl<=2) { %>
     <% data.semester2.forEach(element => { %>
@@ -150,5 +153,7 @@
     <% } %>
     <% } %>
     <% } %>
+
+    <h5 id="totCredits"> </h5>
 
 </div>

@@ -54,7 +54,18 @@ var contact = document.getElementById('contact');
 var imageFile = document.getElementById('imageInput');
 var acYear = document.getElementById('acyear');
 
-//! Events----------------------------------------------------
+//* Helper variables to check credit requirements--------
+
+var sem1Credits = 0;
+var sem2Credits = 0;
+var totalCredits = 0;
+var sem1CreditIndicator;
+var sem2CreditIndicator;
+var totalCreditIndicator;
+
+//* Events----------------------------------------------------
+
+//! Multi step form traversal control functions---------------
 
 nextBtn.addEventListener('click', async (event) => {
     event.preventDefault();
@@ -86,28 +97,39 @@ nextBtn.addEventListener('click', async (event) => {
 });
 
 
-submitBtn.addEventListener('click', async (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    try {
-        var body = JSON.stringify(prepareReqBody());
-        var response = await axios.post('https://localhost:3000/courses/register', body,
-            { headers: { 'Content-Type': 'application/json', 'request-type': 'axios' } });
-        var data = response.data;
-        console.log(data);
-        window.location = 'https://localhost:3000/courses/downloads';
-    } catch (error) {
-        showError(error.response.data);
-    }
-});
-
-
 prevBtn.addEventListener('click', (event) => {
     event.preventDefault();
     event.stopPropagation();
     Showcontent(-1);
 });
 
+
+
+// ! Prepare to send data to backend in order to get the registration pdf downloaded-----
+
+submitBtn.addEventListener('click', async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    totalCredits = sem1Credits + sem2Credits;
+    if (totalCredits >= 30 && totalCredits <= 33) {
+        try {
+            var body = JSON.stringify(prepareReqBody());
+            var response = await axios.post('https://localhost:3000/courses/register', body,
+                { headers: { 'Content-Type': 'application/json', 'request-type': 'axios' } });
+            var data = response.data;
+            console.log(data);
+            window.location = 'https://localhost:3000/courses/downloads';
+        } catch (error) {
+            showError(error.response.data);
+        }
+    } else {
+        alert('Credit requirements are not met!');
+    }
+});
+
+
+
+//! Selector functions-----------------------
 
 levelSelector.addEventListener('change', e => {
     ShowLevelContent(levelSelector.value);
@@ -118,14 +140,17 @@ degreeSelector.addEventListener('change', e => {
 });
 
 
+//! Upload the image file to backend-------------------
+
 imageFile.addEventListener('change', async (event) => {
     var formData = new FormData();
     formData.append("img", imageFile.files[0]);
     // var params = new URLSearchParams([['file', `${imageFile.value}`]]);
     var response = await axios.post('https://localhost:3000/courses/register/img', formData);
-})
+});
 
-//! Function declarations & calls-------------------------------------
+
+//* Utility function declarations & calls-------------------------------------
 
 HideAll();
 ShowButtons(currTab);
@@ -216,14 +241,21 @@ function prepareSelectionQuery() {
     }
 }
 
+//! Set up the selected data in the multi step form----------
+
 function addDynamicContent(dynamicContent) {
     dynamicHolder.innerHTML = dynamicContent;
     content = document.getElementsByClassName('tab');
     content[1].style.display = 'none';
     content[2].style.display = 'none';
+    sem1CreditIndicator = document.getElementById('sem1Credits');
+    sem2CreditIndicator = document.getElementById('sem2Credits');
+    totalCreditIndicator = document.getElementById('totCredits');
+    resetCredits();
     fillUpMandatory();
 }
 
+//! Fills up the mandatory module arrays------------
 
 function fillUpMandatory() {
     if (sem1Mandatory.length > 0 && sem2Mandatory.length > 0) {
@@ -240,15 +272,45 @@ function fillUpMandatory() {
                 var name = listItems[k].getAttribute('data-name');
                 var credit = listItems[k].getAttribute('data-credit');
                 var data = { code: code, name: name, credit: credit };
-                if (i == 0) sem1Mandatory.push(data);
-                else sem2Mandatory.push(data);
+                if (i == 0) {
+                    sem1Mandatory.push(data);
+                    sem1Credits += parseInt(credit);
+                }
+                else {
+                    sem2Mandatory.push(data);
+                    sem2Credits += parseInt(credit);
+                }
             }
         }
     }
-    console.log(sem1Mandatory);
-    console.log(sem2Mandatory);
+    processCredits();
 }
 
+function processCredits() {
+    totalCredits = sem1Credits + sem2Credits;
+    sem1CreditIndicator.innerText = `Credit count : ${sem1Credits}`;
+    sem2CreditIndicator.innerText = `Credit count : ${sem2Credits}`;
+    totalCreditIndicator.innerText = `Total Credits : ${totalCredits}`;
+}
+
+function resetCredits() {
+    sem1Credits = 0;
+    sem2Credits = 0;
+    totalCredits = 0;
+}
+
+
+function processMandatoryCredits() {
+    var semesters = document.getElementsByClassName('sem');
+    for (var i = 0; i < semesters.length; i++) {
+        var optionalContent = semesters[i].querySelectorAll('.optional');
+        for (var j = 0; j < optionalContent.length; j++) {
+            // To -Do
+        }
+    }
+}
+
+//! Fills up the optional module arrays---------
 
 function fillUpOptional() {
     if (sem1Optional.length > 0 && sem2Optional.length > 0) {
@@ -274,6 +336,8 @@ function fillUpOptional() {
         }
     }
 }
+
+//! Prepares the final request's Body --------------
 
 function prepareReqBody() {
     fillUpOptional();
@@ -310,6 +374,8 @@ function prepareReqBody() {
     return req;
 }
 
+
+//! Error handling functions-----------------
 
 function showError(data) {
     mainpageContent.style.display = 'none';
