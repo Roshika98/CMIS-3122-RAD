@@ -54,7 +54,8 @@
             <% var code=data.semester1[index][1][i].course_code %>
             <% var name=data.semester1[index][1][i].name %>
             <% var credit=data.semester1[index][1][i].credit %>
-            <li class="list-group-item" data-code="<%= code %>" data-name="<%= name %>" data-credit="<%= credit %>">
+            <li class="list-group-item" data-code="<%= code %>" data-name="<%= name %>" data-credit="<%= credit %>"
+                data-sem="1">
                 <div class="input-group mb-3">
                     <input class="form-check-input mt-1" type="checkbox">
                     <label class="form-lable checkbox-inline" id="lbProcessingConsultant" for="ProcessingConsultantYN"
@@ -132,7 +133,8 @@
             <% var code=data.semester2[index][1][i].course_code %>
             <% var name=data.semester2[index][1][i].name %>
             <% var credit=data.semester2[index][1][i].credit %>
-            <li class="list-group-item" data-code="<%= code %>" data-name="<%= name %>" data-credit="<%= credit %>">
+            <li class="list-group-item" data-code="<%= code %>" data-name="<%= name %>" data-credit="<%= credit %>"
+                data-sem="2">
                 <div class="input-group mb-3">
                     <input class="form-check-input mt-1" type="checkbox" value=""
                         aria-label="Checkbox for following text input">

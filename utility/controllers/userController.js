@@ -30,7 +30,8 @@ const getModules = async (req, res) => {
         var data = req.query;
         const dept = await db.getDepartmentDetails(data.department);
         const result = await db.getmodulesDetails(data.department, data.level);
-        res.render('user/boilerplates/showModules', { dept, result, layout: false });
+        var level = data.level;
+        res.render('user/boilerplates/showModules', { dept, result, level, layout: false });
     }
 };
 

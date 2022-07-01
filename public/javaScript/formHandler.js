@@ -63,6 +63,8 @@ var sem1CreditIndicator;
 var sem2CreditIndicator;
 var totalCreditIndicator;
 
+var alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+
 //* Events----------------------------------------------------
 
 //! Multi step form traversal control functions---------------
@@ -123,7 +125,7 @@ submitBtn.addEventListener('click', async (event) => {
             showError(error.response.data);
         }
     } else {
-        alert('Credit requirements are not met!');
+        alert('Credit requirements are not met!', 'danger');
     }
 });
 
@@ -253,6 +255,7 @@ function addDynamicContent(dynamicContent) {
     totalCreditIndicator = document.getElementById('totCredits');
     resetCredits();
     fillUpMandatory();
+    setupOptionalCreditsProcessing();
 }
 
 //! Fills up the mandatory module arrays------------
@@ -300,14 +303,37 @@ function resetCredits() {
 }
 
 
-function processMandatoryCredits() {
+function setupOptionalCreditsProcessing() {
     var semesters = document.getElementsByClassName('sem');
     for (var i = 0; i < semesters.length; i++) {
         var optionalContent = semesters[i].querySelectorAll('.optional');
         for (var j = 0; j < optionalContent.length; j++) {
-            // To -Do
+            var listItems = optionalContent[j].querySelectorAll('ul li');
+            listItems.forEach(element => {
+                var checkbox = element.querySelector('input');
+                checkbox.addEventListener('click', (e) => {
+                    if (checkbox.checked) {
+                        if (element.getAttribute('data-sem') == '1') {
+                            sem1Credits += parseInt(element.getAttribute('data-credit'));
+                        } else sem2Credits += parseInt(element.getAttribute('data-credit'));
+                    } else {
+                        if (element.getAttribute('data-sem') == '1') {
+                            sem1Credits -= parseInt(element.getAttribute('data-credit'));
+                        } else sem2Credits -= parseInt(element.getAttribute('data-credit'));
+                    }
+                    processCredits();
+                });
+            });
         }
     }
+}
+
+
+function alert(message, type) {
+    var wrapper = document.createElement('div')
+    wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+
+    alertPlaceholder.append(wrapper)
 }
 
 //! Fills up the optional module arrays---------
