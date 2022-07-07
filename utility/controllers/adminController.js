@@ -4,22 +4,28 @@ const { cloudinary } = require('../cloudinary');
 const security = require('../../Security/authentication');
 
 
+const adminHome = '/javaScript/controllers/home.js';
+const adminDept = '/javaScript/controllers/departments.js';
+const adminModule = '/javaScript/controllers/modules.js';
+const adminAcc = '/javaScript/controllers/user.js';
+const adminNotice = '/javaScript/controllers/notice.js';
+
 
 
 const getHomepage = async (req, res) => {
-    var layoutVar = { title: 'home', script: '/javaScript/controllers/home.js' };
+    var layoutVar = { title: 'home', script: adminHome };
     const data = await db.getAdminName(req.session.user_id);
     res.render('admin/partials/home', { layoutVar, data, layout: 'admin/layout' });
 };
 
 const getAccountPage = async (req, res) => {
-    var layoutVar = { title: 'account', script: '/javaScript/controllers/user.js' };
+    var layoutVar = { title: 'account', script: adminAcc };
     var data = await db.getAdminProfileDetails(req.session.user_id);
     res.render('admin/partials/user', { layoutVar, data, layout: 'admin/layout' });
 };
 
 const getDepartmentsPage = async (req, res) => {
-    var layoutVar = { title: 'departments', script: '/javaScript/controllers/departments.js' };
+    var layoutVar = { title: 'departments', script: adminDept };
     var result = await db.getAllDepartments();
     res.render('admin/partials/departments', { layoutVar, result, layout: 'admin/layout' });
 };
@@ -32,7 +38,7 @@ const getSpecificDept = async (req, res) => {
 
 const getModulesPage = async (req, res) => {
     if (Object.keys(req.query).length == 0) {
-        var layoutVar = { title: 'modules', script: '/javaScript/controllers/modules.js' };
+        var layoutVar = { title: 'modules', script: adminModule };
         const departmentsSet = await db.getAllDepartments();
         res.render('admin/partials/modules', { departmentsSet, layoutVar, layout: 'admin/layout' });
     } else {
@@ -53,7 +59,7 @@ const getSpecificModule = async (req, res) => {
 };
 
 const getNotices = async (req, res) => {
-    var layoutVar = { title: 'notices', script: '/javaScript/controllers/notice.js' };
+    var layoutVar = { title: 'notices', script: adminNotice };
     const result = await db.getAllNotices();
     res.render('admin/partials/notices', { layoutVar, result, layout: 'admin/layout' });
 };

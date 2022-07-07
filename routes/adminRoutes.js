@@ -66,9 +66,9 @@ router.post('/modules', user.isAuth, validate.validateNewModule, catchAsync(admi
 
 //* PUT ROUTES----------------------------------------------------------------------------
 
-router.put('/departments', user.isAuth, validate.validateNewDept, catchAsync(admin.updateDepartment));
+router.put('/departments', user.isAuth, validate.validateUpdateDept, catchAsync(admin.updateDepartment));
 
-router.put('/modules', user.isAuth, validate.validateNewModule, catchAsync(admin.updateModule));
+router.put('/modules', user.isAuth, validate.validateUpdateModule, catchAsync(admin.updateModule));
 
 router.put('/account', user.isAuth, validate.validateAdminAcc, catchAsync(admin.updateAccount));
 

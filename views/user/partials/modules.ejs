@@ -15,10 +15,10 @@
                         <label for="deptSelect">Department</label>
                         <select class="form-control" id="deptSelect">
                             <option selected>Select Department</option>
-                            <option value="1">Department of Computing & Information Systems</option>
-                            <option value="2">ELTN</option>
-                            <option value="3">Maths & Stat</option>
-                            <option value="4">IMGT</option>
+                            <% departmentsSet.forEach(element => { %>
+                            <option value="<%= element.deptID %>"><%= element.deptName %>
+                            </option>
+                            <% }) %>
                         </select>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
                     </div>
 
                 </div>
-            </section><!-- End Cource Details Section -->
+            </section><!-- End Module Details Section -->
 
         </div>
 
@@ -85,5 +85,5 @@
 
     </section>
 
-    <script src="/javaScript/infoHandler.js"></script>
+    <!-- <script src="/javaScript/infoHandler.js"></script> -->
 </main>

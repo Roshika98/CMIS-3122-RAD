@@ -67,6 +67,22 @@ const validateNewModule = (req, res, next) => {
     } else next();
 };
 
+const validateUpdateDept = (req, res, next) => {
+    const { error } = validation.updateDepartmentSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',');
+        throw new ExpressError(400, msg);
+    } else next();
+}
+
+const validateUpdateModule = (req, res, next) => {
+    const { error } = validation.updateModuleSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',');
+        throw new ExpressError(400, msg);
+    } else next();
+}
+
 const validateAdminAcc = (req, res, next) => {
     const { error } = validation.adminAccSchema.validate(req.body);
     if (error) {
@@ -84,5 +100,7 @@ module.exports = {
     validateLogin,
     validateNewDept,
     validateNewModule,
+    validateUpdateDept,
+    validateUpdateModule,
     validateAdminAcc
 };

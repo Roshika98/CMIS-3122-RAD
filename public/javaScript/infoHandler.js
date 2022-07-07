@@ -1,3 +1,5 @@
+const moduleNav = document.getElementById('moduleNav');
+moduleNav.classList.add('active');
 
 
 const submit = document.getElementById('searchQ');

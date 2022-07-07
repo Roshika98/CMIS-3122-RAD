@@ -3,9 +3,13 @@
         <div class="card">
             <div class="card-header">
                 <% if (!data[0].firstName || data[0].firstName.length===0) { %>
-                <h3 class="title">Welcome <%= data[0].username %> !</h3>
+                <h3 class="title" style="display: inline-block;">
+                    <div id="tod" style="display: inline-block;"> </div><%= data[0].username %> !
+                </h3>
                 <% } else{%>
-                <h3 class="title">Welcome <%= data[0].firstName %> !</h3>
+                <h3 class="title" style="display: inline-block;">
+                    <div id="tod" style="display: inline-block;"> </div> <%= data[0].firstName %> !
+                </h3>
                 <% } %>
 
             </div>

@@ -1,3 +1,5 @@
+const registerNav = document.getElementById('registerNav');
+registerNav.classList.add('active');
 
 //! Variables-------------------------------------------------------
 

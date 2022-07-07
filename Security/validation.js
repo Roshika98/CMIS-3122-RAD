@@ -63,6 +63,30 @@ const newModuleSchema = joi.object({
     description: joi.string()
 });
 
+
+const updateDepartmentSchema = joi.object({
+    deptID: joi.number().required().min(1),
+    deptName: joi.string().required()
+});
+
+const updateModuleSchema = joi.object({
+    code: joi.string().required(),
+    name: joi.string().required(),
+    credit: joi.number().required().min(0),
+    level: joi.number().required().min(1).max(4),
+    semester: joi.number().required().min(1).max(2),
+    department: joi.number().required(),
+    special_available: joi.boolean().required(),
+    special_mandatory: joi.boolean().required(),
+    m1_available: joi.boolean().required(),
+    m1_mandatory: joi.boolean().required(),
+    m2_available: joi.boolean().required(),
+    m2_mandatory: joi.boolean().required(),
+    general_available: joi.boolean().required(),
+    general_mandatory: joi.boolean().required(),
+    description: joi.string()
+});
+
 const adminAccSchema = joi.object({
     fName: joi.string().required(),
     lName: joi.string().required(),
@@ -77,5 +101,7 @@ module.exports = {
     loginSchema,
     newDepartmentSchema,
     newModuleSchema,
+    updateDepartmentSchema,
+    updateModuleSchema,
     adminAccSchema
 };
