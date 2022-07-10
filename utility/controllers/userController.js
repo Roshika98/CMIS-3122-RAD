@@ -6,7 +6,7 @@ const { cloudinary } = require('../cloudinary');
 const homeScript = '/javaScript/studentHome.js';
 const moduleScript = '/javaScript/infoHandler.js';
 const registerScript = '/javaScript/formHandler.js';
-
+const noticeScript = '/javaScript/noticeHandler.js';
 
 
 const getHomepage = async (req, res) => {
@@ -76,7 +76,7 @@ const postImage = async (req, res) => {
 const showNotice = async (req, res) => {
     const id = req.params.id;
     const result = await db.getNotice(id);
-    var pageScript = '';
+    var pageScript = noticeScript;
     res.render('user/partials/notice', { pageScript, result, layout: 'user/layout' });
 };
 
