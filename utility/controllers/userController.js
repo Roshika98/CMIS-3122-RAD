@@ -45,15 +45,21 @@ const getModules = async (req, res) => {
 };
 
 const getDownloads = async (req, res) => {
-    const filename = req.session.filename;
-    res.writeHead(200, { 'content-Type': 'application/pdf', 'Content-Disposition': 'attachment; filename="registrationform.pdf"' });
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.setContent(`${req.session.pdfPage}`);
-    const buffer = await page.pdf({ format: "A4" });
-    await browser.close();
-    await cloudinary.uploader.destroy(filename);
-    res.end(buffer);
+    if (!req.session.pdfPage || req.session.pdfPage === '') {
+        console.log("Nothing to download!");
+        res.redirect('/courses/register');
+    } else {
+        const filename = req.session.filename;
+        res.writeHead(200, { 'content-Type': 'application/pdf', 'Content-Disposition': 'attachment; filename="registrationform.pdf"' });
+        const browser = await puppeteer.launch();
+        const page = await browser.newPage();
+        await page.setContent(`${req.session.pdfPage}`);
+        const buffer = await page.pdf({ format: "A4" });
+        await browser.close();
+        await cloudinary.uploader.destroy(filename);
+        req.session.pdfPage = '';
+        res.end(buffer);
+    }
 };
 
 
@@ -62,7 +68,7 @@ const postRegister = async (req, res) => {
     var imgUrl = req.session.imgPath ? req.session.imgPath : '/image/';
     var pdfTemplate = await pdfContent(data.personal.level, data, imgUrl);
     req.session.pdfPage = pdfTemplate;
-    res.send('okay');
+    res.render('user/boilerplates/confirmation', { layout: false });
 };
 
 

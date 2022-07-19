@@ -39,9 +39,9 @@ const degreetypes = [generalComb, jointComb, specialComb];
 
 //* ERROR HANDLERS-----------
 
-const mainpageContent = document.getElementById('main-content');
+const mainpageContent = document.getElementById('mainpage-content');
 const errorContent = document.getElementById('error-content');
-
+const confirmContent = document.getElementById('confirmation');
 
 //* REQUEST HELPERS-----------------------------------------
 
@@ -121,7 +121,7 @@ submitBtn.addEventListener('click', async (event) => {
             var response = await axios.post('https://localhost:3000/courses/register', body,
                 { headers: { 'Content-Type': 'application/json', 'request-type': 'axios' } });
             var data = response.data;
-            console.log(data);
+            showConfirmation(data);
             window.location = 'https://localhost:3000/courses/downloads';
         } catch (error) {
             showError(error.response.data);
@@ -397,6 +397,10 @@ function prepareReqBody() {
         }, semester2: {
             mandatory: sem2Mandatory,
             optional: sem2Optional
+        }, Credits: {
+            sem1: sem1Credits,
+            sem2: sem2Credits,
+            total: totalCredits
         }
     };
     return req;
@@ -411,9 +415,16 @@ function showError(data) {
     errorContent.style.display = '';
 }
 
-function hideErrorContent() {
+function hideSecondaryContent() {
     errorContent.style.display = 'none';
+    confirmContent.style.display = 'none';
 }
 
+function showConfirmation(data) {
+    mainpageContent.style.display = 'none';
+    errorContent.style.display = 'none';
+    confirmContent.innerHTML = data;
+    confirmContent.style.display = '';
+}
 
 
