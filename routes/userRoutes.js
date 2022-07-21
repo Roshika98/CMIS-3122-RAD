@@ -42,7 +42,8 @@ router.use((err, req, res, next) => {
     const error = defineError(err);
     console.log(err);
     if (statusCode === 404) {
-        res.status(statusCode).render('error/user404', { layout: 'user/layout' });
+        pageScript = '';
+        res.status(statusCode).render('error/user404', { pageScript, layout: 'user/layout' });
     } else {
         const error = err;
         if (requestedFrom) {

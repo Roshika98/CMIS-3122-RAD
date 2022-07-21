@@ -3,10 +3,10 @@ const pdfContent = require('../../utility/pdfCreator');
 const puppeteer = require('puppeteer');
 const { cloudinary } = require('../../utility/cloudinary');
 
-const homeScript = '/javaScript/studentHome.js';
-const moduleScript = '/javaScript/infoHandler.js';
-const registerScript = '/javaScript/formHandler.js';
-const noticeScript = '/javaScript/noticeHandler.js';
+const homeScript = '/core/javaScript/studentViewControllers/studentHome.js';
+const moduleScript = '/core/javaScript/studentViewControllers/infoHandler.js';
+const registerScript = '/core/javaScript/studentViewControllers/formHandler.js';
+const noticeScript = '/core/javaScript/studentViewControllers/noticeHandler.js';
 
 
 const getHomepage = async (req, res) => {

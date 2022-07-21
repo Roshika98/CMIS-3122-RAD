@@ -4,11 +4,11 @@ const { cloudinary } = require('../../utility/cloudinary');
 const security = require('../../Security/authentication');
 
 
-const adminHome = '/javaScript/controllers/home.js';
-const adminDept = '/javaScript/controllers/departments.js';
-const adminModule = '/javaScript/controllers/modules.js';
-const adminAcc = '/javaScript/controllers/user.js';
-const adminNotice = '/javaScript/controllers/notice.js';
+const adminHome = '/core/javaScript/adminViewControllers/home.js';
+const adminDept = '/core/javaScript/adminViewControllers/departments.js';
+const adminModule = '/core/javaScript/adminViewControllers/modules.js';
+const adminAcc = '/core/javaScript/adminViewControllers/user.js';
+const adminNotice = '/core/javaScript/adminViewControllers/notice.js';
 
 
 
