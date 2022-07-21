@@ -1,6 +1,6 @@
 const db = require('../../database/dbHandler');
 const { v4: uuidv4 } = require('uuid');
-const { cloudinary } = require('../cloudinary');
+const { cloudinary } = require('../../utility/cloudinary');
 const security = require('../../Security/authentication');
 
 

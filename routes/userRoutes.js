@@ -1,14 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const catchAsync = require('../utility/controllers/catchAsync');
-const user = require('../utility/controllers/userController');
+const catchAsync = require('./controllers/catchAsync');
+const user = require('./controllers/userController');
 const ExpressError = require('../utility/error/ExpressError');
 const validate = require('../middleware/validationMiddleware');
 const { storage } = require('../utility/cloudinary');
 const multer = require('multer');
 const upload = multer({ storage });
 
-// var pdfPage = null;
 
 //* GET ROUTES---------------------------------------------------------
 

@@ -1,7 +1,7 @@
 const db = require('../../database/dbHandler');
-const pdfContent = require('../pdfCreator');
+const pdfContent = require('../../utility/pdfCreator');
 const puppeteer = require('puppeteer');
-const { cloudinary } = require('../cloudinary');
+const { cloudinary } = require('../../utility/cloudinary');
 
 const homeScript = '/javaScript/studentHome.js';
 const moduleScript = '/javaScript/infoHandler.js';
