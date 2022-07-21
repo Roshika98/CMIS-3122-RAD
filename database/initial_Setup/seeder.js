@@ -1,5 +1,5 @@
 const sql = require('mysql2/promise');
-const container = require('./data/dataHolder');
+const container = require('./dataHolder');
 
 var createDept = 'CREATE TABLE departments(deptID INT NOT NULL PRIMARY KEY,deptName VARCHAR(50) NOT NULL)';
 var createModules = 'CREATE TABLE modules(course_code VARCHAR(10) NOT NULL PRIMARY KEY, name VARCHAR(100) NOT NULL,credit INT NOT NULL,level INT NOT NULL,semester INT NOT NULL,deptID INT NOT NULL,special BOOLEAN NOT NULL,special_mandatory BOOLEAN NOT NULL,major1 BOOLEAN NOT NULL,major1_mandatory BOOLEAN NOT NULL,major2 BOOLEAN NOT NULL,major2_mandatory BOOLEAN NOT NULL,general BOOLEAN NOT NULL,general_mandatory BOOLEAN NOT NULL,description TEXT,CONSTRAINT fk_dept FOREIGN KEY (deptID) REFERENCES departments(deptID) ON DELETE CASCADE ON UPDATE CASCADE)';
