@@ -249,7 +249,7 @@
             </tr>
             <% } %>
             <td></td>
-            <td colspan="2"><em>Total No. of Credits For Semester I = <%= data.Credits.sem1 %></em></td>
+            <td colspan="2"><em>Total No. of Credits For Semester I = <%= data.Credits.sem1.mandatory %></em></td>
             </tr>
           </tbody>
           <br>
@@ -282,7 +282,7 @@
 
             <tr>
               <th></th>
-              <td colspan="2"><em>Total No. of Credits For Semester II = <%= data.Credits.sem2 %></em></td>
+              <td colspan="2"><em>Total No. of Credits For Semester II = <%= data.Credits.sem2.mandatory %></em></td>
 
             <tr>
               <td colspan="3"><em>Total Number of Credits For Academic Year = <%= data.Credits.total %></em></td>

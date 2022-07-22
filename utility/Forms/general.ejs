@@ -272,7 +272,7 @@
           <% } %>
           <tr>
             <td></td>
-            <td colspan="2">Total No. of Credits =</td>
+            <td colspan="2">Total No. of Credits = <%= data.Credits.sem1.mandatory %> </td>
           </tr>
         </table>
         </br>
@@ -300,7 +300,7 @@
           <% } %>
           <tr>
             <td></td>
-            <td colspan="2">Total No. of Credits =</td>
+            <td colspan="2">Total No. of Credits = <%= data.Credits.sem1.optional %></td>
 
           </tr>
         </table>
@@ -330,7 +330,7 @@
 
           <tr>
             <td></td>
-            <td colspan="2">Total No. of Credits =</td>
+            <td colspan="2">Total No. of Credits = <%= data.Credits.sem2.mandatory %></td>
 
           </tr>
         </table>
@@ -358,10 +358,10 @@
           <% } %>
           <tr>
             <td></td>
-            <td colspan="2">Total No. of Credits =</td>
+            <td colspan="2">Total No. of Credits = <%= data.Credits.sem2.optional %></td>
           </tr>
           <tr>
-            <td colspan="3">Total number of credits for the academic year =</td>
+            <td colspan="3">Total number of credits for the academic year = <%= data.Credits.total %></td>
           </tr>
         </table>
 
