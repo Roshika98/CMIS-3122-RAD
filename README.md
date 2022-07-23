@@ -32,3 +32,5 @@ npm i nodemon
 ```
 npm run dev
 ```
+#### The Landing page can be accessed by ' https://localhost:3000/courses '
+#### The Admin portal can be accessed by ' https://localhost:3000/courses/admin '
