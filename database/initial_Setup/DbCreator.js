@@ -1,6 +1,6 @@
 const db = require('mysql2/promise');
 
-var q = 'CREATE DATABASE fas';
+var q = 'CREATE DATABASE studentRegistration';
 
 var connection = null;
 
@@ -20,7 +20,7 @@ async function establishConnection() {
 async function Create() {
     try {
         const result = await connection.query(q);
-        if (result) console.log('testingDB Database created...............');
+        if (result) console.log('student Registration Database created...............');
         // console.log(result);
     } catch (error) {
         console.log(error);
@@ -30,8 +30,8 @@ async function Create() {
 
 async function dropDatabase() {
     try {
-        const result = await connection.query('DROP DATABASE IF EXISTS fas');
-        if (result) console.log('Removed Database fas................');
+        const result = await connection.query('DROP DATABASE IF EXISTS studentRegistration');
+        if (result) console.log('Removed Database................');
         // console.log(result);
     } catch (error) {
         console.log(error);
@@ -42,10 +42,10 @@ async function dropDatabase() {
 //! Run this to create a database
 
 
- establishConnection().then(e => {
-     Create();
-     connection.end();
- });
+establishConnection().then(e => {
+    Create();
+    connection.end();
+});
 
 
 // ! Run this to Remove the Database

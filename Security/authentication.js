@@ -4,20 +4,30 @@ const bcrypt = require('bcrypt');
 
 
 const dbOpt = {
-    host: 'localhost',
-    user: 'root',
-    database: 'fas'
+    host: process.env.DATABASE_URL,
+    user: process.env.DATABASE_USER,
+    database: process.env.DATABASE_NAME
 };
 
 
 
 async function addNewUser(username, password) {
-    const connection = await mysql2.createConnection(dbOpt);
+    console.log(process.env.DATABASE_NAME);
+    console.log(dbOpt);
+    var connection = null;
+    if (dbOpt.host) {
+        connection = await mysql2.createConnection(dbOpt);
+    } else {
+        connection = await mysql2.createConnection({
+            host: process.env.DATABASE_URL,
+            user: process.env.DATABASE_USER,
+            database: process.env.DATABASE_NAME
+        })
+    }
     const id = uuidv4();
     const hash = await bcrypt.hash(password, 12);
     const query = 'INSERT INTO admin (id,username,password) VALUES (?,?,?)';
     const response = await connection.execute(query, [id, username, hash]);
-    console.log(response);
     connection.end();
 };
 
@@ -58,6 +68,3 @@ const deserializeUser = function deserializeUserSession(req) {
 
 module.exports = { login: userLogin, serializeUser: serializeUser, deserializeUser: deserializeUser, createNewUser: addNewUser };
 
-// logginUser('redcap98', 'Hello');
-
-// addNewUser('redcap98', 'Hello');
