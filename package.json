@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
-    "databaseSetup": "node database/seeder.js",
+    "databaseSetup": "node database/initial_Setup/seeder.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

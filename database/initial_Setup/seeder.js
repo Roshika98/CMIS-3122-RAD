@@ -1,5 +1,14 @@
 const sql = require('mysql2/promise');
-const container = require('./data/dataHolder');
+const container = require('./dataHolder');
+const authentication = require('../../Security/authentication');
+const dotenv = require('dotenv');
+const path = require('path');
+
+dotenv.config({
+    path: path.normalize(path.join(__dirname, '../../.env'))
+})
+
+var createDatabase = 'CREATE DATABASE studentregistration';
 
 var createDept = 'CREATE TABLE departments(deptID INT NOT NULL PRIMARY KEY,deptName VARCHAR(50) NOT NULL)';
 var createModules = 'CREATE TABLE modules(course_code VARCHAR(10) NOT NULL PRIMARY KEY, name VARCHAR(100) NOT NULL,credit INT NOT NULL,level INT NOT NULL,semester INT NOT NULL,deptID INT NOT NULL,special BOOLEAN NOT NULL,special_mandatory BOOLEAN NOT NULL,major1 BOOLEAN NOT NULL,major1_mandatory BOOLEAN NOT NULL,major2 BOOLEAN NOT NULL,major2_mandatory BOOLEAN NOT NULL,general BOOLEAN NOT NULL,general_mandatory BOOLEAN NOT NULL,description TEXT,CONSTRAINT fk_dept FOREIGN KEY (deptID) REFERENCES departments(deptID) ON DELETE CASCADE ON UPDATE CASCADE)';
@@ -12,13 +21,32 @@ var insertModules = 'INSERT INTO modules(course_code,name,credit,level,semester,
 
 var desc = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et scelerisque urna, sed placerat mi. Nunc ac erat finibus nibh dictum dictum. In sed ex nec arcu vestibulum commodo. Nullam ut velit nec sem ultricies imperdiet iaculis quis erat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse tempor pharetra tellus et rhoncus.';
 
+var adminUserName = 'abcd'; //Set your desired user name here.....
+var adminPassword = '1234@ABCD'; // Set your password here............
+
+
+async function createNewDatabase() {
+    try {
+        var connection = await sql.createConnection({
+            host: process.env.DATABASE_URL,
+            user: process.env.DATABASE_USER
+        });
+        if (connection) console.log('çonnection acquired............');
+        const result = await connection.query(createDatabase);
+        if (result) console.log('student Registration Database created...............');
+        await connection.end();
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 
 async function createTables() {
     try {
         const connection = await sql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            database: 'fas'
+            host: process.env.DATABASE_URL,
+            user: process.env.DATABASE_USER,
+            database: process.env.DATABASE_NAME
         });
         var q1 = await connection.query(createDept);
         var q2 = await connection.query(createModules);
@@ -34,9 +62,9 @@ async function createTables() {
 async function addData() {
     try {
         const connection = await sql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            database: 'fas'
+            host: process.env.DATABASE_URL,
+            user: process.env.DATABASE_USER,
+            database: process.env.DATABASE_NAME
         });
         container.deptData.forEach(element => {
             execution(insertDept, connection, element);
@@ -45,7 +73,8 @@ async function addData() {
         container.modulesData.forEach(element => {
             execution(insertModules, connection, [element[0], element[1], element[2], element[3], element[4], element[5], element[6], element[7], element[8], element[9], element[10], element[11], element[12], element[13], desc]);
         });
-        connection.end();
+        await connection.end();
+        await authentication.createNewUser(adminUserName, adminPassword);
     } catch (error) {
         console.log(error);
     }
@@ -58,10 +87,11 @@ async function execution(q, connection, values) {
 
 async function runQueries() {
     try {
-        var q = await createTables().then(x => {
+        var q1 = await createNewDatabase()
+        var q2 = await createTables().then(x => {
             console.log('Tables Created................');
         });
-        var q2 = await addData().then(x => {
+        var q3 = await addData().then(x => {
             console.log('Data entered into modules table.................');
         });
     } catch (error) {

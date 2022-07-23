@@ -5,8 +5,8 @@ const { storage } = require('../utility/cloudinary');
 const multer = require('multer');
 const upload = multer({ storage });
 const router = express.Router();
-const catchAsync = require('../utility/controllers/catchAsync');
-const admin = require('../utility/controllers/adminController');
+const catchAsync = require('./controllers/catchAsync');
+const admin = require('./controllers/adminController');
 const ExpressError = require('../utility/error/ExpressError');
 const validate = require('../middleware/validationMiddleware');
 

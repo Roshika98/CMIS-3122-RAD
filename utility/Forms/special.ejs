@@ -205,26 +205,60 @@
           </thead>
 
           <tbody>
-            <tr>
-              <td>B.Sc.(Special) Degree in Computer Science</td>
-              <td> </td>
-              <td> </td>
-            </tr>
+            <% combination=data.personal.degreeDetails.combination %>
+            <% if (combination==='1') { %>
             <tr>
               <td>B.Sc.(Special) Degree in Applied Electronics</td>
-              <td> </td>
+              <td>✓</td>
               <td></td>
             </tr>
+            <% }else { %>
+            <tr>
+              <td>B.Sc.(Special) Degree in Applied Electronics</td>
+              <td></td>
+              <td></td>
+            </tr>
+            <% } %>
+            <% if (combination==='2') { %>
             <tr>
               <td>B.Sc.(Special) Degree in Industrial Management</td>
-              <td> </td>
+              <td>✓</td>
               <td></td>
             </tr>
+            <% }else { %>
+            <tr>
+              <td>B.Sc.(Special) Degree in Industrial Management</td>
+              <td></td>
+              <td></td>
+            </tr>
+            <% } %>
+            <% if (combination==='3') { %>
+            <tr>
+              <td>B.Sc.(Special) Degree in Mathematics with Statistics</td>
+              <td>✓</td>
+              <td></td>
+            </tr>
+            <% }else { %>
             <tr>
               <td>B.Sc.(Special) Degree in Mathematics with Statistics</td>
               <td></td>
               <td></td>
             </tr>
+            <% } %>
+            <% if (combination==='4') { %>
+            <tr>
+              <td>B.Sc.(Special) Degree in Computer Science</td>
+              <td>✓</td>
+              <td></td>
+            </tr>
+            <% }else { %>
+            <tr>
+              <td>B.Sc.(Special) Degree in Computer Science</td>
+              <td></td>
+              <td></td>
+            </tr>
+            <% } %>
+
 
           </tbody>
         </table>
@@ -261,7 +295,8 @@
           <% } %>
           <tr>
             <td></td>
-            <td colspan="2">Total No. of Credits =</td>
+            <td colspan="2">Total No. of Credits =
+              <%= parseInt(data.Credits.sem1.mandatory) + parseInt(data.Credits.sem1.optional) %></td>
 
           </tr>
         </table>
@@ -276,11 +311,6 @@
               <td style="width: 75%;">Title of the Module</td>
               <td style="width: 5%;">No. of Credits</td>
           </thead>
-          </tr>
-          <tr>
-            <td>MATH</td>
-            <td></td>
-            <td></td>
           </tr>
           <tr>
             <td></td>
@@ -335,7 +365,8 @@
 
           <tr>
             <td></td>
-            <td colspan="2">Total No. of Credits =</td>
+            <td colspan="2">Total No. of Credits =
+              <%= parseInt(data.Credits.sem1.mandatory) + parseInt(data.Credits.sem1.optional) %></td>
 
           </tr>
         </table>
@@ -363,7 +394,7 @@
             <td colspan="2">Total No. of Credits =</td>
           </tr>
           <tr>
-            <td colspan="3">Total number of credits for the academic year =</td>
+            <td colspan="3">Total number of credits for the academic year = <%= data.Credits.total %></td>
           </tr>
         </table>
         <br>

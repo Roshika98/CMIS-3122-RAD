@@ -299,7 +299,7 @@ class DbHandler {
         } else if (selection == '2A') {
             dep1 = await this.#jmHelper(level, 2, 1);
             dep2 = await this.#jmHelper(level, 1, 2);
-        } else if (Selection == '2B') {
+        } else if (selection == '2B') {
             dep1 = await this.#jmHelper(level, 2, 1);
             dep2 = await this.#jmHelper(level, 3, 2);
         } else if (selection == '2C') {
@@ -317,7 +317,7 @@ class DbHandler {
         } else if (selection == '4A') {
             dep1 = await this.#jmHelper(level, 3, 1);
             dep2 = await this.#jmHelper(level, 1, 2);
-        } else if (Selection == '4B') {
+        } else if (selection == '4B') {
             dep1 = await this.#jmHelper(level, 3, 1);
             dep2 = await this.#jmHelper(level, 2, 2);
         } else {

@@ -205,84 +205,84 @@
             </tr>
           </thead>
           <tbody>
+            <% comb=data.personal.degreeDetails.combination %>
             <tr>
               <td>COMB 1A</td>
               <td>CMIS</td>
               <td>ELTN</td>
-              <td></td>
+              <td><%= comb==='1A'?'✓':' ' %></td>
             </tr>
             <tr>
               <td>COMB 1B</td>
               <td>CMIS</td>
               <td>MMST</td>
-              <td></td>
+              <td><%= comb==='1B'?'✓':' ' %></td>
             </tr>
             <tr>
               <td>COMB 1C</td>
               <td>CMIS</td>
               <td>IMGT</td>
-              <td></td>
+              <td><%= comb==='1C'?'✓':' ' %></td>
             </tr>
             <tr>
               <td>COMB 2A</td>
               <td>ELTN</td>
               <td>CMIS</td>
-              <td></td>
+              <td><%= comb==='2A'?'✓':' ' %></td>
             </tr>
             <tr>
               <td>COMB 2B</td>
               <td>ELTN</td>
               <td>MMST</td>
-              <td></td>
+              <td><%= comb==='2B'?'✓':' ' %></td>
             </tr>
             <tr>
               <td>COMB 2C</td>
               <td>ELTN</td>
               <td>IMGT</td>
-              <td></td>
+              <td><%= comb==='2C'?'✓':' ' %></td>
             </tr>
             <tr>
               <td>COMB 3A</td>
               <td>IMGT</td>
               <td>ELTN</td>
-              <td></td>
+              <td><%= comb==='3A'?'✓':' ' %></td>
             </tr>
             <tr>
               <td>COMB 3B</td>
               <td>IMGT</td>
               <td>MMST</td>
-              <td></td>
+              <td><%= comb==='3B'?'✓':' ' %></td>
             </tr>
             <tr>
               <td>COMB 3C</td>
               <td>IMGT</td>
               <td>CMIS</td>
-              <td></td>
+              <td><%= comb==='3C'?'✓':' ' %></td>
             </tr>
             <tr>
               <td>COMB 4A</td>
               <td>MMST</td>
               <td>CMIS</td>
-              <td></td>
+              <td><%= comb==='4A'?'✓':' ' %></td>
             </tr>
             <tr>
               <td>COMB 4B</td>
               <td>MMST</td>
               <td>ELTN</td>
-              <td></td>
+              <td><%= comb==='4B'?'✓':' ' %></td>
             </tr>
             <tr>
               <td>COMB 4C</td>
               <td>MMST</td>
               <td>IMGT</td>
-              <td></td>
+              <td><%= comb==='4C'?'✓':' ' %></td>
             </tr>
           </tbody>
         </table>
         </br>
         <p>Indicate in the tables below, the Course Modules of the Degree Program of your first preference, for which
           you wish to register. </p>
-        </br>
         <h4>SEMESTER I</h4>
         <table border="1px" align="center">
           <thead>
@@ -304,7 +304,7 @@
 
           <tr>
             <td></td>
-            <td colspan="2">Total No. of Credits =</td>
+            <td colspan="2">Total No. of Credits = <%= data.Credits.sem1.mandatory %></td>
 
           </tr>
         </table>
@@ -329,7 +329,7 @@
 
           <tr>
             <td></td>
-            <td colspan="2">Total No. of Credits =</td>
+            <td colspan="2">Total No. of Credits = <%= data.Credits.sem1.optional %></td>
 
           </tr>
         </table>
@@ -356,7 +356,7 @@
 
           <tr>
             <td></td>
-            <td colspan="2">Total No. of Credits =</td>
+            <td colspan="2">Total No. of Credits = <%= data.Credits.sem2.mandatory %></td>
 
           </tr>
         </table>
@@ -382,11 +382,11 @@
           <% } %>
           <tr>
             <td></td>
-            <td colspan="2">Total No. of Credits =</td>
+            <td colspan="2">Total No. of Credits = <%= data.Credits.sem2.optional %></td>
 
           </tr>
           <tr>
-            <td colspan="3">Total number of credits for the academic year =</td>
+            <td colspan="3">Total number of credits for the academic year = <%= data.Credits.total %></td>
           </tr>
         </table>
         <p>04. Registration Fee: Rs. 150</p>

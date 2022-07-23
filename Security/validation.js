@@ -28,6 +28,16 @@ const pdfSchema = joi.object({
     }), semester2: joi.object({
         mandatory: joi.array().required(),
         optional: joi.array()
+    }), Credits: joi.object({
+        sem1: joi.object({
+            mandatory: joi.number().required(),
+            optional: joi.number().required()
+        }).required(),
+        sem2: joi.object({
+            mandatory: joi.number().required(),
+            optional: joi.number().required()
+        }).required(),
+        total: joi.number().min(30).max(33).required()
     })
 });
 

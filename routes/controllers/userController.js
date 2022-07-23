@@ -1,12 +1,12 @@
 const db = require('../../database/dbHandler');
-const pdfContent = require('../pdfCreator');
+const pdfContent = require('../../utility/pdfCreator');
 const puppeteer = require('puppeteer');
-const { cloudinary } = require('../cloudinary');
+const { cloudinary } = require('../../utility/cloudinary');
 
-const homeScript = '/javaScript/studentHome.js';
-const moduleScript = '/javaScript/infoHandler.js';
-const registerScript = '/javaScript/formHandler.js';
-
+const homeScript = '/core/javaScript/studentViewControllers/studentHome.js';
+const moduleScript = '/core/javaScript/studentViewControllers/infoHandler.js';
+const registerScript = '/core/javaScript/studentViewControllers/formHandler.js';
+const noticeScript = '/core/javaScript/studentViewControllers/noticeHandler.js';
 
 
 const getHomepage = async (req, res) => {
@@ -45,15 +45,21 @@ const getModules = async (req, res) => {
 };
 
 const getDownloads = async (req, res) => {
-    const filename = req.session.filename;
-    res.writeHead(200, { 'content-Type': 'application/pdf', 'Content-Disposition': 'attachment; filename="registrationform.pdf"' });
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.setContent(`${req.session.pdfPage}`);
-    const buffer = await page.pdf({ format: "A4" });
-    await browser.close();
-    await cloudinary.uploader.destroy(filename);
-    res.end(buffer);
+    if (!req.session.pdfPage || req.session.pdfPage === '') {
+        console.log("Nothing to download!");
+        res.redirect('/courses/register');
+    } else {
+        const filename = req.session.filename;
+        res.writeHead(200, { 'content-Type': 'application/pdf', 'Content-Disposition': 'attachment; filename="registrationform.pdf"' });
+        const browser = await puppeteer.launch();
+        const page = await browser.newPage();
+        await page.setContent(`${req.session.pdfPage}`);
+        const buffer = await page.pdf({ format: "A4" });
+        await browser.close();
+        await cloudinary.uploader.destroy(filename);
+        req.session.pdfPage = '';
+        res.end(buffer);
+    }
 };
 
 
@@ -62,7 +68,7 @@ const postRegister = async (req, res) => {
     var imgUrl = req.session.imgPath ? req.session.imgPath : '/image/';
     var pdfTemplate = await pdfContent(data.personal.level, data, imgUrl);
     req.session.pdfPage = pdfTemplate;
-    res.send('okay');
+    res.render('user/boilerplates/confirmation', { layout: false });
 };
 
 
@@ -76,7 +82,7 @@ const postImage = async (req, res) => {
 const showNotice = async (req, res) => {
     const id = req.params.id;
     const result = await db.getNotice(id);
-    var pageScript = '';
+    var pageScript = noticeScript;
     res.render('user/partials/notice', { pageScript, result, layout: 'user/layout' });
 };
 

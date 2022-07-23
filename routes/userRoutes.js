@@ -1,14 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const catchAsync = require('../utility/controllers/catchAsync');
-const user = require('../utility/controllers/userController');
+const catchAsync = require('./controllers/catchAsync');
+const user = require('./controllers/userController');
 const ExpressError = require('../utility/error/ExpressError');
 const validate = require('../middleware/validationMiddleware');
 const { storage } = require('../utility/cloudinary');
 const multer = require('multer');
 const upload = multer({ storage });
 
-// var pdfPage = null;
 
 //* GET ROUTES---------------------------------------------------------
 
@@ -43,7 +42,8 @@ router.use((err, req, res, next) => {
     const error = defineError(err);
     console.log(err);
     if (statusCode === 404) {
-        res.status(statusCode).render('error/user404', { layout: 'user/layout' });
+        pageScript = '';
+        res.status(statusCode).render('error/user404', { pageScript, layout: 'user/layout' });
     } else {
         const error = err;
         if (requestedFrom) {

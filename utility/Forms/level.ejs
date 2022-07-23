@@ -182,22 +182,46 @@
             </tr>
           </thead>
           <tbody>
+            <% combination=data.personal.degreeDetails.combination %>
+            <% if (combination==='1') { %>
             <tr>
               <td>Combination 1</td>
-              <td>MATH & STAT + CMIS + ELTN </td>
+              <td>MATH & STAT + CMIS + ELTN</td>
+              <td>✓</td>
+            </tr>
+            <% } else {%>
+            <tr>
+              <td>Combination 1</td>
+              <td>MATH & STAT + CMIS + ELTN</td>
               <td></td>
             </tr>
+            <% } %>
+            <% if (combination==='2') { %>
+            <tr>
+              <td>Combination 2</td>
+              <td>MATH & STAT + ELTN + IMGT</td>
+              <td>✓</td>
+            </tr>
+            <% } else {%>
             <tr>
               <td>Combination 2</td>
               <td>MATH & STAT + ELTN + IMGT</td>
               <td></td>
             </tr>
+            <% } %>
+            <% if (combination==='3') { %>
             <tr>
               <td>Combination 3</td>
-              <td>MATH & STAT + IMGT + CMIS </td>
+              <td>MATH & STAT + IMGT + CMIS</td>
+              <td>✓</td>
+            </tr>
+            <% } else {%>
+            <tr>
+              <td>Combination 3</td>
+              <td>MATH & STAT + IMGT + CMIS</td>
               <td></td>
             </tr>
-
+            <% } %>
           </tbody>
         </table>
         <p>05. Please consult your Student Counselor before filling the following table:- </p>
@@ -225,8 +249,7 @@
             </tr>
             <% } %>
             <td></td>
-            <td colspan="2"><em>Total No. of Credits For Semester I =</em></td>
-
+            <td colspan="2"><em>Total No. of Credits For Semester I = <%= data.Credits.sem1.mandatory %></em></td>
             </tr>
           </tbody>
           <br>
@@ -259,10 +282,10 @@
 
             <tr>
               <th></th>
-              <td colspan="2"><em>Total No. of Credits For Semester II =</em></td>
+              <td colspan="2"><em>Total No. of Credits For Semester II = <%= data.Credits.sem2.mandatory %></em></td>
 
             <tr>
-              <td colspan="3"><em>Total Number of Credits For Academic Year =</em></td>
+              <td colspan="3"><em>Total Number of Credits For Academic Year = <%= data.Credits.total %></em></td>
             </tr>
           </tbody>
         </table>

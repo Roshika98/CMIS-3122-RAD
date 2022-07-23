@@ -39,9 +39,9 @@ const degreetypes = [generalComb, jointComb, specialComb];
 
 //* ERROR HANDLERS-----------
 
-const mainpageContent = document.getElementById('main-content');
+const mainpageContent = document.getElementById('mainpage-content');
 const errorContent = document.getElementById('error-content');
-
+const confirmContent = document.getElementById('confirmation');
 
 //* REQUEST HELPERS-----------------------------------------
 
@@ -59,7 +59,9 @@ var acYear = document.getElementById('acyear');
 //* Helper variables to check credit requirements--------
 
 var sem1Credits = 0;
+var sem1MandatoryCredits = 0;
 var sem2Credits = 0;
+var sem2MandatoryCredits = 0;
 var totalCredits = 0;
 var sem1CreditIndicator;
 var sem2CreditIndicator;
@@ -121,7 +123,7 @@ submitBtn.addEventListener('click', async (event) => {
             var response = await axios.post('https://localhost:3000/courses/register', body,
                 { headers: { 'Content-Type': 'application/json', 'request-type': 'axios' } });
             var data = response.data;
-            console.log(data);
+            showConfirmation(data);
             window.location = 'https://localhost:3000/courses/downloads';
         } catch (error) {
             showError(error.response.data);
@@ -280,10 +282,12 @@ function fillUpMandatory() {
                 if (i == 0) {
                     sem1Mandatory.push(data);
                     sem1Credits += parseInt(credit);
+                    sem1MandatoryCredits += parseInt(credit);
                 }
                 else {
                     sem2Mandatory.push(data);
                     sem2Credits += parseInt(credit);
+                    sem2MandatoryCredits += parseInt(credit);
                 }
             }
         }
@@ -384,7 +388,6 @@ function prepareReqBody() {
         name: fName.value,
         regNo: regNo.value,
         contact: contact.value,
-        // image: imageFile.value,
         level: levelSelector.value,
         academicYear: acYear.value,
         degreeDetails: degree
@@ -397,6 +400,16 @@ function prepareReqBody() {
         }, semester2: {
             mandatory: sem2Mandatory,
             optional: sem2Optional
+        }, Credits: {
+            sem1: {
+                mandatory: sem1MandatoryCredits,
+                optional: sem1Credits - sem1MandatoryCredits
+            },
+            sem2: {
+                mandatory: sem2MandatoryCredits,
+                optional: sem2Credits - sem2MandatoryCredits
+            },
+            total: totalCredits
         }
     };
     return req;
@@ -411,9 +424,16 @@ function showError(data) {
     errorContent.style.display = '';
 }
 
-function hideErrorContent() {
+function hideSecondaryContent() {
     errorContent.style.display = 'none';
+    confirmContent.style.display = 'none';
 }
 
+function showConfirmation(data) {
+    mainpageContent.style.display = 'none';
+    errorContent.style.display = 'none';
+    confirmContent.innerHTML = data;
+    confirmContent.style.display = '';
+}
 
 
